@@ -8,20 +8,44 @@
 
 /* Begin PBXBuildFile section */
 		377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6E9F202C026200AFD85C /* AppDelegate.swift */; };
-		377B6EA2202C026200AFD85C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EA1202C026200AFD85C /* ViewController.swift */; };
+		377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EA1202C026200AFD85C /* HomeViewController.swift */; };
 		377B6EA5202C026200AFD85C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377B6EA3202C026200AFD85C /* Main.storyboard */; };
 		377B6EA7202C026200AFD85C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 377B6EA6202C026200AFD85C /* Assets.xcassets */; };
 		377B6EAA202C026200AFD85C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377B6EA8202C026200AFD85C /* LaunchScreen.storyboard */; };
+		377B6EB2202C071600AFD85C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 377B6EB1202C071600AFD85C /* GoogleService-Info.plist */; };
+		377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EB6202C19B800AFD85C /* CreateEventViewContoller.swift */; };
+		377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EB8202C1A2A00AFD85C /* JoinEventViewController.swift */; };
+		377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EBA202CEC6200AFD85C /* PlayEventViewController.swift */; };
+		377B6F00202FE5A500AFD85C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EFF202FE5A500AFD85C /* BaseViewController.swift */; };
+		377B6F02202FF11B00AFD85C /* String+random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F01202FF11B00AFD85C /* String+random.swift */; };
+		377B6F04202FF57800AFD85C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F03202FF57800AFD85C /* Colors.swift */; };
+		377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F052030027D00AFD85C /* EventDetailViewController.swift */; };
+		377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F08203009B900AFD85C /* EventViewModel.swift */; };
+		377B6F0C20300E1C00AFD85C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F0B20300E1C00AFD85C /* Event.swift */; };
+		96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		377B6E9C202C026200AFD85C /* ScreenBoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenBoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		377B6E9F202C026200AFD85C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		377B6EA1202C026200AFD85C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		377B6EA1202C026200AFD85C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		377B6EA4202C026200AFD85C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		377B6EA6202C026200AFD85C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		377B6EA9202C026200AFD85C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		377B6EAB202C026200AFD85C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		377B6EB1202C071600AFD85C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		377B6EB6202C19B800AFD85C /* CreateEventViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewContoller.swift; sourceTree = "<group>"; };
+		377B6EB8202C1A2A00AFD85C /* JoinEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinEventViewController.swift; sourceTree = "<group>"; };
+		377B6EBA202CEC6200AFD85C /* PlayEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewController.swift; sourceTree = "<group>"; };
+		377B6EFF202FE5A500AFD85C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		377B6F01202FF11B00AFD85C /* String+random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+random.swift"; sourceTree = "<group>"; };
+		377B6F03202FF57800AFD85C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		377B6F052030027D00AFD85C /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		377B6F08203009B900AFD85C /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
+		377B6F0B20300E1C00AFD85C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.debug.xcconfig"; sourceTree = "<group>"; };
+		51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.release.xcconfig"; sourceTree = "<group>"; };
+		FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScreenBoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +65,8 @@
 			children = (
 				377B6E9E202C026200AFD85C /* ScreenBoom */,
 				377B6E9D202C026200AFD85C /* Products */,
+				3D81BA7B1C7E52D1DE2C2259 /* Pods */,
+				86B48519631E6F15C0017540 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +81,65 @@
 		377B6E9E202C026200AFD85C /* ScreenBoom */ = {
 			isa = PBXGroup;
 			children = (
+				377B6F0A20300DFA00AFD85C /* Model */,
+				377B6F072030098400AFD85C /* ViewModel */,
+				377B6EB3202C18AA00AFD85C /* ViewController */,
+				377B6EB1202C071600AFD85C /* GoogleService-Info.plist */,
 				377B6E9F202C026200AFD85C /* AppDelegate.swift */,
-				377B6EA1202C026200AFD85C /* ViewController.swift */,
 				377B6EA3202C026200AFD85C /* Main.storyboard */,
 				377B6EA6202C026200AFD85C /* Assets.xcassets */,
 				377B6EA8202C026200AFD85C /* LaunchScreen.storyboard */,
 				377B6EAB202C026200AFD85C /* Info.plist */,
 			);
 			path = ScreenBoom;
+			sourceTree = "<group>";
+		};
+		377B6EB3202C18AA00AFD85C /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				377B6EA1202C026200AFD85C /* HomeViewController.swift */,
+				377B6EB6202C19B800AFD85C /* CreateEventViewContoller.swift */,
+				377B6EB8202C1A2A00AFD85C /* JoinEventViewController.swift */,
+				377B6EBA202CEC6200AFD85C /* PlayEventViewController.swift */,
+				377B6EFF202FE5A500AFD85C /* BaseViewController.swift */,
+				377B6F01202FF11B00AFD85C /* String+random.swift */,
+				377B6F03202FF57800AFD85C /* Colors.swift */,
+				377B6F052030027D00AFD85C /* EventDetailViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		377B6F072030098400AFD85C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				377B6F08203009B900AFD85C /* EventViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		377B6F0A20300DFA00AFD85C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				377B6F0B20300E1C00AFD85C /* Event.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3D81BA7B1C7E52D1DE2C2259 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */,
+				51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		86B48519631E6F15C0017540 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +149,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 377B6EAE202C026200AFD85C /* Build configuration list for PBXNativeTarget "ScreenBoom" */;
 			buildPhases = (
+				75036E8116CD53CF76C19C97 /* [CP] Check Pods Manifest.lock */,
 				377B6E98202C026200AFD85C /* Sources */,
 				377B6E99202C026200AFD85C /* Frameworks */,
 				377B6E9A202C026200AFD85C /* Resources */,
+				DA78A8F090DFF8E02F2B7C49 /* [CP] Embed Pods Frameworks */,
+				BA083BF0B70F53958C9AEFF5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -124,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				377B6EAA202C026200AFD85C /* LaunchScreen.storyboard in Resources */,
+				377B6EB2202C071600AFD85C /* GoogleService-Info.plist in Resources */,
 				377B6EA7202C026200AFD85C /* Assets.xcassets in Resources */,
 				377B6EA5202C026200AFD85C /* Main.storyboard in Resources */,
 			);
@@ -131,13 +213,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		75036E8116CD53CF76C19C97 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BA083BF0B70F53958C9AEFF5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA78A8F090DFF8E02F2B7C49 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		377B6E98202C026200AFD85C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				377B6EA2202C026200AFD85C /* ViewController.swift in Sources */,
+				377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */,
+				377B6F0C20300E1C00AFD85C /* Event.swift in Sources */,
+				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
+				377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */,
+				377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */,
+				377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */,
+				377B6F02202FF11B00AFD85C /* String+random.swift in Sources */,
+				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
+				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,
 				377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */,
+				377B6F00202FE5A500AFD85C /* BaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +411,7 @@
 		};
 		377B6EAF202C026200AFD85C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -287,6 +427,7 @@
 		};
 		377B6EB0202C026200AFD85C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
