@@ -13,14 +13,15 @@ class EventDetailViewController: BaseViewController {
   
   
   // Variables
-  var eventName:String
+  var event:Event
+  let eventDetailViewModel = EventDetailsViewModel()
   
 //  convenience init() {
 //    self.init(eventName: "")
 //  }
   
-  init(eventName:String) {
-    self.eventName = eventName
+  init(event:Event) {
+    self.event = event
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -31,14 +32,45 @@ class EventDetailViewController: BaseViewController {
   
   override func viewDidLoad() {
       super.viewDidLoad()
-      self.view.backgroundColor = UIColor.blue
-      print(eventName)
-
+      self.view.backgroundColor = UIColor.white
+      print(event.eventName)
+ putViewsInPlace()
         // Do any additional setup after loading the view.
   }
+  
+  override func viewWillLayoutSubviews() {
+   
+  }
 
-
+  func putViewsInPlace() {
     
+    // Navigation bar Right Button Setup
+    
+    let sendRightBarButton = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(EventDetailViewController.rightBarButtonPressed(_:)))
+    
+    navigationItem.rightBarButtonItem = sendRightBarButton
+    
+    
+    
+  }
+  // Selectors
+  
+  @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
+    
+    eventDetailViewModel.checkIfEventDetailExist(event: event) { (result) in
+      switch result {
+      case .Failure(let error):
+        self.infoView(message: error, color: Colors.smoothRed)
+      case .Success(()):
+        print(result)
+        
+      }
+    }
+    print("Send")
+    
+  }
+
+  
 
   
 

@@ -22,6 +22,8 @@
 		377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F052030027D00AFD85C /* EventDetailViewController.swift */; };
 		377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F08203009B900AFD85C /* EventViewModel.swift */; };
 		377B6F0C20300E1C00AFD85C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F0B20300E1C00AFD85C /* Event.swift */; };
+		37C2C5C62039F46000032927 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C52039F46000032927 /* EventDetail.swift */; };
+		37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */; };
 		96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +45,8 @@
 		377B6F052030027D00AFD85C /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		377B6F08203009B900AFD85C /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		377B6F0B20300E1C00AFD85C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		37C2C5C52039F46000032927 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
+		37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewModel.swift; sourceTree = "<group>"; };
 		3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.debug.xcconfig"; sourceTree = "<group>"; };
 		51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.release.xcconfig"; sourceTree = "<group>"; };
 		FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScreenBoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				377B6F08203009B900AFD85C /* EventViewModel.swift */,
+				37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -121,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				377B6F0B20300E1C00AFD85C /* Event.swift */,
+				37C2C5C52039F46000032927 /* EventDetail.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -267,8 +273,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */,
+				37C2C5C62039F46000032927 /* EventDetail.swift in Sources */,
 				377B6F0C20300E1C00AFD85C /* Event.swift in Sources */,
 				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
+				37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */,
 				377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */,
 				377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */,
 				377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */,

@@ -15,7 +15,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   // Varibales
   var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
   
-  let eventTypePickerviewDataSource = ["Text", "Picture", "Animation"]
+  let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
   var currentEventType:EventType = .Text
   
   // Outlets
@@ -26,7 +26,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    /// Mask:- Delegate
+    /// Mark:- Delegate
     eventTypePickerview.delegate = self
     eventTypePickerview.dataSource = self
   }
@@ -52,7 +52,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     self.currentEventType = eventType
   }
   
-  /// Mask:-  Buttons Functions
+  /// Mark:-  Buttons Functions
   @IBAction func createEventButtonPressed(_ sender: UIButton) {
     
     // prepare all data
@@ -69,32 +69,33 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     // We need to show a spinner to wait for the network
     // request inside the configure method on the view model
     self.ShowSpinner()
-    eventViewModel.configureWithEvent(event: currentEvent) { [weak self] eventExists in
+    eventViewModel.configureWithEvent(event: currentEvent) { [weak self] result in
       
-      if eventExists {
+      switch result {
+      case .Failure(let error):
         
-        let message = "event name already exists"
-        self?.infoView(message: message, color: Colors.smoothRed)
+          self?.infoView(message: error, color: Colors.smoothRed)
         
-      }else{
+      case .Success(()):
         
-        
+        //************* Should we remove the show spinner line it is already shown
         self?.ShowSpinner()
         
         // call addEvent
         eventViewModel.addEvent(event: currentEvent, completion: { (result) in
           switch result {
           case .Failure(let error):
-            if let error = error {
-              self?.infoView(message: error.localizedDescription, color: Colors.smoothRed)
-            }
+            
+              self?.infoView(message: error, color: Colors.smoothRed)
+            
           case .Success(()):
             self?.infoView(message: "Event created successfully!", color: Colors.lightGreen)
+            //****** i moved this line from down there
+            self?.showDetailViewController(event : currentEvent)
           }
         })
-        
         self?.HideSpinner()
-        self?.showDetailViewController(eventName: eventName)
+        //****** moved line to inside the add event call in the success state of the switch
        
       }
       
@@ -102,39 +103,9 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     }
   }
   
-  // add event to event Node with type and return code
-  
-//  func addEvent (eventName: String)  {
-//
-//
-//    let eventCode = String.random()
-//    let eventFIRReferance = firebaseDatabaseReference.child("Event").child(eventName)
-//
-//    // show spinner
-//    self.ShowSpinner()
-//
-//
-//
-//    eventFIRReferance.setValue(["type":eventTypePickerviewDataSource[currentEventType.rawValue], "code":eventCode], withCompletionBlock: {[weak self] (error, databaseReference) in
-//      if error != nil {
-//        let message = error?.localizedDescription ?? "Event created faild!"
-//        self?.infoView(message: message, color: Colors.smoothRed)
-//      } else {
-//        let message =  "Event created successfully!"
-//        self?.infoView(message: message, color: Colors.lightGreen)
-//      }
-//
-//
-//
-//
-//
-//    })
-//    self.HideSpinner()
-//    self.showDetailViewController(eventName: eventName)
-//  }
-//
-  func showDetailViewController(eventName: String) {
-    let detailViewController = EventDetailViewController(eventName: eventName)
+ 
+  func showDetailViewController(event: Event) {
+    let detailViewController = EventDetailViewController(event: event)
     self.navigationController?.pushViewController(detailViewController, animated: true)
     
   }

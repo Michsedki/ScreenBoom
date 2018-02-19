@@ -12,6 +12,7 @@ enum EventType: Int {
   case Text
   case Photo
   case Animation
+  case Unknown
 }
 
 class Event: NSObject {
@@ -26,6 +27,8 @@ class Event: NSObject {
       return "Photo"
     case .Animation:
       return "Animation"
+    case .Unknown:
+      return ""
     }
   }()
   
