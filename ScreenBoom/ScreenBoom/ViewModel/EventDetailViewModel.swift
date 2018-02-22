@@ -15,36 +15,24 @@ class EventDetailsViewModel: NSObject {
   let firebaseDatabaseReference = Database.database().reference()
   var eventDetail: EventDetail?
   
-  
-  
   // Check if event detail is exist and return the eventDetail if success or error string if failure
   func checkIfEventDetailExist (event: Event, completion: (@escaping(Result<Void>) -> Void) ) {
-    firebaseDatabaseReference.child("eventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
+  firebaseDatabaseReference.child("eventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
       
       if eventDetailSnapshot.exists() {
         guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: Any] else { return }
+        
         do {
-          
           let jsonData = try JSONSerialization.data(withJSONObject: eventDetailSnapshotValue, options: [])
            let eventDetail = try JSONDecoder().decode(EventDetail.self, from: jsonData)
           print(eventDetail)
           completion(Result.Success(()))
-          
-        } catch let error{
-          print(error)
+        } catch {
+         completion(Result.Failure("Error serializing Data from firebase"))
         }
-       
-          
-          
-          
-          
-        
       } else {
         completion(Result.Failure("EventDetails Not Found"))
       }
-      
-      
-  })
+    })
   }
-  
 }

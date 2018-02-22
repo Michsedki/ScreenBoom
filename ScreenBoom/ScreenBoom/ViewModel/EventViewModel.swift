@@ -32,7 +32,6 @@ class EventViewModel: NSObject {
         // run the completion block if we have one
         // and pass the result
         
-        
         completion?(Result.Failure("Event is Already Exist"))
       }
       
@@ -40,17 +39,16 @@ class EventViewModel: NSObject {
   }
   
   // check if event is already exist
-  func checkIfEventExists (event: Event, completion:(@escaping (Bool, DataSnapshot) -> Void)) {
+  func checkIfEventExists (event: Event, completion:(@escaping (Bool, DataSnapshot?) -> Void)) {
     
     firebaseDatabaseReference.child("Event").child(event.eventName).observeSingleEvent(of: .value, with: { (snapshot) in
       
-//      if snapshot.exists() {
-//
-//      }
-//
-//      print(snapshot)
-      
-        completion(snapshot.exists(),snapshot )
+      if snapshot.exists() {
+        completion(true,snapshot )
+
+      } else {
+        completion(false,nil )
+      }
     })
   }
   

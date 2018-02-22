@@ -20,17 +20,16 @@ class JoinEventViewController: BaseViewController {
   @IBOutlet weak var eventNameTextField: UITextField!
   @IBOutlet weak var codeTextField: UITextField!
   
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      
-      
-
-        // Do any additional setup after loading the view.
-    }
-
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    // Do any additional setup after loading the view.
+  }
   
-    
+  
+  
   @IBAction func goButtonPressed(_ sender: UIButton) {
+    
+    
     
     // check if textfields is empty
     guard let eventName = eventNameTextField.text, !eventName.isEmpty else {
@@ -43,7 +42,7 @@ class JoinEventViewController: BaseViewController {
       self.infoView(message: message, color: Colors.smoothRed)
       return
     }
-
+    
     let eventToPlay = Event(eventName: eventName, eventType: .Unknown)
     let eventViewModel = EventViewModel()
     
@@ -54,52 +53,39 @@ class JoinEventViewController: BaseViewController {
         self.infoView(message: "event is not Exist", color: Colors.smoothRed)
         return
       }
-      guard let eventCodeFirebase = snapshot.childSnapshot(forPath: "code").value as? String else {
-        self.infoView(message: "Couldn't retrive event Code", color: Colors.smoothRed)
-        return
-        
-      }
       
-      guard let eventTypeFirebase = snapshot.childSnapshot(forPath: "type").value as? String else {
-        self.infoView(message: "Couldn't retrive event type", color: Colors.smoothRed)
-        return
-        
+      guard let eventCodeFirebase = snapshot?.childSnapshot(forPath: "code").value as? String, let eventTypeFirebase = snapshot?.childSnapshot(forPath: "type").value as? String
+        else {
+          self.infoView(message: "Couldn't retrive event", color: Colors.smoothRed)
+          return
       }
       
       if eventCodeFirebase == eventCode {
         
         switch eventTypeFirebase {
-        case "text":
-          eventToPlay.eventType = .Text
-        case "animation":
-          eventToPlay.eventType = .Animation
-        case "photo" :
-          eventToPlay.eventType = .Photo
-        default:
-         break
+          case "text":
+            eventToPlay.eventType = .Text
+          case "animation":
+            eventToPlay.eventType = .Animation
+          case "photo" :
+            eventToPlay.eventType = .Photo
+          default:
+            break
         }
-        
-        
-        
+
         self.showPlayEventViewController(event: eventToPlay)
-
+        
       } else {
-        self.infoView(message: "Code is not matching", color: Colors.smoothRed)
-
+        self.infoView(message: "Code is not valid", color: Colors.smoothRed)
       }
-      
-      
     }
-    self.HideSpinner()
     
+    self.HideSpinner()
   }
   
   // Push PlayEventViewController
   func showPlayEventViewController(event: Event) {
     let PlayViewController = PlayEventViewController(event: event)
     self.navigationController?.pushViewController(PlayViewController, animated: true)
-    
   }
- 
-
 }

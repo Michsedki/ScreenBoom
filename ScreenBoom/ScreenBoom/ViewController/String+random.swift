@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension String {
   
@@ -20,7 +21,25 @@ extension String {
     }
     return randomString
   }
+  
+  func stringToUIColor () -> UIColor {
+    switch self {
+    case "white":
+      return UIColor.white
+    case "green":
+      return UIColor.green
+    case "blue":
+      return UIColor.blue
+    case "yellow":
+      return UIColor.yellow
+    case "black":
+      return UIColor.black
+    default:
+      return UIColor.white
+    }
+  }
 }
+
 
 
 
