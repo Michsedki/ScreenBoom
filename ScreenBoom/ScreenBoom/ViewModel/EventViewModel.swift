@@ -14,13 +14,14 @@ enum Result<T> {
   case Failure(String)
 }
 
+typealias ConfigureWithEventCompletionHandler = (_:Result<Void>) -> Void
 
 class EventViewModel: NSObject {
 
   let firebaseDatabaseReference = Database.database().reference()  
   var event: Event?
   
-  func configureWithEvent(event:Event, completion:((Result<Void>) -> Void)? = nil) {
+  func configureWithEvent(event:Event, completion:ConfigureWithEventCompletionHandler? = nil) {
     checkIfEventExists(event: event, completion: { eventExists, snapshot  in
       
       
@@ -60,7 +61,7 @@ class EventViewModel: NSObject {
     let eventCode = String.random()
     let eventFIRReferance = firebaseDatabaseReference.child("Event").child(event.eventName)
     
-    eventFIRReferance.setValue(["type":event.eventTypeString, "code":eventCode], withCompletionBlock: { (error, response) in
+    eventFIRReferance.setValue(["type":event.eventType.rawValue, "code":eventCode], withCompletionBlock: { (error, response) in
       guard error == nil else {
         completion(Result.Failure((error?.localizedDescription)!))
         return

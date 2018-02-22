@@ -43,7 +43,7 @@ class JoinEventViewController: BaseViewController {
       return
     }
     
-    let eventToPlay = Event(eventName: eventName, eventType: .Unknown)
+    let eventToPlay = Event(eventName: eventName, eventIsLive: "no", eventType: .Unknown)
     let eventViewModel = EventViewModel()
     
     // start spinner

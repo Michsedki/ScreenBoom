@@ -48,7 +48,18 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   }
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    guard let eventType = EventType(rawValue: row) else { return }
+    var eventType: EventType
+    switch (row) {
+      case 0:
+        eventType = .Text
+      case 1:
+        eventType = .Photo
+      case 2:
+        eventType = .Animation
+      default:
+        eventType = .Unknown
+    }
+    
     self.currentEventType = eventType
   }
   
@@ -63,7 +74,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
       return
     }
     
-    let currentEvent = Event(eventName: eventName, eventType: currentEventType)
+    let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: currentEventType)
     let eventViewModel = EventViewModel()
     
     // We need to show a spinner to wait for the network

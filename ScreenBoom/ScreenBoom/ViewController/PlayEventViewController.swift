@@ -9,39 +9,34 @@
 import UIKit
 import FirebaseDatabase
 
-class PlayEventViewController: BaseViewController {
+class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObserver {
   
+  func update(viewModel: PlayEventViewModel) {
+    self.playEventView?.configure(viewModel: viewModel)
+  }
   
   // variables
   var event: Event
-  var eventDetail : EventDetail?
-  let eventViewModel = EventViewModel()
-  let eventDetailViewModel = EventDetailsViewModel()
   var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
+  var playEventView: PlayEventView?
+  var playEventViewModelSource: PlayEventViewModelSource?
   
   // init
   init (event:Event) {
     self.event = event
+//    self.eventDetail = eventDetail
     super.init(nibName: nil, bundle: nil)
-    
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      
-      
-     
-
-      
-      
-      
-//
-        // Do any additional setup after loading the view.
-    }
+  override func viewDidLoad() {
+      super.viewDidLoad()
+      getEventDetail()
+      // Do any additional setup after loading the view.
+  }
   
   override func viewWillLayoutSubviews() {
     
@@ -68,15 +63,30 @@ class PlayEventViewController: BaseViewController {
         
         let eventDetail = try JSONDecoder().decode(EventDetail.self, from: jsonData)
         
+        // THIS SWITCH SHOULD BE IN A SEPERATE FUNCTION THAT TAKES EVENTDETAIL AS A
+        // PARAMATER
         switch self.event.eventType {
         case .Text:
           
           guard let backgroundcolor = eventDetail.backgroundcolor else { return}
                     self.view.backgroundColor = backgroundcolor.stringToUIColor()
           
+          // MOVE THIS OUT OF HERE (SEPERATE FUNCTION)
+          let viewModel: PlayEventViewModel = PlayEventViewModel(event: self.event, eventDetail: eventDetail)
+          let playEventView = PlayEventView(viewModel: viewModel, frame: CGRect(x: 0,
+                                                                                y: 0,
+                                                                                width: self.view.bounds.width,
+                                                                                height: self.view.bounds.height))
+          self.view.addSubview(playEventView)
           
+          // MOVE TO VIEW DID LOAD
+          // setup observation.
+          self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
+          self.playEventViewModelSource?.configureWithFirebaseUpdatedEventType()
+          self.playEventViewModelSource?.addObserver(observer: self)
           
-          
+          // Store Property
+          self.playEventView = playEventView
           break
           
           
@@ -134,19 +144,7 @@ class PlayEventViewController: BaseViewController {
   
   
   func playTextEvent(eventDetail: EventDetail) {
-    let playView = UIView()
-    playView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-    playView.backgroundColor = eventDetail.backgroundcolor?.stringToUIColor()
-    let textLabelView = UILabel()
-    textLabelView.backgroundColor = UIColor.clear
-    textLabelView.font = UIFont.boldSystemFont(ofSize: 25)
-    textLabelView.textAlignment = .center
-    textLabelView.text = eventDetail.text
-    textLabelView.textColor = eventDetail.textcolor?.stringToUIColor()
-    textLabelView.frame = CGRect(x: playView.frame.minX, y: playView.frame.minY, width: playView.frame.width, height: playView.frame.height)
-    playView.addSubview(textLabelView)
     
-    view.addSubview(playView)
     
     
     

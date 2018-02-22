@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */; };
+		3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */; };
+		3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */; };
+		3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A5203EA0E600171FCF /* PlayEventView.swift */; };
 		377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6E9F202C026200AFD85C /* AppDelegate.swift */; };
 		377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EA1202C026200AFD85C /* HomeViewController.swift */; };
 		377B6EA5202C026200AFD85C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377B6EA3202C026200AFD85C /* Main.storyboard */; };
@@ -23,11 +27,15 @@
 		377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F08203009B900AFD85C /* EventViewModel.swift */; };
 		377B6F0C20300E1C00AFD85C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F0B20300E1C00AFD85C /* Event.swift */; };
 		37C2C5C62039F46000032927 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C52039F46000032927 /* EventDetail.swift */; };
-		37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */; };
+		37C2C5C82039F5AD00032927 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */; };
 		96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSourceObserver.swift; sourceTree = "<group>"; };
+		3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSource.swift; sourceTree = "<group>"; };
+		3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModel.swift; sourceTree = "<group>"; };
+		3747C8A5203EA0E600171FCF /* PlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventView.swift; sourceTree = "<group>"; };
 		377B6E9C202C026200AFD85C /* ScreenBoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenBoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		377B6E9F202C026200AFD85C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		377B6EA1202C026200AFD85C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -46,7 +54,7 @@
 		377B6F08203009B900AFD85C /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		377B6F0B20300E1C00AFD85C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		37C2C5C52039F46000032927 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
-		37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewModel.swift; sourceTree = "<group>"; };
+		37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.debug.xcconfig"; sourceTree = "<group>"; };
 		51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.release.xcconfig"; sourceTree = "<group>"; };
 		FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScreenBoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3747C89E203E83D700171FCF /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		377B6E93202C026200AFD85C = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +101,7 @@
 		377B6E9E202C026200AFD85C /* ScreenBoom */ = {
 			isa = PBXGroup;
 			children = (
+				3747C89E203E83D700171FCF /* Protocol */,
 				377B6F0A20300DFA00AFD85C /* Model */,
 				377B6F072030098400AFD85C /* ViewModel */,
 				377B6EB3202C18AA00AFD85C /* ViewController */,
@@ -94,6 +111,7 @@
 				377B6EA6202C026200AFD85C /* Assets.xcassets */,
 				377B6EA8202C026200AFD85C /* LaunchScreen.storyboard */,
 				377B6EAB202C026200AFD85C /* Info.plist */,
+				3747C8A5203EA0E600171FCF /* PlayEventView.swift */,
 			);
 			path = ScreenBoom;
 			sourceTree = "<group>";
@@ -117,7 +135,9 @@
 			isa = PBXGroup;
 			children = (
 				377B6F08203009B900AFD85C /* EventViewModel.swift */,
-				37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */,
+				37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */,
+				3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */,
+				3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -274,9 +294,13 @@
 			files = (
 				377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */,
 				37C2C5C62039F46000032927 /* EventDetail.swift in Sources */,
+				3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */,
 				377B6F0C20300E1C00AFD85C /* Event.swift in Sources */,
+				3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */,
 				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
-				37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */,
+				3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */,
+				3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */,
+				37C2C5C82039F5AD00032927 /* EventDetailsViewModel.swift in Sources */,
 				377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */,
 				377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */,
 				377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */,
