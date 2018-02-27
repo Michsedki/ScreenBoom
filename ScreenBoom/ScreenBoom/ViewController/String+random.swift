@@ -24,15 +24,15 @@ extension String {
   
   func stringToUIColor () -> UIColor {
     switch self {
-    case "white":
+    case "White":
       return UIColor.white
-    case "green":
+    case "Green":
       return UIColor.green
-    case "blue":
+    case "Blue":
       return UIColor.blue
-    case "yellow":
+    case "Yellow":
       return UIColor.yellow
-    case "black":
+    case "Black":
       return UIColor.black
     default:
       return UIColor.white

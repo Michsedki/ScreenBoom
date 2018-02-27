@@ -17,14 +17,15 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   // variables
   var event: Event
+  var eventDetail: EventDetail
   var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
   var playEventView: PlayEventView?
   var playEventViewModelSource: PlayEventViewModelSource?
   
   // init
-  init (event:Event) {
+    init (event:Event, eventDetail: EventDetail) {
     self.event = event
-//    self.eventDetail = eventDetail
+    self.eventDetail = eventDetail
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -34,87 +35,25 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   override func viewDidLoad() {
       super.viewDidLoad()
-      getEventDetail()
-      // Do any additional setup after loading the view.
+    
+      setupViews()
+    
+      // setup observation.
+      self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
+      self.playEventViewModelSource?.addObserver(observer: self)
+      self.playEventViewModelSource?.configureWithFirebaseUpdatedEventType()
   }
-  
-  override func viewWillLayoutSubviews() {
     
-
+  func setupViews() {
+      let playEventView = PlayEventView(frame: CGRect(x: 0,
+                                                      y: 0,
+                                                  width: self.view.bounds.width,
+                                                 height: self.view.bounds.height))
+      self.view.addSubview(playEventView)
     
-    
-    
-//    getEventDetail()
+      self.playEventView = playEventView
   }
-  
-  func getEventDetail() {
-    firebaseDatabaseReference.child("EventDetails").child(event.eventName).observe(.value) { (eventDetailSnapshot) in
-      
-      guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: Any] else {
-        
-        /// create view in the middle of the scren say sorry
-        self.infoView(message: "Couldn't load event Details", color: Colors.smoothRed)
-        
-        return }
-      
-      do {
-        
-        let jsonData = try JSONSerialization.data(withJSONObject: eventDetailSnapshotValue, options: [])
-        
-        let eventDetail = try JSONDecoder().decode(EventDetail.self, from: jsonData)
-        
-        // THIS SWITCH SHOULD BE IN A SEPERATE FUNCTION THAT TAKES EVENTDETAIL AS A
-        // PARAMATER
-        switch self.event.eventType {
-        case .Text:
-          
-          guard let backgroundcolor = eventDetail.backgroundcolor else { return}
-                    self.view.backgroundColor = backgroundcolor.stringToUIColor()
-          
-          // MOVE THIS OUT OF HERE (SEPERATE FUNCTION)
-          let viewModel: PlayEventViewModel = PlayEventViewModel(event: self.event, eventDetail: eventDetail)
-          let playEventView = PlayEventView(viewModel: viewModel, frame: CGRect(x: 0,
-                                                                                y: 0,
-                                                                                width: self.view.bounds.width,
-                                                                                height: self.view.bounds.height))
-          self.view.addSubview(playEventView)
-          
-          // MOVE TO VIEW DID LOAD
-          // setup observation.
-          self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
-          self.playEventViewModelSource?.configureWithFirebaseUpdatedEventType()
-          self.playEventViewModelSource?.addObserver(observer: self)
-          
-          // Store Property
-          self.playEventView = playEventView
-          break
-          
-          
-        case .Animation:
-          break
-          
-        case.Photo:
-          break
-          
-        case .Unknown:
-          break
-          
-        }
-        
-        
-        
-        
-        print(eventDetail)
-        
-        
-      } catch let error {
-        print(error)
-      }
-    }
     
-  }
-
-  
   /// methods
   
   func checkEventTypeAndIsLive(event: Event, eventDetail: EventDetail) {

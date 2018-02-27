@@ -11,22 +11,6 @@ import UIKit
 
 class PlayEventView: UIView {
   
-  var playEventViewModel: PlayEventViewModel
-  
-  init(viewModel: PlayEventViewModel, frame:CGRect) {
-    self.playEventViewModel = viewModel
-    
-    super.init(frame: frame)
-    
-    // the first time, we need to configure the view
-    // ourselves
-    self.configure(viewModel: self.playEventViewModel)
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   func configure(viewModel: PlayEventViewModel) {
     let eventDetail = viewModel.eventDetail
     
@@ -43,9 +27,6 @@ class PlayEventView: UIView {
     playView.addSubview(textLabelView)
     
     self.addSubview(playView)
-    
-    // capture reference
-    self.playEventViewModel = viewModel
   }
   
 }

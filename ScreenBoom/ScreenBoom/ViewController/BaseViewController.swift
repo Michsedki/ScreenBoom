@@ -16,6 +16,13 @@ class BaseViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
   
+  
+  // Constants
+  // Firebase
+  let firebaseNodeNames = FirebaseNodeNames()
+  
+  
+  
   let fontSize12 = UIScreen.main.bounds.width / 31
   
   let spinner = UIActivityIndicatorView()

@@ -14,12 +14,17 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   
   // Varibales
   var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
+  let eventViewModel = EventViewModel()
+  
   
   let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
   var currentEventType:EventType = .Text
   
   // Outlets
   @IBOutlet weak var eventNameTextfield: UITextField!
+  
+
+  
   
   @IBOutlet weak var eventTypePickerview: UIPickerView!
   
@@ -75,7 +80,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     }
     
     let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: currentEventType)
-    let eventViewModel = EventViewModel()
+    
     
     // We need to show a spinner to wait for the network
     // request inside the configure method on the view model
@@ -93,7 +98,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
         self?.ShowSpinner()
         
         // call addEvent
-        eventViewModel.addEvent(event: currentEvent, completion: { (result) in
+        self?.eventViewModel.addEvent(event: currentEvent, completion: { (result) in
           switch result {
           case .Failure(let error):
             
@@ -116,6 +121,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   
  
   func showDetailViewController(event: Event) {
+    
     let detailViewController = EventDetailViewController(event: event)
     self.navigationController?.pushViewController(detailViewController, animated: true)
     

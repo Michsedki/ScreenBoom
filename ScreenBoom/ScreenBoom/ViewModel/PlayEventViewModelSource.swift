@@ -46,9 +46,6 @@ class PlayEventViewModelSource {
   // Configure Method
   func configureWithFirebaseUpdatedEventType() {
     firebaseDatabaseReference.child("Event").child(event.eventName).observe(.childChanged) { (eventSnapShot) in
-      print("#############################################################")
-      print(eventSnapShot.value)
-      print(eventSnapShot.childSnapshot(forPath: "type").value)
       guard let eventTypeFirbase = eventSnapShot.value as? String else { return }
       
       if eventTypeFirbase != self.event.eventType.rawValue {
@@ -58,18 +55,10 @@ class PlayEventViewModelSource {
         // event type changed. Create new model and update observers.
         self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
       }
-      
-//      if eventIsLiveFirebase != self.event.eventIsLive {
-//        self.event.eventIsLive = eventIsLiveFirebase
-//        self.updateObservers(viewModel: self.generateViewModel())
-//      }
     }
-  }
-  
-  func generateViewModel() -> PlayEventViewModel {
-    // we need to creat a new event object and a new event detail
-    // object to pass to our observers.
     
+    // run on initial call
+    updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
   }
   
   func updateObservers(viewModel: PlayEventViewModel) {

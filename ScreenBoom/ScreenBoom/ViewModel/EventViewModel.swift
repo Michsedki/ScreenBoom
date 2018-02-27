@@ -17,8 +17,9 @@ enum Result<T> {
 typealias ConfigureWithEventCompletionHandler = (_:Result<Void>) -> Void
 
 class EventViewModel: NSObject {
-
-  let firebaseDatabaseReference = Database.database().reference()  
+  
+  let firebaseDatabaseReference = Database.database().reference()
+  let firebaseNodeNames = FirebaseNodeNames()
   var event: Event?
   
   func configureWithEvent(event:Event, completion:ConfigureWithEventCompletionHandler? = nil) {
@@ -46,7 +47,7 @@ class EventViewModel: NSObject {
       
       if snapshot.exists() {
         completion(true,snapshot )
-
+        
       } else {
         completion(false,nil )
       }
@@ -70,7 +71,34 @@ class EventViewModel: NSObject {
       completion(Result.Success(()))
     })
   }
-
+  
+  //Michael start
+  /// update the Event islive node with yes or no
+  func updateEvenIsLive(event: Event, isLive: String, completion:(@escaping(Result<Void>) -> Void)) {
+ firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeIsLiveChild).setValue(isLive) { (error, _) in
+      if error != nil {
+        completion(Result.Failure((error?.localizedDescription)!))
+      } else {
+        completion(Result.Success(()))
+      }
+    }
+  }
+  
+  
+  /// update the Event type node with text, photo or animation
+  func updateEvenType(event: Event, eventType: EventType, completion:(@escaping(Result<Void>) -> Void)) {
+  firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeTypeChild).setValue(eventType.rawValue) { (error, _) in
+      if error != nil {
+        completion(Result.Failure((error?.localizedDescription)!))
+      } else {
+        completion(Result.Success(()))
+      }
+    }
+  }
+  
+  
+  // Michael end
+  
 }
 
 

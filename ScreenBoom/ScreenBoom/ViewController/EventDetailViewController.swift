@@ -61,17 +61,9 @@ class EventDetailViewController: BaseViewController {
       switch result {
       case .Failure(let error):
         self.infoView(message: error, color: Colors.smoothRed)
-      case .Success(()):
-        print(result)
-        
+      case .Success(let eventDetail):
+        print(eventDetail)
       }
     }
-    print("Send")
-    
   }
-
-  
-
-  
-
 }
