@@ -9,6 +9,7 @@ target 'ScreenBoom' do
 	
 pod 'Firebase/Core'
 pod 'Firebase/Database'
+pod 'Canvas'
 
 
 end

@@ -17,7 +17,7 @@ class EventDetailsViewModel: NSObject {
   
   // Check if event detail is exist and return the eventDetail if success or error string if failure
   func checkIfEventDetailExist (event: Event, completion: (@escaping(Result<EventDetail>) -> Void) ) {
-  firebaseDatabaseReference.child("eventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
+  firebaseDatabaseReference.child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
       
       if eventDetailSnapshot.exists() {
         guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: Any] else { return }

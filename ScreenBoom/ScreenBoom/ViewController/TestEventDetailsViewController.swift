@@ -97,7 +97,7 @@ class TestEventDetailsViewController: BaseViewController, UIPickerViewDelegate, 
     stack.axis = .horizontal
     
     let textColorLabel = UILabel()
-    textColorLabel.frame = CGRect(x: stack.leftAnchor + 5, y: stack.topAnchor + 5, width: stack.widthAnchor - 20, height: stack.heightAnchor - 10)
+//    textColorLabel.frame = CGRect(x: stack.leftAnchor, y: stack.topAnchor, width: stack.widthAnchor, height: stack.heightAnchor)
     textColorLabel.text = "Text Color"
     textColorLabel.backgroundColor = UIColor.lightGray
     

@@ -1,4 +1,5 @@
 PODS:
+  - Canvas (0.1.2)
   - Firebase/Core (4.1.1):
     - FirebaseAnalytics (= 4.0.3)
     - FirebaseCore (= 4.0.6)
@@ -30,10 +31,12 @@ PODS:
   - nanopb/encode (0.3.8)
 
 DEPENDENCIES:
+  - Canvas
   - Firebase/Core
   - Firebase/Database
 
 SPEC CHECKSUMS:
+  Canvas: eb861e3b555d032648146c8ffda1a5dea40059ca
   Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
   FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
   FirebaseCore: 28def3c643989c97ea5a69ea5000f5fa9902b9fd
@@ -43,6 +46,6 @@ SPEC CHECKSUMS:
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: b8e727c1ec69c1a0f47fb7ddb1da318e27b15ffe
+PODFILE CHECKSUM: a4575bc01a379bbda61d4b323ce0abb720a30b9b
 
 COCOAPODS: 1.2.0

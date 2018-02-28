@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0920"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "727A2466162ADDA31768442E3DFE23B2"
+               BlueprintIdentifier = "5CF60A594FB292B358E104D7BA3C79B0"
                BuildableName = "Pods_ScreenBoom.framework"
                BlueprintName = "Pods-ScreenBoom"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "727A2466162ADDA31768442E3DFE23B2"
+            BlueprintIdentifier = "5CF60A594FB292B358E104D7BA3C79B0"
             BuildableName = "Pods_ScreenBoom.framework"
             BlueprintName = "Pods-ScreenBoom"
             ReferencedContainer = "container:Pods.xcodeproj">

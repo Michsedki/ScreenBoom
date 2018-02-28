@@ -13,6 +13,9 @@
 		3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A5203EA0E600171FCF /* PlayEventView.swift */; };
 		3747C8A82044724D00171FCF /* FirebaseNodeNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A72044724D00171FCF /* FirebaseNodeNames.swift */; };
 		3747C8AA2044860F00171FCF /* TestEventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A92044860F00171FCF /* TestEventDetailsViewController.swift */; };
+		3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */; };
+		3747C8B22045F88000171FCF /* DetailEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8B12045F88000171FCF /* DetailEventView.swift */; };
+		3747C8B42045FC3B00171FCF /* FinalTestEventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8B32045FC3B00171FCF /* FinalTestEventDetailsViewController.swift */; };
 		377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6E9F202C026200AFD85C /* AppDelegate.swift */; };
 		377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EA1202C026200AFD85C /* HomeViewController.swift */; };
 		377B6EA5202C026200AFD85C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377B6EA3202C026200AFD85C /* Main.storyboard */; };
@@ -40,6 +43,9 @@
 		3747C8A5203EA0E600171FCF /* PlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventView.swift; sourceTree = "<group>"; };
 		3747C8A72044724D00171FCF /* FirebaseNodeNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNodeNames.swift; sourceTree = "<group>"; };
 		3747C8A92044860F00171FCF /* TestEventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEventDetailsViewController.swift; sourceTree = "<group>"; };
+		3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Anchors.swift"; sourceTree = "<group>"; };
+		3747C8B12045F88000171FCF /* DetailEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventView.swift; sourceTree = "<group>"; };
+		3747C8B32045FC3B00171FCF /* FinalTestEventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalTestEventDetailsViewController.swift; sourceTree = "<group>"; };
 		377B6E9C202C026200AFD85C /* ScreenBoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenBoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		377B6E9F202C026200AFD85C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		377B6EA1202C026200AFD85C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +90,24 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		3747C8AB2045C13100171FCF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				377B6F01202FF11B00AFD85C /* String+random.swift */,
+				3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3747C8B02045F84F00171FCF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3747C8A5203EA0E600171FCF /* PlayEventView.swift */,
+				3747C8B12045F88000171FCF /* DetailEventView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		377B6E93202C026200AFD85C = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +129,8 @@
 		377B6E9E202C026200AFD85C /* ScreenBoom */ = {
 			isa = PBXGroup;
 			children = (
+				3747C8B02045F84F00171FCF /* View */,
+				3747C8AB2045C13100171FCF /* Extensions */,
 				3747C89E203E83D700171FCF /* Protocol */,
 				377B6F0A20300DFA00AFD85C /* Model */,
 				377B6F072030098400AFD85C /* ViewModel */,
@@ -115,7 +141,6 @@
 				377B6EA6202C026200AFD85C /* Assets.xcassets */,
 				377B6EA8202C026200AFD85C /* LaunchScreen.storyboard */,
 				377B6EAB202C026200AFD85C /* Info.plist */,
-				3747C8A5203EA0E600171FCF /* PlayEventView.swift */,
 			);
 			path = ScreenBoom;
 			sourceTree = "<group>";
@@ -128,10 +153,10 @@
 				377B6EB8202C1A2A00AFD85C /* JoinEventViewController.swift */,
 				377B6EBA202CEC6200AFD85C /* PlayEventViewController.swift */,
 				377B6EFF202FE5A500AFD85C /* BaseViewController.swift */,
-				377B6F01202FF11B00AFD85C /* String+random.swift */,
 				377B6F03202FF57800AFD85C /* Colors.swift */,
 				377B6F052030027D00AFD85C /* EventDetailViewController.swift */,
 				3747C8A92044860F00171FCF /* TestEventDetailsViewController.swift */,
+				3747C8B32045FC3B00171FCF /* FinalTestEventDetailsViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -301,6 +326,7 @@
 				377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */,
 				37C2C5C62039F46000032927 /* EventDetail.swift in Sources */,
 				3747C8AA2044860F00171FCF /* TestEventDetailsViewController.swift in Sources */,
+				3747C8B42045FC3B00171FCF /* FinalTestEventDetailsViewController.swift in Sources */,
 				3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */,
 				377B6F0C20300E1C00AFD85C /* Event.swift in Sources */,
 				3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */,
@@ -315,8 +341,10 @@
 				3747C8A82044724D00171FCF /* FirebaseNodeNames.swift in Sources */,
 				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
 				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,
+				3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */,
 				377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */,
 				377B6F00202FE5A500AFD85C /* BaseViewController.swift in Sources */,
+				3747C8B22045F88000171FCF /* DetailEventView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
