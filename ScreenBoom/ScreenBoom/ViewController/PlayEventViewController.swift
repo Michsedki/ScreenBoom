@@ -41,7 +41,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       // setup observation.
       self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
       self.playEventViewModelSource?.addObserver(observer: self)
-      self.playEventViewModelSource?.configureWithFirebaseUpdatedEventType()
+      self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
+      self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
   }
     
   func setupViews() {
@@ -53,56 +54,5 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
       self.playEventView = playEventView
   }
-    
-  /// methods
   
-  func checkEventTypeAndIsLive(event: Event, eventDetail: EventDetail) {
-    // check event Type
-    // check event isLive
-    // call the propere play event method and give it EventDetail
-  }
-  
-  func trackEvent(event: Event) -> EventDetail {
-   // call checkEventTypeAndIsLive
-    // stop trackEventDetail
-    return EventDetail()
-  }
-  
-  func trackEventDetail(event: Event) -> EventDetail {
-    
-    // track the EventDetail Node to update the Event
-    
-    
-//    firebaseDatabaseReference.child("EventDetails").child(event.eventName).ob
-    
-    return EventDetail()
-  }
-  
-  
-  
-  
-  
-  func playTextEvent(eventDetail: EventDetail) {
-    
-    
-    
-    
-    
-  }
-  
-  func playAnimationEvent(eventDetail: EventDetail) {
-    
-  }
-  
-  func playPhotoEvent(eventDetail: EventDetail) {
-    let imageView = UIImageView()
-    imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-    imageView.backgroundColor = UIColor.yellow
-    view.addSubview(imageView)
-    
-    
-  }
-  
-  
-
 }

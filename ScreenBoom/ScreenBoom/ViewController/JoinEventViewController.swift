@@ -40,7 +40,7 @@ class JoinEventViewController: BaseViewController {
       return
     }
     
-    self.event = Event(eventName: eventName, eventIsLive: "no", eventType: .Unknown)
+    self.event = Event(eventName: eventName, eventIsLive: "yes", eventType: .Unknown)
     
     // start spinner
     self.ShowSpinner()

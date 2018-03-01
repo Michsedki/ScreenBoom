@@ -33,6 +33,7 @@
 		377B6F0C20300E1C00AFD85C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F0B20300E1C00AFD85C /* Event.swift */; };
 		37C2C5C62039F46000032927 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C52039F46000032927 /* EventDetail.swift */; };
 		37C2C5C82039F5AD00032927 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */; };
+		37D011B1204755B000739B62 /* Canvas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D011B2204755B000739B62 /* Canvas.framework */; };
 		96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		377B6F0B20300E1C00AFD85C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		37C2C5C52039F46000032927 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
 		37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
+		37D011B2204755B000739B62 /* Canvas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Canvas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.debug.xcconfig"; sourceTree = "<group>"; };
 		51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.release.xcconfig"; sourceTree = "<group>"; };
 		FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScreenBoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D011B1204755B000739B62 /* Canvas.framework in Frameworks */,
 				96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +197,7 @@
 		86B48519631E6F15C0017540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37D011B2204755B000739B62 /* Canvas.framework */,
 				FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */,
 			);
 			name = Frameworks;
