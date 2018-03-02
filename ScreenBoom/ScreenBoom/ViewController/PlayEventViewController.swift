@@ -44,7 +44,9 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
       self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
   }
-    
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    playEventViewModelSource?.configureWithViewWillTransition()
+  }
   func setupViews() {
       let playEventView = PlayEventView(frame: CGRect(x: 0,
                                                       y: 0,

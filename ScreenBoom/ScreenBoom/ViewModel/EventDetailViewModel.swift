@@ -10,7 +10,7 @@ import Foundation
 import FirebaseDatabase
 
 
-class EventDetailsViewModel: NSObject {
+class EventDetailViewModel: NSObject {
   
   let firebaseDatabaseReference = Database.database().reference()
   var eventDetail: EventDetail?

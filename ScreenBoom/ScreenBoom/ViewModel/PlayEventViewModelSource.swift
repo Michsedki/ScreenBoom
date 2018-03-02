@@ -45,6 +45,7 @@ class PlayEventViewModelSource {
   }
   
   // Configure Method
+  //Configure with Firebase Event Update
   func configureWithFirebaseUpdatedEvent() {
     firebaseDatabaseReference.child("Event").child(event.eventName).observe(.value) { (eventSnapShot) in
       if eventSnapShot.exists() {
@@ -58,17 +59,18 @@ class PlayEventViewModelSource {
       } else {
         print("Event Updated Failed")
       }
+      
+      // should put it inside the success part
       self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
     }
-//    updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+
   }
   
-  
+  // Configure with Firebase EventDetail Update
   func configureWithFirebaseUpdateEventDetail() {
     firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(event.eventName).observe(.value) { (eventDetailSnapShot) in
       if eventDetailSnapShot.exists() {
         guard let eventDetailSnapshotValue = eventDetailSnapShot.value as? [String: Any] else { return }
-        
         do {
           let jsonData = try JSONSerialization.data(withJSONObject: eventDetailSnapshotValue, options: [])
           let eventDetailFirebase = try JSONDecoder().decode(EventDetail.self, from: jsonData)
@@ -86,6 +88,11 @@ class PlayEventViewModelSource {
     self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
   }
   
+  
+  // Configure with Device will TransiChange Oriantation
+  func configureWithViewWillTransition() {
+    self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+  }
   
   func updateObservers(viewModel: PlayEventViewModel) {
     for observer in observers {

@@ -11,7 +11,7 @@
 		3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */; };
 		3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */; };
 		3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A5203EA0E600171FCF /* PlayEventView.swift */; };
-		3747C8A82044724D00171FCF /* FirebaseNodeNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A72044724D00171FCF /* FirebaseNodeNames.swift */; };
+		3747C8A82044724D00171FCF /* ConstantStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A72044724D00171FCF /* ConstantStrings.swift */; };
 		3747C8AA2044860F00171FCF /* TestEventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A92044860F00171FCF /* TestEventDetailsViewController.swift */; };
 		3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */; };
 		3747C8B22045F88000171FCF /* DetailEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8B12045F88000171FCF /* DetailEventView.swift */; };
@@ -32,8 +32,10 @@
 		377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F08203009B900AFD85C /* EventViewModel.swift */; };
 		377B6F0C20300E1C00AFD85C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F0B20300E1C00AFD85C /* Event.swift */; };
 		37C2C5C62039F46000032927 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C52039F46000032927 /* EventDetail.swift */; };
-		37C2C5C82039F5AD00032927 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */; };
+		37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */; };
 		37D011B1204755B000739B62 /* Canvas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D011B2204755B000739B62 /* Canvas.framework */; };
+		37D011B5204891BB00739B62 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D011B4204891BB00739B62 /* CloudKit.framework */; };
+		37D011B720489F2700739B62 /* UserDefaultICloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D011B620489F2700739B62 /* UserDefaultICloudViewModel.swift */; };
 		96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +44,7 @@
 		3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSource.swift; sourceTree = "<group>"; };
 		3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModel.swift; sourceTree = "<group>"; };
 		3747C8A5203EA0E600171FCF /* PlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventView.swift; sourceTree = "<group>"; };
-		3747C8A72044724D00171FCF /* FirebaseNodeNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNodeNames.swift; sourceTree = "<group>"; };
+		3747C8A72044724D00171FCF /* ConstantStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantStrings.swift; sourceTree = "<group>"; };
 		3747C8A92044860F00171FCF /* TestEventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEventDetailsViewController.swift; sourceTree = "<group>"; };
 		3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Anchors.swift"; sourceTree = "<group>"; };
 		3747C8B12045F88000171FCF /* DetailEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventView.swift; sourceTree = "<group>"; };
@@ -65,8 +67,11 @@
 		377B6F08203009B900AFD85C /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		377B6F0B20300E1C00AFD85C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		37C2C5C52039F46000032927 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
-		37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
+		37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewModel.swift; sourceTree = "<group>"; };
 		37D011B2204755B000739B62 /* Canvas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Canvas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37D011B3204891B600739B62 /* ScreenBoom.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScreenBoom.entitlements; sourceTree = "<group>"; };
+		37D011B4204891BB00739B62 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		37D011B620489F2700739B62 /* UserDefaultICloudViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultICloudViewModel.swift; sourceTree = "<group>"; };
 		3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.debug.xcconfig"; sourceTree = "<group>"; };
 		51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.release.xcconfig"; sourceTree = "<group>"; };
 		FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScreenBoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D011B5204891BB00739B62 /* CloudKit.framework in Frameworks */,
 				37D011B1204755B000739B62 /* Canvas.framework in Frameworks */,
 				96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */,
 			);
@@ -132,6 +138,7 @@
 		377B6E9E202C026200AFD85C /* ScreenBoom */ = {
 			isa = PBXGroup;
 			children = (
+				37D011B3204891B600739B62 /* ScreenBoom.entitlements */,
 				3747C8B02045F84F00171FCF /* View */,
 				3747C8AB2045C13100171FCF /* Extensions */,
 				3747C89E203E83D700171FCF /* Protocol */,
@@ -168,9 +175,10 @@
 			isa = PBXGroup;
 			children = (
 				377B6F08203009B900AFD85C /* EventViewModel.swift */,
-				37C2C5C72039F5AD00032927 /* EventDetailsViewModel.swift */,
+				37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */,
 				3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */,
 				3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */,
+				37D011B620489F2700739B62 /* UserDefaultICloudViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -180,7 +188,7 @@
 			children = (
 				377B6F0B20300E1C00AFD85C /* Event.swift */,
 				37C2C5C52039F46000032927 /* EventDetail.swift */,
-				3747C8A72044724D00171FCF /* FirebaseNodeNames.swift */,
+				3747C8A72044724D00171FCF /* ConstantStrings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -197,6 +205,7 @@
 		86B48519631E6F15C0017540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37D011B4204891BB00739B62 /* CloudKit.framework */,
 				37D011B2204755B000739B62 /* Canvas.framework */,
 				FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */,
 			);
@@ -239,6 +248,14 @@
 					377B6E9B202C026200AFD85C = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -337,12 +354,13 @@
 				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
 				3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */,
 				3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */,
-				37C2C5C82039F5AD00032927 /* EventDetailsViewModel.swift in Sources */,
+				37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */,
 				377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */,
 				377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */,
+				37D011B720489F2700739B62 /* UserDefaultICloudViewModel.swift in Sources */,
 				377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */,
 				377B6F02202FF11B00AFD85C /* String+random.swift in Sources */,
-				3747C8A82044724D00171FCF /* FirebaseNodeNames.swift in Sources */,
+				3747C8A82044724D00171FCF /* ConstantStrings.swift in Sources */,
 				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
 				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,
 				3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */,
@@ -486,6 +504,7 @@
 			baseConfigurationReference = 3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ScreenBoom/ScreenBoom.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VJUDAWR26;
 				INFOPLIST_FILE = ScreenBoom/Info.plist;
@@ -502,6 +521,7 @@
 			baseConfigurationReference = 51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ScreenBoom/ScreenBoom.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VJUDAWR26;
 				INFOPLIST_FILE = ScreenBoom/Info.plist;

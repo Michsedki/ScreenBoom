@@ -18,12 +18,12 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   
   
   let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
-  var currentEventType:EventType = .Text
+  lazy var currentEventType:EventType = .Text
   
   // Outlets
   @IBOutlet weak var eventNameTextfield: UITextField!
   
-
+  
   
   
   @IBOutlet weak var eventTypePickerview: UIPickerView!
@@ -55,14 +55,14 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     var eventType: EventType
     switch (row) {
-      case 0:
-        eventType = .Text
-      case 1:
-        eventType = .Photo
-      case 2:
-        eventType = .Animation
-      default:
-        eventType = .Unknown
+    case 0:
+      eventType = .Text
+    case 1:
+      eventType = .Photo
+    case 2:
+      eventType = .Animation
+    default:
+      eventType = .Unknown
     }
     
     self.currentEventType = eventType
@@ -81,7 +81,13 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     
     let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: currentEventType)
     
+    //////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////
+    /////////////////New Route
+  
+    showDetailViewController(event : currentEvent)
     
+    return
     // We need to show a spinner to wait for the network
     // request inside the configure method on the view model
     self.ShowSpinner()
@@ -89,11 +95,8 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
       
       switch result {
       case .Failure(let error):
-        
-          self?.infoView(message: error, color: Colors.smoothRed)
-        
+        self?.infoView(message: error, color: Colors.smoothRed)
       case .Success(()):
-        
         //************* Should we remove the show spinner line it is already shown
         self?.ShowSpinner()
         
@@ -102,7 +105,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
           switch result {
           case .Failure(let error):
             
-              self?.infoView(message: error, color: Colors.smoothRed)
+            self?.infoView(message: error, color: Colors.smoothRed)
             
           case .Success(()):
             self?.infoView(message: "Event created successfully!", color: Colors.lightGreen)
@@ -112,16 +115,16 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
         })
         self?.HideSpinner()
         //****** moved line to inside the add event call in the success state of the switch
-       
+        
       }
       
       self?.HideSpinner()
     }
   }
   
- 
+  
   func showDetailViewController(event: Event) {
-    
+ 
     let detailViewController = EventDetailViewController(event: event)
     self.navigationController?.pushViewController(detailViewController, animated: true)
     

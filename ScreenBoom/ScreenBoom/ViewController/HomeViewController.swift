@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CloudKit
 
 
 class HomeViewController: BaseViewController {
@@ -27,6 +27,8 @@ class HomeViewController: BaseViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
   }
+    
+   
 
   override func viewWillLayoutSubviews() {
     let isLandscape = UIDevice.current.orientation.isLandscape
@@ -37,5 +39,11 @@ class HomeViewController: BaseViewController {
     
     topDistance.constant = Constant.imageTopDistancePortrait
   }
+  
+  // check for icloud sign in account and pop up alert to say no icloud account if not sign in
+  // store icloud ID into user default for the first time or if it deferent user
+  // check if there is user default icloud ID and Old Event name and code ask if user need to continue or start over
+  
+  
 }
 

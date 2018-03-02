@@ -15,7 +15,7 @@ class JoinEventViewController: BaseViewController {
   var baseDatabaseReference = Database.database().reference()
   var event: Event?
   var eventViewModel = EventViewModel()
-  var eventDetailViewModel = EventDetailsViewModel()
+  var eventDetailViewModel = EventDetailViewModel()
     
   // Outlets
   @IBOutlet weak var eventNameTextField: UITextField!

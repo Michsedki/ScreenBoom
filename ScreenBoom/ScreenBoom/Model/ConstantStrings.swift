@@ -29,6 +29,12 @@ struct FirebaseNodeNames {
   let eventDetailAnimationNumberChild = "animationnumber"
   let eventDetailSpeedChild = "speed"
   
-  
+}
+
+
+struct UserDefaultKeyNames {
+  let userIDKey = "userID"
+  let eventNameKey = "eventName"
+  let eventCodeKey = "eventCode"
   
 }

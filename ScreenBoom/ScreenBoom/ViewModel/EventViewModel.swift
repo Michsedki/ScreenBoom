@@ -9,6 +9,8 @@
 import Foundation
 import FirebaseDatabase
 
+
+let firebaseNodeNames = FirebaseNodeNames()
 enum Result<T> {
   case Success(T)
   case Failure(String)
@@ -62,7 +64,7 @@ class EventViewModel: NSObject {
     let eventCode = String.random()
     let eventFIRReferance = firebaseDatabaseReference.child("Event").child(event.eventName)
     
-    eventFIRReferance.setValue(["type":event.eventType.rawValue, "code":eventCode], withCompletionBlock: { (error, response) in
+    eventFIRReferance.setValue([firebaseNodeNames.eventNodeTypeChild:event.eventType.rawValue,firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive ,firebaseNodeNames.eventNodeCodeChild:eventCode], withCompletionBlock: { (error, response) in
       guard error == nil else {
         completion(Result.Failure((error?.localizedDescription)!))
         return

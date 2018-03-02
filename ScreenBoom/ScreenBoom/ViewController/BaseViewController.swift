@@ -21,7 +21,7 @@ class BaseViewController: UIViewController {
   // Constants
   // Firebase
   let firebaseNodeNames = FirebaseNodeNames()
-  
+  let userDefaultKeyNames = UserDefaultKeyNames()
   
   
   let fontSize12 = UIScreen.main.bounds.width / 31
