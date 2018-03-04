@@ -20,18 +20,7 @@ class Event: NSObject {
   var eventName: String
   var eventIsLive: String
   var eventType: EventType
-//  lazy var eventTypeString: String = {
-//    switch eventType {
-//    case .Text:
-//      return "Text"
-//    case .Photo:
-//      return "Photo"
-//    case .Animation:
-//      return "Animation"
-//    case .Unknown:
-//      return ""
-//    }
-//  }()
+
   
   init (eventName: String, eventIsLive: String, eventType: EventType) {
     self.eventName = eventName

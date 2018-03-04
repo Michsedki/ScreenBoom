@@ -8,24 +8,47 @@
 
 import Foundation
 import CloudKit
+import UIKit
 
 class UserDefaultICloudViewModel {
   let userDefault = UserDefaults.standard
   let userDefaultKeyNames = UserDefaultKeyNames()
   
   
-  func checkIfOldEventExistForCurrentUser () {
-    
-  }
+//  func checkIfOldEventExistForCurrentUser (userID: String) -> Bool {
+//    guard checkIfTheSameUserIcloudID(userID: userID) else {return false}
+//    guard let eventName = checkIfOldEventNameIsExist(), let eventCode = checkIfOldEventCodeIsExist() else { return false}
+//
+//    // create the alert
+//    let alert = UIAlertController(title: "Last Event", message: "Would you like to continue join \(eventName) Event", preferredStyle: UIAlertControllerStyle.alert)
+//
+//    // add the actions (buttons)
+//    alert.addAction(UIAlertAction(title: "Join", style: UIAlertActionStyle.default, handler: nil))
+//    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+//
+//    // show the alert
+//    present(alert, animated: true, completion: nil)
+//
+//
+//    return false
+//
+//  }
   
-  func checkIfOldEventIsExist () -> Bool {
-    if let oldEventUserDefault = userDefault.object(forKey: userDefaultKeyNames.eventNameKey) {
-      return true
+  
+  // check if old event name is exist or not and return event name or nil
+  func checkIfOldEventNameIsExist () -> String? {
+    if let oldEventUserDefault = userDefault.object(forKey: userDefaultKeyNames.eventNameKey) as? String {
+      return oldEventUserDefault
     }
-    return false
+    return nil
   }
   
-  func geteventCodeFromUserDefault() {
+  // check if old event code is exist or not and return event name or nil
+  func checkIfOldEventCodeIsExist() -> String? {
+    if let oldEventCodeUserDefault = userDefault.object(forKey: userDefaultKeyNames.eventCodeKey) as? String {
+      return oldEventCodeUserDefault
+    }
+    return nil
     
   }
   
@@ -34,10 +57,11 @@ class UserDefaultICloudViewModel {
       if userID == userdefaultUserID {
         return true
       } else {
-        UserDefaults.standard.set(userdefaultUserID, forKey: userDefaultKeyNames.userIDKey)
+        UserDefaults.standard.set(userID, forKey: userDefaultKeyNames.userIDKey)
         return false
       }
     }
+    UserDefaults.standard.set(userID, forKey: userDefaultKeyNames.userIDKey)
     return false
   }
   
@@ -57,7 +81,7 @@ class UserDefaultICloudViewModel {
         if let userID = recordID?.recordName {
           complete(userID, nil)
         } else  {
-          complete(nil, "Couldn't find User IcloudID")
+          complete(nil, "Couldn't find User ICloudID")
         }
       }
     }

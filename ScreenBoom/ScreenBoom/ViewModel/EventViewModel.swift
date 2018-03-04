@@ -98,6 +98,45 @@ class EventViewModel: NSObject {
     }
   }
   
+  /// update the Event node with new Event
+  func updateEvenType(event: Event, completion:(@escaping(Result<Void>) -> Void)) {
+    firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).updateChildValues([firebaseNodeNames.eventNodeTypeChild : event.eventType, firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive]) { (error, _) in
+      if error != nil {
+        completion(Result.Failure((error?.localizedDescription)!))
+      } else {
+        completion(Result.Success(()))
+      }
+   }
+  }
+  
+  /// remove Event
+  func removeEvent(event: Event,completion:(@escaping(Result<Void>) -> Void )) {
+    firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).removeValue { (error, _) in
+      if error != nil {
+        completion(Result.Failure((error?.localizedDescription)!))
+      } else {
+        completion(Result.Success(()))
+      }
+
+    }
+  }
+  
+  // get Event
+  
+  func getEvent(eventName: String,completion:(@escaping(Result<Event>) -> Void )) {
+    firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(eventName).observeSingleEvent(of: .value) { (eventSnapShot) in
+      if let eventValue = eventSnapShot.value as? [String:String] {
+        guard let eventIsLive = eventValue[self.firebaseNodeNames.eventNodeIsLiveChild], let eventType = eventValue[self.firebaseNodeNames.eventNodeTypeChild] else {
+          completion(Result.Failure("Event Not Found"))
+          return }
+        let event = Event(eventName: eventName, eventIsLive: eventIsLive, eventType: EventType(rawValue: eventType) ?? .Unknown)
+        completion(Result.Success(event))
+      }
+    }
+    completion(Result.Failure("Event Not Found"))
+  }
+  
+  
   
   // Michael end
   
