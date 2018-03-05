@@ -97,7 +97,7 @@ class JoinEventViewController: BaseViewController {
   
   // Push PlayEventViewController
   func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
-    let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail)
+    let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail, isPreviewInDetailEventViewController: false)
     self.navigationController?.pushViewController(PlayViewController, animated: true)
   }
 }

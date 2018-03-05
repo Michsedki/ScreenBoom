@@ -83,8 +83,6 @@ class PlayEventView: UIView {
 //    self.addSubview(playView)
   }
   
-  
-  
   // Show Animation Event View
   func showAnimationEventView(eventDetail: EventDetail) {
     

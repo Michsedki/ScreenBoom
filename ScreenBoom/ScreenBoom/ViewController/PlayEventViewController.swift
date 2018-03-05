@@ -21,11 +21,13 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
   var playEventView: PlayEventView?
   var playEventViewModelSource: PlayEventViewModelSource?
+  var isPreviewInDetailEventViewController: Bool
   
   // init
-    init (event:Event, eventDetail: EventDetail) {
+    init (event:Event, eventDetail: EventDetail, isPreviewInDetailEventViewController: Bool) {
     self.event = event
     self.eventDetail = eventDetail
+    self.isPreviewInDetailEventViewController = isPreviewInDetailEventViewController
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -36,11 +38,20 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   override func viewDidLoad() {
       super.viewDidLoad()
     
+    // PlayEventViewController is playing event live and not previewing in EventDetailViewController
+    self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
+    self.playEventViewModelSource?.addObserver(observer: self)
+    
+    
+    if !isPreviewInDetailEventViewController {
       // setup observation.
       self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
       self.playEventViewModelSource?.addObserver(observer: self)
       self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
       self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
+      
+    }
+    
   }
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     playEventViewModelSource?.configureWithViewWillTransition()
@@ -57,6 +68,11 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
                                                  height: self.view.bounds.height))
       self.view.addSubview(playEventView)
     
+    // PlayEventViewController is previewing in EventDetailViewController and not playing event live
+    if isPreviewInDetailEventViewController {
+      print("feed me")
+        playEventView.configure(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+    }
       self.playEventView = playEventView
   }
   

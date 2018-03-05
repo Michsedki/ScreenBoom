@@ -14,7 +14,12 @@ class EventDetailViewController: BaseViewController  {
   let eventDetailViewModel = EventDetailViewModel()
   var playEventPreviewContainerView = UIView()
   let eventTextField: UITextField = UITextField()
+  var textColorDropDownButton: dropDownBtn = dropDownBtn()
+  var backgroundColorDropDownButton: dropDownBtn = dropDownBtn()
+  var animationNameColorDropDownButton: dropDownBtn = dropDownBtn()
   var playEventViewController: PlayEventViewController?
+  var updatePlayViewDelegate : PlayEventViewModelSourceObserver!
+  
   
 //  convenience init() {
 //    self.init(eventName: "")
@@ -30,7 +35,7 @@ class EventDetailViewController: BaseViewController  {
   override func viewDidLoad() {
       super.viewDidLoad()
       self.view.backgroundColor = UIColor.white
-      
+    
     setupViews()
         // Do any additional setup after loading the view.
   }
@@ -65,24 +70,76 @@ class EventDetailViewController: BaseViewController  {
                           leading: self.view.leadingAnchor,
                           bottom: nil,
                           trailing: self.view.trailingAnchor,
-                          padding: .init(top: 10, left: 20, bottom: 0, right: 20),
+                          padding: .init(top: 10, left: 10, bottom: 0, right: 10),
                           size: .init(width: 0, height: 40))
     eventTextField.backgroundColor = UIColor.blue
+    
+    //add textColorDropDown
+    //Configure the button
+    textColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    textColorDropDownButton.setTitle("Text Colors", for: .normal)
+    
+    
+    backgroundColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    backgroundColorDropDownButton.setTitle("Background Colors", for: .normal)
+    
+    animationNameColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    animationNameColorDropDownButton.setTitle("Animation", for: .normal)
+    
+    
+    
+     //Add Button to the View Controller
+    self.view.addSubview(textColorDropDownButton)
+    self.view.addSubview(backgroundColorDropDownButton)
+    self.view.addSubview(animationNameColorDropDownButton)
+    //button Constraints
+    textColorDropDownButton.anchor(top: eventTextField.bottomAnchor,
+                                   leading: self.view.leadingAnchor,
+                                   bottom: nil,
+                                   trailing: backgroundColorDropDownButton.leadingAnchor,
+                                   padding: .init(top: 10, left: 10, bottom: 0, right: 5),
+                                   size: .init(width: (self.view.frame.width - 30) / 3, height: 40))
+    
+    backgroundColorDropDownButton.anchor(top: eventTextField.bottomAnchor,
+                                   leading: textColorDropDownButton.trailingAnchor,
+                                   bottom: nil,
+                                   trailing: animationNameColorDropDownButton.leadingAnchor,
+                                   padding: .init(top: 10, left: 5, bottom: 0, right: 5),
+                                   size: .init(width: (self.view.frame.width - 30) / 3, height: 40))
+    
+    animationNameColorDropDownButton.anchor(top: eventTextField.bottomAnchor,
+                                         leading: backgroundColorDropDownButton.trailingAnchor,
+                                         bottom: nil,
+                                         trailing: self.view.trailingAnchor,
+                                         padding: .init(top: 10, left: 5, bottom: 0, right: 10),
+                                         size: .init(width: (self.view.frame.width - 30) / 3, height: 40))
+    
+    
+    //Set the drop down menu's options
+    textColorDropDownButton.dropView.dropDownOptions = ["Blue", "Green", "Magenta", "White", "Black", "Pink"]
+    backgroundColorDropDownButton.dropView.dropDownOptions = ["Blue", "Green", "Magenta", "White", "Black", "Pink"]
+    animationNameColorDropDownButton.dropView.dropDownOptions = ["Shake", "Zoom", "Magenta", "White", "Black", "Pink"]
+    
+    
+    
+    
     
     
    
     let event = Event(eventName: "wedding", eventIsLive: "yes", eventType: .Text)
     playEventViewController = PlayEventViewController(event: event,
-                                                      eventDetail: EventDetail(animationnumber: "4", photoname: "", backgroundcolor: "Green", textcolor: "Blue", speed: "", text: "LOL"))
+                                                      eventDetail: EventDetail(animationnumber: "4", photoname: "", backgroundcolor: "Blue", textcolor: "Blue", speed: "", text: "LOL"), isPreviewInDetailEventViewController: true)
+    
+   
     
     if let playEventVC = playEventViewController {
       self.addChildViewController(playEventVC)
-      
       playEventPreviewContainerView.addSubview(playEventVC.view)
       playEventVC.view.frame = self.playEventPreviewContainerView.bounds
-      
       playEventVC.didMove(toParentViewController: self)
     }
+    
+   
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +160,15 @@ class EventDetailViewController: BaseViewController  {
  
   // Selectors
   @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
+    
+    let event = Event(eventName: "wedding", eventIsLive: "yes", eventType: .Text)
+    playEventViewController = PlayEventViewController(event: event,
+                                                      eventDetail: EventDetail(animationnumber: "4", photoname: "", backgroundcolor: "Blue", textcolor: "Blue", speed: "", text: "Ya Rab"), isPreviewInDetailEventViewController: true)
+    playEventViewController?.playEventView?.configure(viewModel: PlayEventViewModel(event: event, eventDetail: EventDetail(animationnumber: "4", photoname: "", backgroundcolor: "Blue", textcolor: "Blue", speed: "", text: "Ya Rab")))
+    playEventViewController?.setupViews()
+    
+    
+    
     
     eventDetailViewModel.checkIfEventDetailExist(event: event) { (result) in
       switch result {

@@ -22,7 +22,7 @@ extension String {
     return randomString
   }
   
-  func stringToUIColor () -> UIColor {
+  func stringToUIColor () -> UIColor? {
     switch self {
     case "White":
       return UIColor.white
@@ -35,7 +35,8 @@ extension String {
     case "Black":
       return UIColor.black
     default:
-      return UIColor.white
+      print("Fail to cast string to color")
+      return nil
     }
   }
 }
