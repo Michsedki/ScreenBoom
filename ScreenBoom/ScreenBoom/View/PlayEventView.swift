@@ -80,7 +80,7 @@ class PlayEventView: UIView {
        [textLabelAnimationView, photoEventImageView].forEach{$0.removeFromSuperview() }
       break
     }
-    self.addSubview(playView)
+//    self.addSubview(playView)
   }
   
   
@@ -112,14 +112,28 @@ class PlayEventView: UIView {
     textLabelAnimationView.delay = 0
 
     // adding subviews
-    playView.addSubview(textLabelAnimationView)
     textLabelAnimationView.addSubview(textLabel)
+    self.addSubview(textLabelAnimationView)
+    
     // set views translatesAutoresizingMaskIntoConstraints to false
     textLabelAnimationView.translatesAutoresizingMaskIntoConstraints = false
     textLabel.translatesAutoresizingMaskIntoConstraints = false
+    
     // set views frame
-    textLabelAnimationView.frame = CGRect(x: playView.frame.minX, y: playView.frame.minY, width: playView.frame.width, height: playView.frame.height)
-    textLabel.frame = CGRect(x: textLabelAnimationView.frame.minX, y: textLabelAnimationView.frame.minY, width: textLabelAnimationView.frame.width, height: textLabelAnimationView.frame.height)
+    textLabelAnimationView.anchor(top: self.topAnchor,
+                                  leading: self.leadingAnchor,
+                                  bottom: self.bottomAnchor,
+                                  trailing: self.trailingAnchor,
+                                  padding: .init(top: 40,left: 40,bottom: 40,right: 40))
+    
+    textLabel.anchor(top: textLabelAnimationView.topAnchor,
+                     leading: textLabelAnimationView.leadingAnchor,
+                     bottom: textLabelAnimationView.bottomAnchor,
+                     trailing: textLabelAnimationView.trailingAnchor,
+                     padding: .zero)
+    
+    textLabelAnimationView.backgroundColor = UIColor.red
+    
     textLabelAnimationView.startCanvasAnimation()
   }
   

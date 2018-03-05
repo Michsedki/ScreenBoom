@@ -36,8 +36,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   override func viewDidLoad() {
       super.viewDidLoad()
     
-      setupViews()
-    
       // setup observation.
       self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
       self.playEventViewModelSource?.addObserver(observer: self)
@@ -47,6 +45,11 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     playEventViewModelSource?.configureWithViewWillTransition()
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    setupViews()
+  }
+  
   func setupViews() {
       let playEventView = PlayEventView(frame: CGRect(x: 0,
                                                       y: 0,

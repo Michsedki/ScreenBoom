@@ -8,31 +8,13 @@
 
 import Foundation
 import CloudKit
-import UIKit
 
 class UserDefaultICloudViewModel {
   let userDefault = UserDefaults.standard
   let userDefaultKeyNames = UserDefaultKeyNames()
   
   
-//  func checkIfOldEventExistForCurrentUser (userID: String) -> Bool {
-//    guard checkIfTheSameUserIcloudID(userID: userID) else {return false}
-//    guard let eventName = checkIfOldEventNameIsExist(), let eventCode = checkIfOldEventCodeIsExist() else { return false}
-//
-//    // create the alert
-//    let alert = UIAlertController(title: "Last Event", message: "Would you like to continue join \(eventName) Event", preferredStyle: UIAlertControllerStyle.alert)
-//
-//    // add the actions (buttons)
-//    alert.addAction(UIAlertAction(title: "Join", style: UIAlertActionStyle.default, handler: nil))
-//    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-//
-//    // show the alert
-//    present(alert, animated: true, completion: nil)
-//
-//
-//    return false
-//
-//  }
+  
   
   
   // check if old event name is exist or not and return event name or nil

@@ -49,6 +49,10 @@ class DetailEventView: UIView , UIImagePickerControllerDelegate, UINavigationCon
     self.addSubview(detailView)
   }
   
+  func showDetailEventTextView() {
+    
+  }
+  
   // show Photo Event View
   func showDetailEventImageView() {
     
