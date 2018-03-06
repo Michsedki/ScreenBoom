@@ -34,4 +34,31 @@ class EventDetailViewModel: NSObject {
       }
     })
   }
+  
+  
+  
+  // Add Event Detail
+  func addEventDetail(event :Event , eventdetail: EventDetail, completion:(@escaping(Result<String>) -> Void)) {
+    
+    let eventFIRReferance = firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(event.eventName)
+    eventFIRReferance.setValue(
+      [firebaseNodeNames.eventDetailTextChild : eventdetail.text,
+       firebaseNodeNames.eventDetailTextColorChild : eventdetail.textcolor,
+       firebaseNodeNames.eventDetailBackGroundColorChild : eventdetail.backgroundcolor,
+       firebaseNodeNames.eventDetailAnimationNumberChild : eventdetail.animationnumber,
+       firebaseNodeNames.eventDetailSpeedChild : eventdetail.speed,
+       firebaseNodeNames.eventDetailPhotoNameChild : eventdetail.photoname,
+       firebaseNodeNames.eventDetailCodeChild : eventdetail.code],
+      withCompletionBlock: { (error, response) in
+      guard error == nil else {
+        completion(Result.Failure((error?.localizedDescription)!))
+        return
+      }
+        
+        guard let eventCode = eventdetail.code else {return}
+      completion(Result.Success(eventCode))
+    })
+  }
+  
+  
 }

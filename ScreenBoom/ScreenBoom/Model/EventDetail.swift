@@ -17,6 +17,7 @@ struct EventDetail: Decodable {
   var textcolor: String?
   var speed: String?
   var text: String?
+  var code: String?
 }
 
 

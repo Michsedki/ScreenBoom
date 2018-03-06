@@ -20,19 +20,16 @@ class dropDownBtn: UIButton, dropDownProtocol {
     if let color = color {
       self.backgroundColor = color
     }
-    
     self.dismissDropDown()
   }
   
   var dropView = dropDownView()
   var height = NSLayoutConstraint()
-  
-  
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     
     self.backgroundColor = UIColor.lightGray
-    
     dropView = dropDownView.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: 0))
     dropView.delegate = self
     dropView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +57,6 @@ class dropDownBtn: UIButton, dropDownProtocol {
       } else {
         self.height.constant = self.dropView.tableView.contentSize.height
       }
-      
       
       NSLayoutConstraint.activate([self.height])
       
@@ -101,52 +97,42 @@ class dropDownBtn: UIButton, dropDownProtocol {
 
 class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
   
+  var delegate : dropDownProtocol!
+  var dropDownSelectionDelegate : DropDownSelectionDelegate!
+  
+  
   var dropDownOptions = [String]()
+  var dropDownButtonTitle : String?
   
   var tableView = UITableView()
   
-  var delegate : dropDownProtocol!
+  
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-//    tableView.backgroundColor = UIColor.lightGray
-//    self.backgroundColor = UIColor.lightGray
-    
-    
     tableView.delegate = self
     tableView.dataSource = self
-    
     tableView.translatesAutoresizingMaskIntoConstraints = false
-    
     self.addSubview(tableView)
-    
     tableView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
     tableView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
     tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
     tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-    
   }
-  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
   func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
-  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return dropDownOptions.count
   }
-  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = UITableViewCell()
-    
     cell.textLabel?.text = dropDownOptions[indexPath.row]
     cell.textLabel?.textAlignment = .center
-    
-    
     if dropDownOptions[indexPath.row].stringToUIColor() != nil
     {
       // check if the strings can be casted to UIColors
@@ -167,6 +153,10 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    if let dropDownButtonTitle = dropDownButtonTitle {
+      self.dropDownSelectionDelegate.didSelectItem(changedFieldName: dropDownButtonTitle, itemName: dropDownOptions[indexPath.row])
+    }
     self.delegate.dropDownPressed(string: dropDownOptions[indexPath.row], color: tableView.cellForRow(at: indexPath)?.backgroundColor)
     self.tableView.deselectRow(at: indexPath, animated: true)
   }

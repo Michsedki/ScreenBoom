@@ -19,15 +19,18 @@ struct FirebaseNodeNames {
   let eventNodeIsLiveChild = "islive"
     let eventNodeIsLiveYesValue = "yes"
     let eventNodeIsLiveNoValue = "no"
+    let eventNodeIsLivePauseValue = "pause"
+  
   
   // Event Detail Node
   let eventDetailNode = "EventDetails"
   let eventDetailTextChild = "text"
   let eventDetailTextColorChild = "textcolor"
-  let eventDtailBackGroundColorChild = "backgroundColor"
+  let eventDetailBackGroundColorChild = "backgroundcolor"
   let eventDetailPhotoNameChild = "photoname"
   let eventDetailAnimationNumberChild = "animationnumber"
   let eventDetailSpeedChild = "speed"
+  let eventDetailCodeChild = "code"
   
 }
 

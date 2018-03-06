@@ -15,6 +15,8 @@
 		3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */; };
 		3747C8B22045F88000171FCF /* DetailEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8B12045F88000171FCF /* DetailEventView.swift */; };
 		37776645204DB260006699DD /* DropDownListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776644204DB25F006699DD /* DropDownListButton.swift */; };
+		37776649204E0B27006699DD /* PlayPreviewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */; };
+		3777664B204E0D14006699DD /* DropDownSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */; };
 		377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6E9F202C026200AFD85C /* AppDelegate.swift */; };
 		377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6EA1202C026200AFD85C /* HomeViewController.swift */; };
 		377B6EA5202C026200AFD85C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377B6EA3202C026200AFD85C /* Main.storyboard */; };
@@ -47,6 +49,8 @@
 		3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Anchors.swift"; sourceTree = "<group>"; };
 		3747C8B12045F88000171FCF /* DetailEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventView.swift; sourceTree = "<group>"; };
 		37776644204DB25F006699DD /* DropDownListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownListButton.swift; sourceTree = "<group>"; };
+		37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPreviewEventViewController.swift; sourceTree = "<group>"; };
+		3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownSelectionDelegate.swift; sourceTree = "<group>"; };
 		377B6E9C202C026200AFD85C /* ScreenBoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenBoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		377B6E9F202C026200AFD85C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		377B6EA1202C026200AFD85C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */,
+				3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 				377B6EFF202FE5A500AFD85C /* BaseViewController.swift */,
 				377B6F03202FF57800AFD85C /* Colors.swift */,
 				377B6F052030027D00AFD85C /* EventDetailViewController.swift */,
+				37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -346,6 +352,7 @@
 				3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */,
 				377B6F0C20300E1C00AFD85C /* Event.swift in Sources */,
 				3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */,
+				37776649204E0B27006699DD /* PlayPreviewEventViewController.swift in Sources */,
 				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
 				3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */,
 				3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */,
@@ -356,6 +363,7 @@
 				377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */,
 				377B6F02202FF11B00AFD85C /* String+random.swift in Sources */,
 				3747C8A82044724D00171FCF /* ConstantStrings.swift in Sources */,
+				3777664B204E0D14006699DD /* DropDownSelectionDelegate.swift in Sources */,
 				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
 				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,
 				3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */,

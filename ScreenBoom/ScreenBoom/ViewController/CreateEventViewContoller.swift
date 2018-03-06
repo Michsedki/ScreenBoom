@@ -74,52 +74,18 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     // prepare all data
     // check if textfields is empty
     guard let eventName = eventNameTextfield.text, !eventName.isEmpty else {
-      let message = "No event name!"
-      self.infoView(message: message, color: Colors.smoothRed)
+      self.infoView(message: "No event name!", color: Colors.smoothRed)
       return
     }
-    
     let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: currentEventType)
-    
-    //////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////
-    /////////////////New Route
-  
-    showDetailViewController(event : currentEvent)
-    
-    return
-    // We need to show a spinner to wait for the network
-    // request inside the configure method on the view model
-    self.ShowSpinner()
-    eventViewModel.configureWithEvent(event: currentEvent) { [weak self] result in
-      
-      switch result {
-      case .Failure(let error):
-        self?.infoView(message: error, color: Colors.smoothRed)
-      case .Success(()):
-        //************* Should we remove the show spinner line it is already shown
-        self?.ShowSpinner()
-        
-        // call addEvent
-        self?.eventViewModel.addEvent(event: currentEvent, completion: { (result) in
-          switch result {
-          case .Failure(let error):
-            
-            self?.infoView(message: error, color: Colors.smoothRed)
-            
-          case .Success(()):
-            self?.infoView(message: "Event created successfully!", color: Colors.lightGreen)
-            //****** i moved this line from down there
-            self?.showDetailViewController(event : currentEvent)
-          }
-        })
-        self?.HideSpinner()
-        //****** moved line to inside the add event call in the success state of the switch
-        
+    eventViewModel.checkIfEventExists(event: currentEvent) { (isExist, _) in
+      if isExist {
+        self.infoView(message: "Event name is Already Exist", color: Colors.smoothRed)
+      } else {
+        self.showDetailViewController(event : currentEvent)
       }
-      
-      self?.HideSpinner()
     }
+    
   }
   
   

@@ -38,23 +38,22 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   override func viewDidLoad() {
       super.viewDidLoad()
     
-    // PlayEventViewController is playing event live and not previewing in EventDetailViewController
-    self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
-    self.playEventViewModelSource?.addObserver(observer: self)
     
     
     if !isPreviewInDetailEventViewController {
+      // PlayEventViewController is playing event live and not previewing in EventDetailViewController
       // setup observation.
       self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
       self.playEventViewModelSource?.addObserver(observer: self)
       self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
       self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
-      
     }
     
   }
+  
+  
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    playEventViewModelSource?.configureWithViewWillTransition()
+      playEventViewModelSource?.configureWithViewWillTransition()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +69,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
     // PlayEventViewController is previewing in EventDetailViewController and not playing event live
     if isPreviewInDetailEventViewController {
-      print("feed me")
         playEventView.configure(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
     }
       self.playEventView = playEventView

@@ -59,18 +59,17 @@ class EventViewModel: NSObject {
   
   // add event method takes event and completion to insert the event in the firbase
   //Database and return result (error or firebasedatareferense
-  func addEvent(event: Event, completion:(@escaping(Result<Void>) -> Void)) {
+  func addEvent(event: Event, completion:(@escaping(Result<String>) -> Void)) {
     
     let eventCode = String.random()
     let eventFIRReferance = firebaseDatabaseReference.child("Event").child(event.eventName)
-    
     eventFIRReferance.setValue([firebaseNodeNames.eventNodeTypeChild:event.eventType.rawValue,firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive ,firebaseNodeNames.eventNodeCodeChild:eventCode], withCompletionBlock: { (error, response) in
       guard error == nil else {
         completion(Result.Failure((error?.localizedDescription)!))
         return
       }
       
-      completion(Result.Success(()))
+      completion(Result.Success(eventCode))
     })
   }
   
