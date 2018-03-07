@@ -39,9 +39,13 @@ class JoinEventViewController: BaseViewController {
       self.infoView(message: message, color: Colors.smoothRed)
       return
     }
+    getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
+    //
+  }
+  
+  func getEventAndCmpareCode(eventName: String, eventCode: String) {
     
-    self.event = Event(eventName: eventName, eventIsLive: "yes", eventType: .Unknown)
-    
+    self.event = Event(eventName: eventName, eventIsLive: "no", eventType: .Unknown)
     // start spinner
     self.ShowSpinner()
     guard let event = self.event else { return }
@@ -50,36 +54,33 @@ class JoinEventViewController: BaseViewController {
         self.infoView(message: "event is not Exist", color: Colors.smoothRed)
         return
       }
-      
       guard let eventCodeFirebase = snapshot?.childSnapshot(forPath: "code").value as? String, let eventTypeFirebase = snapshot?.childSnapshot(forPath: "type").value as? String
         else {
           self.infoView(message: "Couldn't retrive event", color: Colors.smoothRed)
           return
       }
-      
       if eventCodeFirebase == eventCode {
-        
-        switch eventTypeFirebase {
-          case "text":
-            event.eventType = .Text
-          case "animation":
-            event.eventType = .Animation
-          case "photo" :
-            event.eventType = .Photo
-          default:
-            break
+        if let eventIsLiveFirebase = snapshot?.childSnapshot(forPath: "islive").value as? String {
+          event.eventIsLive = eventIsLiveFirebase
         }
-        
+        switch eventTypeFirebase {
+        case "text":
+          event.eventType = .Text
+        case "animation":
+          event.eventType = .Animation
+        case "photo" :
+          event.eventType = .Photo
+        default:
+          break
+        }
         // we need to update our captures reference to the event
         self.event = event
-        
         // we also need to get an event detail before showing the play view controller
         self.getEventDetail()
       } else {
         self.infoView(message: "Code is not valid", color: Colors.smoothRed)
       }
     }
-    
     self.HideSpinner()
   }
     
@@ -95,9 +96,13 @@ class JoinEventViewController: BaseViewController {
     })
   }
   
+  // fill text fields from outside the viewcontroller
+ 
+  
   // Push PlayEventViewController
   func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
     let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail, isPreviewInDetailEventViewController: false)
     self.navigationController?.pushViewController(PlayViewController, animated: true)
   }
 }
+

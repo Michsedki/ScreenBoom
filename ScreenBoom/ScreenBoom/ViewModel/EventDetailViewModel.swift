@@ -45,7 +45,7 @@ class EventDetailViewModel: NSObject {
       [firebaseNodeNames.eventDetailTextChild : eventdetail.text,
        firebaseNodeNames.eventDetailTextColorChild : eventdetail.textcolor,
        firebaseNodeNames.eventDetailBackGroundColorChild : eventdetail.backgroundcolor,
-       firebaseNodeNames.eventDetailAnimationNumberChild : eventdetail.animationnumber,
+       firebaseNodeNames.eventDetailAnimationNameChild : eventdetail.animationName,
        firebaseNodeNames.eventDetailSpeedChild : eventdetail.speed,
        firebaseNodeNames.eventDetailPhotoNameChild : eventdetail.photoname,
        firebaseNodeNames.eventDetailCodeChild : eventdetail.code],

@@ -11,7 +11,7 @@ import CloudKit
 
 
 class HomeViewController: BaseViewController {
-
+  
   // Struct
   struct Constant {
     static let imageTopDistanceLandScape: CGFloat = 20
@@ -25,75 +25,73 @@ class HomeViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    rigisterUser()
     
-//    handleUserICloudSignIn()
-    // Do any additional setup after loading the view, typically from a nib.
   }
-    
-   
-
+  
   override func viewWillLayoutSubviews() {
     let isLandscape = UIDevice.current.orientation.isLandscape
     if isLandscape {
       topDistance.constant = Constant.imageTopDistanceLandScape
       return
     }
-    
     topDistance.constant = Constant.imageTopDistancePortrait
   }
   
   
-  func handleUserICloudSignIn() {
-    
+  func rigisterUser() {
     userDefaultICloudViewModel.getICloudUserID { (userID, error) in
-      guard error == nil , let userID = userID
-        else {
-        self.showAlertOfUserNotConnectedToICloud()
-        return}
-      self.handleOldUserAndOldEvent(userID: userID)
+      print(userID)
+      print(error)
+      if error == nil , let userID = userID {
+        if self.userDefaultICloudViewModel.checkIfTheSameUserIcloudID(userID: userID) {
+          if let oldEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
+            let oldEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() {
+            // show alert to join Old Event
+            self.showJoinOldEventAlert(eventName: oldEventName, eventCode: oldEventCode)
+          } else { return }
+        } else {
+          return
+        }
+      } else {
+        // show alert
+        self.showNotSignedInICloud()
+      }
     }
     
   }
   
-  func showAlertOfUserNotConnectedToICloud () {
-    let alert = UIAlertController(title: "ICloud log in not found", message: "Would you log in your ICloud Account ", preferredStyle: UIAlertControllerStyle.alert)
-            // add the actions (buttons)
-    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {action in self.handleUserICloudSignIn()}))
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
+  // show alert that user not sign in ICloud
+  func showNotSignedInICloud() {
     
-  }
-  
-  
-  
-  func handleOldUserAndOldEvent (userID: String) -> Bool {
-   print("Michael")
-    userDefaultICloudViewModel.getICloudUserID { (userID, error) in
-      
-      if error != nil {
-        
-        
-      }
-      }
-    
-    guard userDefaultICloudViewModel.checkIfTheSameUserIcloudID(userID: userID) else {return false}
-    guard let eventName = userDefaultICloudViewModel.checkIfOldEventNameIsExist(), let eventCode = userDefaultICloudViewModel.checkIfOldEventCodeIsExist() else { return false}
-    
-    // create the alert
-    let alert = UIAlertController(title: "Last Event", message: "Would you like to continue join \(eventName) Event", preferredStyle: UIAlertControllerStyle.alert)
-    
+    let alert = UIAlertController(title: "ICloud account not found", message: "Would you sign in your ICloud Account ", preferredStyle: UIAlertControllerStyle.alert)
     // add the actions (buttons)
-    alert.addAction(UIAlertAction(title: "Join", style: UIAlertActionStyle.default, handler: nil))
-    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-    
+    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {action in self.rigisterUser()}))
     // show the alert
     self.present(alert, animated: true, completion: nil)
     
+  }
+  
+  // show alert that user not sign in ICloud
+  func showJoinOldEventAlert(eventName: String, eventCode: String) {
     
-    return false
+    let alert = UIAlertController(title: "Previous Event", message: "Would you like to join your previous event \n Name: \(eventName) \n Code: \(eventCode)", preferredStyle: UIAlertControllerStyle.alert)
+    // add the actions (buttons)
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {action in self.joinOldEvent(eventName: eventName, eventCode: eventCode)}))
+    
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    // show the alert
+    self.present(alert, animated: true, completion: nil)
     
   }
   
+  func joinOldEvent(eventName: String, eventCode: String) {
+    if let joinEventViewController = storyboard?.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController {
+      joinEventViewController.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
+      self.navigationController?.pushViewController(joinEventViewController, animated: true)
+    }
+ 
+  }
   
 }
 

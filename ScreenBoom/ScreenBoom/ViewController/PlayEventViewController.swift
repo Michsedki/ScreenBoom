@@ -23,6 +23,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var playEventViewModelSource: PlayEventViewModelSource?
   var isPreviewInDetailEventViewController: Bool
   
+  
   // init
     init (event:Event, eventDetail: EventDetail, isPreviewInDetailEventViewController: Bool) {
     self.event = event
@@ -58,8 +59,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   override func viewWillAppear(_ animated: Bool) {
     setupViews()
+    saveUserDefaultOldEventAndUserID()
   }
-  
   func setupViews() {
       let playEventView = PlayEventView(frame: CGRect(x: 0,
                                                       y: 0,
@@ -72,6 +73,13 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         playEventView.configure(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
     }
       self.playEventView = playEventView
+  }
+  
+  func saveUserDefaultOldEventAndUserID(){
+    UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
+    UserDefaults.standard.set(self.eventDetail.code, forKey: userDefaultKeyNames.eventCodeKey)
+    
+    
   }
   
 }

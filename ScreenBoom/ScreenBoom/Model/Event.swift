@@ -14,18 +14,20 @@ enum EventType: String {
   case Animation = "animation"
   case Unknown = "unknown"
 }
-
+let userDefaultKeyNames = UserDefaultKeyNames()
 class Event: NSObject {
   
   var eventName: String
   var eventIsLive: String
   var eventType: EventType
+  var userID: String
 
   
   init (eventName: String, eventIsLive: String, eventType: EventType) {
     self.eventName = eventName
     self.eventType = eventType
     self.eventIsLive = eventIsLive
+    self.userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as! String
     
     super.init()
   }

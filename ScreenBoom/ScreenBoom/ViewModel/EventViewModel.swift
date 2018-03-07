@@ -63,7 +63,12 @@ class EventViewModel: NSObject {
     
     let eventCode = String.random()
     let eventFIRReferance = firebaseDatabaseReference.child("Event").child(event.eventName)
-    eventFIRReferance.setValue([firebaseNodeNames.eventNodeTypeChild:event.eventType.rawValue,firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive ,firebaseNodeNames.eventNodeCodeChild:eventCode], withCompletionBlock: { (error, response) in
+    eventFIRReferance.setValue(
+      [firebaseNodeNames.eventNodeTypeChild:event.eventType.rawValue,
+       firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive ,
+       firebaseNodeNames.eventNodeCodeChild:eventCode,
+       firebaseNodeNames.eventUserIDChild:event.userID ],
+      withCompletionBlock: { (error, response) in
       guard error == nil else {
         completion(Result.Failure((error?.localizedDescription)!))
         return

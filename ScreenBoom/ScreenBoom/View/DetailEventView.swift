@@ -41,11 +41,6 @@ class DetailEventView: UIView , UIImagePickerControllerDelegate, UINavigationCon
     case .Unknown:
       break
     }
-    
-    
-    
-    
-    
     self.addSubview(detailView)
   }
   

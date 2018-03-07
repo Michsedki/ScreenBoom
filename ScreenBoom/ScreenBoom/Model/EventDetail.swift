@@ -11,7 +11,7 @@ import Foundation
 
 struct EventDetail: Decodable {
   
-  var animationnumber: String?
+  var animationName: String?
   var photoname: String?
   var backgroundcolor: String?
   var textcolor: String?

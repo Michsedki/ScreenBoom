@@ -34,9 +34,10 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     /// Mark:- Delegate
     eventTypePickerview.delegate = self
     eventTypePickerview.dataSource = self
+    eventNameTextfield.delegate = self
   }
   
-  
+ 
   
   // PickerView Protocol
   

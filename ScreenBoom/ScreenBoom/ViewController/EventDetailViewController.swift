@@ -17,8 +17,8 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       self.eventDetail.textcolor = itemName
     case firebaseNodeNames.eventDetailBackGroundColorChild:
       self.eventDetail.backgroundcolor = itemName
-    case firebaseNodeNames.eventDetailAnimationNumberChild:
-      self.eventDetail.animationnumber = itemName
+    case firebaseNodeNames.eventDetailAnimationNameChild:
+      self.eventDetail.animationName = itemName
     default:
       break
     }
@@ -60,7 +60,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   //  }
   init(event:Event) {
     self.event = event
-    self.eventDetail = EventDetail(animationnumber: "", photoname: "Place holder", backgroundcolor: "Blue", textcolor: "White", speed: "", text: "Your Text", code: "")
+    self.eventDetail = EventDetail(animationName: "", photoname: "Place holder", backgroundcolor: "Blue", textcolor: "White", speed: "", text: "Your Text", code: "")
     super.init(nibName: nil, bundle: nil)
   }
   required init?(coder aDecoder: NSCoder) {
@@ -72,6 +72,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     self.view.backgroundColor = UIColor.white
     self.navigationItem.title = self.event.eventName
     imagePicker.delegate = self
+    eventTextField.delegate = self
     // Do any additional setup after loading the view.
   }
   override func viewWillLayoutSubviews() {
@@ -241,7 +242,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     backgroundColorDropDownButton.dropView.dropDownOptions = ["Blue", "Green", "Magenta", "White", "Black", "Purple"]
     backgroundColorDropDownButton.dropView.dropDownButtonTitle = firebaseNodeNames.eventDetailBackGroundColorChild
     animationNameColorDropDownButton.dropView.dropDownOptions = ["Shake", "Zoom", "Magenta", "White", "Black", "Purple"]
-    animationNameColorDropDownButton.dropView.dropDownButtonTitle = firebaseNodeNames.eventDetailAnimationNumberChild
+    animationNameColorDropDownButton.dropView.dropDownButtonTitle = firebaseNodeNames.eventDetailAnimationNameChild
     
     // set the dropdown delegation for all buttons
     self.textColorDropDownButton.dropView.dropDownSelectionDelegate = self
@@ -283,11 +284,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     default:
       break
     }
-    
-    
-    
-   
-    
   }
   
   // Save Event to firebase DataBAse
@@ -314,8 +310,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       strongSelf.saveEventAndEventDetail()
     })
   }
-  
-  
   
   // Text Event
   func saveTextEvent() {
@@ -352,12 +346,17 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
             self.infoView(message: error, color: Colors.smoothRed)
           case .Success(let eventCode):
             self.infoView(message: "Event Created Successfully: EventName\(self.event.eventName), Code: \(eventCode) ", color: Colors.lightGreen)
+            self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
           }
         })
       }
     }
     self.HideSpinner()
   }
-  
+  // Push PlayEventViewController
+  func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
+    let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail, isPreviewInDetailEventViewController: false)
+    self.navigationController?.pushViewController(PlayViewController, animated: true)
+  }
 /// End of EventDetailViewController
 }

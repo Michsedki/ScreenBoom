@@ -13,10 +13,6 @@ class UserDefaultICloudViewModel {
   let userDefault = UserDefaults.standard
   let userDefaultKeyNames = UserDefaultKeyNames()
   
-  
-  
-  
-  
   // check if old event name is exist or not and return event name or nil
   func checkIfOldEventNameIsExist () -> String? {
     if let oldEventUserDefault = userDefault.object(forKey: userDefaultKeyNames.eventNameKey) as? String {
@@ -48,9 +44,6 @@ class UserDefaultICloudViewModel {
   }
   
   
-  
-  
-  
   ///  gets iCloud record ID object of logged-in iCloud user
   func getICloudUserID(complete: @escaping (String?, String?) -> ()) {
     let container = CKContainer.default()
@@ -68,7 +61,6 @@ class UserDefaultICloudViewModel {
       }
     }
   }
-  
-  
+    
   
 }

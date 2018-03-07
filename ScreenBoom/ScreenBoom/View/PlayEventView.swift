@@ -16,7 +16,6 @@ class PlayEventView: UIView {
   // Constants
   let firebaseNodeNames = FirebaseNodeNames()
   let userDefaultKeyNames = UserDefaultKeyNames()
-//  let playView = UIView()
   
   // create Canvas Animation View
   let textLabelAnimationView: CSAnimationView = {
@@ -33,11 +32,14 @@ class PlayEventView: UIView {
   }()
   let photoEventImageView : UIImageView = {
     let view = UIImageView()
+    view.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
+    view.contentMode = .scaleAspectFit // OR .scaleAspectFill
+    view.clipsToBounds = true
     return view
   }()
   let pendingLabelAnimationView: CSAnimationView = {
     let view = CSAnimationView()
-    view.backgroundColor = UIColor.yellow
+    view.backgroundColor = UIColor.clear
     return view
   }()
   let pendingLabel: UILabel = {
@@ -62,9 +64,6 @@ class PlayEventView: UIView {
       return
     }
     
-    
-    
-    
     switch event.eventType {
     case .Text:
       showTextEventView(eventDetail: eventDetail)
@@ -74,14 +73,13 @@ class PlayEventView: UIView {
       showPhotoEventView(eventDetail: eventDetail)
       [pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
       break
-    case .Animation:
+    case .Animation:[pendingLabelAnimationView,photoEventImageView,pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
       break
     default:
       showPendingAndDefaultEventView(message: "Couldn't find Event Type")
        [textLabelAnimationView, photoEventImageView].forEach{$0.removeFromSuperview() }
       break
     }
-//    self.addSubview(playView)
   }
   
   // Show Animation Event View
@@ -92,10 +90,6 @@ class PlayEventView: UIView {
   
   // show Photo Event View
   func showPhotoEventView(eventDetail: EventDetail) {
-    
-    
-    
-    
     if eventDetail.photoname == "Place holder" {
       //Place Holder
       photoEventImageView.image = UIImage(named: "Ironbg")
@@ -104,7 +98,6 @@ class PlayEventView: UIView {
       photoEventImageView.image = UIImage(data: data as Data)
     } else {
       if let photoName = eventDetail.photoname, let url = URL(string : photoName) {
-//          photoEventImageView.sd_setImage(with: url, completed: nil)
         photoEventImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Ironbg"), options: [.continueInBackground, .progressiveDownload])
       } else {
         //Place Holder
@@ -128,39 +121,31 @@ class PlayEventView: UIView {
     textLabel.text = eventDetail.text
     textLabel.textColor = eventDetail.textcolor?.stringToUIColor()
     // Add Canvas Animation to the pendingLabelAnimationView
-    textLabelAnimationView.type = "pop"
+    textLabelAnimationView.type = eventDetail.animationName
     textLabelAnimationView.duration = 10
     textLabelAnimationView.delay = 0
-
     // adding subviews
     textLabelAnimationView.addSubview(textLabel)
      addSubview(textLabelAnimationView)
-    
     // set views translatesAutoresizingMaskIntoConstraints to false
     textLabelAnimationView.translatesAutoresizingMaskIntoConstraints = false
     textLabel.translatesAutoresizingMaskIntoConstraints = false
-    
-    // set views frame
+    // set views Anchors
     textLabelAnimationView.anchor(top: self.topAnchor,
                                   leading: self.leadingAnchor,
                                   bottom: self.bottomAnchor,
                                   trailing: self.trailingAnchor,
                                   padding: .init(top: 100,left: 100,bottom: 100,right: 100))
-    
     textLabel.anchor(top: textLabelAnimationView.topAnchor,
                      leading: textLabelAnimationView.leadingAnchor,
                      bottom: textLabelAnimationView.bottomAnchor,
                      trailing: textLabelAnimationView.trailingAnchor,
                      padding: .zero)
-    
-    
     textLabelAnimationView.startCanvasAnimation()
   }
   
-  
   // Show Pending Event View
   func showPendingAndDefaultEventView(message: String) {
-    
     backgroundColor = UIColor.gray
     pendingLabel.text = message
     // Add Canvas Animation to the pendingLabelAnimationView
@@ -170,17 +155,15 @@ class PlayEventView: UIView {
     // Add views
     addSubview(pendingLabelAnimationView)
     pendingLabelAnimationView.addSubview(pendingLabel)
-    
     // set view translatesAutoresizingMaskIntoConstraints to false
     pendingLabelAnimationView.translatesAutoresizingMaskIntoConstraints = false
     pendingLabel.translatesAutoresizingMaskIntoConstraints = false
-    
-    // set constraints
+    // set Anchors
     pendingLabelAnimationView.anchor(top: self.topAnchor,
                                      leading: self.leadingAnchor,
                                      bottom: self.bottomAnchor,
                                      trailing: self.trailingAnchor,
-                                     padding: .init(top: 100,left: 100,bottom: 100,right: 100))
+                                     padding: .init(top: 30,left: 30,bottom: 30,right: 30))
     pendingLabel.anchor(top: pendingLabelAnimationView.topAnchor,
                                      leading: pendingLabelAnimationView.leadingAnchor,
                                      bottom: pendingLabelAnimationView.bottomAnchor,
