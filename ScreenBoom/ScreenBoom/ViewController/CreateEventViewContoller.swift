@@ -78,6 +78,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
       return
     }
     let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: currentEventType)
+    ShowSpinner()
     eventViewModel.checkIfEventExists(event: currentEvent) { (isExist, _) in
       if isExist {
         self.infoView(message: "Event name is Already Exist", color: Colors.smoothRed)
@@ -85,6 +86,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
         self.showDetailViewController(event : currentEvent)
       }
     }
+    HideSpinner()
     
   }
   

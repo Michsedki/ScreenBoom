@@ -32,6 +32,9 @@ struct FirebaseNodeNames {
   let eventDetailSpeedChild = "speed"
   let eventDetailCodeChild = "code"
   
+  //Storage
+  let eventImagesFolderName = "EventImages"
+  
 }
 
 
@@ -39,5 +42,6 @@ struct UserDefaultKeyNames {
   let userIDKey = "userID"
   let eventNameKey = "eventName"
   let eventCodeKey = "eventCode"
+  let savedImageCodeKey = "savedImage"
   
 }

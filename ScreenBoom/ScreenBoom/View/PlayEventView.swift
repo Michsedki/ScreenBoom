@@ -15,6 +15,7 @@ class PlayEventView: UIView {
   
   // Constants
   let firebaseNodeNames = FirebaseNodeNames()
+  let userDefaultKeyNames = UserDefaultKeyNames()
 //  let playView = UIView()
   
   // create Canvas Animation View
@@ -91,7 +92,25 @@ class PlayEventView: UIView {
   
   // show Photo Event View
   func showPhotoEventView(eventDetail: EventDetail) {
-    photoEventImageView.image = UIImage(named: "Ironbg")
+    
+    
+    
+    
+    if eventDetail.photoname == "Place holder" {
+      //Place Holder
+      photoEventImageView.image = UIImage(named: "Ironbg")
+    } else if eventDetail.photoname == userDefaultKeyNames.savedImageCodeKey {
+      let data = UserDefaults.standard.object(forKey: userDefaultKeyNames.savedImageCodeKey) as! NSData
+      photoEventImageView.image = UIImage(data: data as Data)
+    } else {
+      if let photoName = eventDetail.photoname, let url = URL(string : photoName) {
+//          photoEventImageView.sd_setImage(with: url, completed: nil)
+        photoEventImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Ironbg"), options: [.continueInBackground, .progressiveDownload])
+      } else {
+        //Place Holder
+         photoEventImageView.image = UIImage(named: "Ironbg")
+      }
+    }
     addSubview(photoEventImageView)
     photoEventImageView.translatesAutoresizingMaskIntoConstraints = false
     photoEventImageView.anchor(top: self.topAnchor,
@@ -103,7 +122,6 @@ class PlayEventView: UIView {
   
   // Show Text Event View
   func showTextEventView(eventDetail: EventDetail) {
-    print(eventDetail)
     // set PlayView background color
     backgroundColor = eventDetail.backgroundcolor?.stringToUIColor()
     // Set textLabel with text and textColor
