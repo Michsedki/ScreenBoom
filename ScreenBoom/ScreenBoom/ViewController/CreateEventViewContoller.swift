@@ -78,7 +78,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
       self.infoView(message: "No event name!", color: Colors.smoothRed)
       return
     }
-    let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: currentEventType)
+    let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: currentEventType, eventCode: "")
     ShowSpinner()
     eventViewModel.checkIfEventExists(event: currentEvent) { (isExist, _) in
       if isExist {

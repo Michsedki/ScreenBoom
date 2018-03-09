@@ -50,7 +50,16 @@ class PlayEventView: UIView {
     view.backgroundColor = UIColor.clear
     return view
   }()
-  
+  let eventNameAndCodeLabel: UILabel = {
+    let view = UILabel()
+    view.backgroundColor = UIColor.green
+    view.sizeToFit()
+    view.adjustsFontSizeToFitWidth = true
+    view.numberOfLines = 0
+    view.textAlignment = .center
+    return view
+  }()
+  var isShowEventNameAndCodeLabel = false
   
   
   func configure(viewModel: PlayEventViewModel) {
@@ -84,26 +93,35 @@ class PlayEventView: UIView {
        [textLabelAnimationView, photoEventImageView].forEach{$0.removeFromSuperview() }
       break
     }
+    
+    showEventNameAndCode(eventName: event.eventName, eventCode:event.eventCode)
+  }
+  
+  // show event Name And Code all the time on the screen
+  func showEventNameAndCode(eventName: String, eventCode:String) {
+    eventNameAndCodeLabel.text = "Title: \(eventName) \n Code: \(eventCode)"
+    self.addSubview(eventNameAndCodeLabel)
+    
+    eventNameAndCodeLabel.translatesAutoresizingMaskIntoConstraints = false
+    eventNameAndCodeLabel.frame = self.frame
+    
+    self.bringSubview(toFront: eventNameAndCodeLabel)
   }
   
   // Show Animation Event View
   func showAnimationEventView(eventDetail: EventDetail) {
-    print(eventDetail.photoStringURL)
     if let photoStringURL = eventDetail.photoStringURL {
       photoEventImageView.loadGif(name: photoStringURL)
     } else {
       // Place Holder Emage
       photoEventImageView.image = UIImage(named: "Ironbg")
     }
-    
     addSubview(photoEventImageView)
-    photoEventImageView.translatesAutoresizingMaskIntoConstraints = false
     photoEventImageView.anchor(top: self.topAnchor,
                                leading: self.leadingAnchor,
                                bottom: self.bottomAnchor,
                                trailing: self.trailingAnchor,
                                padding: .zero)
-    
   }
   
   
@@ -127,7 +145,6 @@ class PlayEventView: UIView {
       }
     }
     addSubview(photoEventImageView)
-    photoEventImageView.translatesAutoresizingMaskIntoConstraints = false
     photoEventImageView.anchor(top: self.topAnchor,
                                leading: self.leadingAnchor,
                                bottom: self.bottomAnchor,
@@ -149,9 +166,6 @@ class PlayEventView: UIView {
     // adding subviews
     textLabelAnimationView.addSubview(textLabel)
      addSubview(textLabelAnimationView)
-    // set views translatesAutoresizingMaskIntoConstraints to false
-    textLabelAnimationView.translatesAutoresizingMaskIntoConstraints = false
-    textLabel.translatesAutoresizingMaskIntoConstraints = false
     // set views Anchors
     textLabelAnimationView.anchor(top: self.topAnchor,
                                   leading: self.leadingAnchor,
@@ -177,9 +191,6 @@ class PlayEventView: UIView {
     // Add views
     addSubview(pendingLabelAnimationView)
     pendingLabelAnimationView.addSubview(pendingLabel)
-    // set view translatesAutoresizingMaskIntoConstraints to false
-    pendingLabelAnimationView.translatesAutoresizingMaskIntoConstraints = false
-    pendingLabel.translatesAutoresizingMaskIntoConstraints = false
     // set Anchors
     pendingLabelAnimationView.anchor(top: self.topAnchor,
                                      leading: self.leadingAnchor,

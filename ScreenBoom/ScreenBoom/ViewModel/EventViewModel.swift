@@ -130,10 +130,12 @@ class EventViewModel: NSObject {
   func getEvent(eventName: String,completion:(@escaping(Result<Event>) -> Void )) {
     firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(eventName).observeSingleEvent(of: .value) { (eventSnapShot) in
       if let eventValue = eventSnapShot.value as? [String:String] {
-        guard let eventIsLive = eventValue[self.firebaseNodeNames.eventNodeIsLiveChild], let eventType = eventValue[self.firebaseNodeNames.eventNodeTypeChild] else {
+        guard let eventIsLive = eventValue[self.firebaseNodeNames.eventNodeIsLiveChild],
+              let eventType = eventValue[self.firebaseNodeNames.eventNodeTypeChild],
+              let eventCode = eventValue[self.firebaseNodeNames.eventNodeCodeChild] else {
           completion(Result.Failure("Event Not Found"))
           return }
-        let event = Event(eventName: eventName, eventIsLive: eventIsLive, eventType: EventType(rawValue: eventType) ?? .Unknown)
+        let event = Event(eventName: eventName, eventIsLive: eventIsLive, eventType: EventType(rawValue: eventType) ?? .Unknown, eventCode: eventCode)
         completion(Result.Success(event))
       }
     }

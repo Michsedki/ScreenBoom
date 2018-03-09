@@ -21,12 +21,14 @@ class Event: NSObject {
   var eventIsLive: String
   var eventType: EventType
   var userID: String
+  var eventCode: String
 
   
-  init (eventName: String, eventIsLive: String, eventType: EventType) {
+  init (eventName: String, eventIsLive: String, eventType: EventType, eventCode: String) {
     self.eventName = eventName
     self.eventType = eventType
     self.eventIsLive = eventIsLive
+    self.eventCode = eventCode
     self.userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as! String
     
     super.init()

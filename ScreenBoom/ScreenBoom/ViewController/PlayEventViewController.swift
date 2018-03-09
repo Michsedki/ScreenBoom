@@ -23,24 +23,19 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var playEventViewModelSource: PlayEventViewModelSource?
   var isPreviewInDetailEventViewController: Bool
   
-  
   // init
-    init (event:Event, eventDetail: EventDetail, isPreviewInDetailEventViewController: Bool) {
+  init (event:Event, eventDetail: EventDetail, isPreviewInDetailEventViewController: Bool) {
     self.event = event
     self.eventDetail = eventDetail
     self.isPreviewInDetailEventViewController = isPreviewInDetailEventViewController
     super.init(nibName: nil, bundle: nil)
   }
-  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {
-      super.viewDidLoad()
-    
-    
-    
+    super.viewDidLoad()
     if !isPreviewInDetailEventViewController {
       // PlayEventViewController is playing event live and not previewing in EventDetailViewController
       // setup observation.
@@ -49,30 +44,28 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
       self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
     }
-    
   }
-  
-  
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-      playEventViewModelSource?.configureWithViewWillTransition()
+    playEventViewModelSource?.configureWithViewWillTransition()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     setupViews()
     saveUserDefaultOldEventAndUserID()
   }
+  
   func setupViews() {
-      let playEventView = PlayEventView(frame: CGRect(x: 0,
-                                                      y: 0,
-                                                  width: self.view.bounds.width,
-                                                 height: self.view.bounds.height))
-      self.view.addSubview(playEventView)
+    let playEventView = PlayEventView(frame: CGRect(x: 0,
+                                                    y: 0,
+                                                    width: self.view.bounds.width,
+                                                    height: self.view.bounds.height))
+    self.view.addSubview(playEventView)
     
     // PlayEventViewController is previewing in EventDetailViewController and not playing event live
     if isPreviewInDetailEventViewController {
-        playEventView.configure(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+      playEventView.configure(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
     }
-      self.playEventView = playEventView
+    self.playEventView = playEventView
   }
   
   func saveUserDefaultOldEventAndUserID(){

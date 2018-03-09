@@ -12,6 +12,7 @@ import FirebaseDatabase
 class JoinEventViewController: BaseViewController {
   
   // variables
+  let userDefaultICloudViewModel = UserDefaultICloudViewModel()
   var baseDatabaseReference = Database.database().reference()
   var event: Event?
   var eventViewModel = EventViewModel()
@@ -20,10 +21,33 @@ class JoinEventViewController: BaseViewController {
   // Outlets
   @IBOutlet weak var eventNameTextField: UITextField!
   @IBOutlet weak var codeTextField: UITextField!
+  @IBOutlet weak var joinButton: UIButton!
+  
+  let lastEventLabel : UILabel = {
+    let view = UILabel()
+    view.numberOfLines = 0
+    view.textAlignment = .center
+    view.sizeToFit()
+    view.adjustsFontSizeToFitWidth = true
+    view.backgroundColor = UIColor.lightGray
+    return view
+  }()
+  let joinLastEventButton : UIButton = {
+    let view = UIButton()
+    view.setTitle("Join last Event.", for: .normal)
+    view.backgroundColor = UIColor.blue
+    return view
+  }()
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     // Do any additional setup after loading the view.
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    setupJoinLastEventView()
   }
   
   @IBAction func goButtonPressed(_ sender: UIButton) {
@@ -45,7 +69,7 @@ class JoinEventViewController: BaseViewController {
   
   func getEventAndCmpareCode(eventName: String, eventCode: String) {
     
-    self.event = Event(eventName: eventName, eventIsLive: "no", eventType: .Unknown)
+    self.event = Event(eventName: eventName, eventIsLive: "no", eventType: .Unknown, eventCode: eventCode)
     // start spinner
     self.ShowSpinner()
     guard let event = self.event else { return }
@@ -60,6 +84,7 @@ class JoinEventViewController: BaseViewController {
           return
       }
       if eventCodeFirebase == eventCode {
+        
         if let eventIsLiveFirebase = snapshot?.childSnapshot(forPath: "islive").value as? String {
           event.eventIsLive = eventIsLiveFirebase
         }
@@ -96,9 +121,39 @@ class JoinEventViewController: BaseViewController {
     })
   }
   
-  // fill text fields from outside the viewcontroller
- 
-  
+  func setupJoinLastEventView() {
+    guard let lastEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
+      let lastEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() else { return }
+    lastEventLabel.text = "Last Event \n Title : \(lastEventName) \n Code : \(lastEventCode)"
+    joinLastEventButton.addTarget(self, action: #selector(joinLastEventButtonPressed), for: .touchUpInside)
+    self.view.addSubview(lastEventLabel)
+    self.view.addSubview(joinLastEventButton)
+    lastEventLabel.anchor(top: joinButton.bottomAnchor,
+                          leading: self.view.leadingAnchor,
+                          bottom: nil,
+                          trailing: self.view.trailingAnchor,
+                          padding: .init(top: 40, left: 20, bottom: 0, right: 20),
+                          size: .init(width: 0, height: 50))
+    joinLastEventButton.anchor(top: lastEventLabel.bottomAnchor,
+                               leading: self.view.leadingAnchor,
+                               bottom: nil,
+                               trailing: self.view.trailingAnchor,
+                               padding: .init(top: 8, left: 20, bottom: 0, right: 20),
+                               size: .init(width: 0, height: 40))
+    
+  }
+  @objc func joinLastEventButtonPressed (){
+    if let lastEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
+      let lastEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() {
+      getEventAndCmpareCode(eventName: lastEventName, eventCode: lastEventCode)
+    } else {
+      lastEventLabel.text = "We have a proble!"
+      lastEventLabel.textColor = UIColor.red
+      joinLastEventButton.isEnabled = false
+    }
+    
+  }
+
   // Push PlayEventViewController
   func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
     let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail, isPreviewInDetailEventViewController: false)

@@ -41,8 +41,6 @@ class HomeViewController: BaseViewController {
   
   func rigisterUser() {
     userDefaultICloudViewModel.getICloudUserID { (userID, error) in
-      print(userID)
-      print(error)
       if error == nil , let userID = userID {
         if self.userDefaultICloudViewModel.checkIfTheSameUserIcloudID(userID: userID) {
           if let oldEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
