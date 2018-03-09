@@ -228,6 +228,36 @@
             </objects>
             <point key="canvasLocation" x="1172" y="872.11394302848578"/>
         </scene>
+        <!--TestGIF View Controller-->
+        <scene sceneID="Hi3-YE-spT">
+            <objects>
+                <viewController id="QoF-f4-KOu" customClass="testGIFViewController" customModule="ScreenBoom" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ULv-ro-hZV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1sF-Ng-4Fz">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="336"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1sF-Ng-4Fz" firstAttribute="top" secondItem="ULv-ro-hZV" secondAttribute="top" id="BYc-Yr-qBU"/>
+                            <constraint firstItem="1sF-Ng-4Fz" firstAttribute="leading" secondItem="ULv-ro-hZV" secondAttribute="leading" id="gxG-Ot-XTN"/>
+                            <constraint firstItem="iuH-Vp-c4r" firstAttribute="bottom" secondItem="1sF-Ng-4Fz" secondAttribute="bottom" constant="331" id="iTf-GD-xKj"/>
+                            <constraint firstAttribute="trailing" secondItem="1sF-Ng-4Fz" secondAttribute="trailing" id="qv2-hn-iHC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iuH-Vp-c4r"/>
+                    </view>
+                    <connections>
+                        <outlet property="gifImage" destination="1sF-Ng-4Fz" id="hAn-WL-aCV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iqV-Hl-ABj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2173.5999999999999" y="813.64317841079469"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="hWI-gJ-XQA">
             <objects>

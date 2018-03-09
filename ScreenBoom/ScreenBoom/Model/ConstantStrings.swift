@@ -23,6 +23,7 @@ struct FirebaseNodeNames {
   let eventUserIDChild = "userid"
   
   // Event Detail Node
+  let eventDetailPhotoStringURLChild = "photoStringURL"
   let eventDetailNode = "EventDetails"
   let eventDetailTextChild = "text"
   let eventDetailTextColorChild = "textcolor"
@@ -32,8 +33,6 @@ struct FirebaseNodeNames {
   let eventDetailSpeedChild = "speed"
   let eventDetailCodeChild = "code"
  
-  
-  
   //Storage
   let eventImagesFolderName = "EventImages"
   

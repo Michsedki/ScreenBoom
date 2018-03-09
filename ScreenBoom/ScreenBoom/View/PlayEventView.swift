@@ -51,6 +51,8 @@ class PlayEventView: UIView {
     return view
   }()
   
+  
+  
   func configure(viewModel: PlayEventViewModel) {
     let eventDetail = viewModel.eventDetail
     let event = viewModel.event
@@ -73,7 +75,9 @@ class PlayEventView: UIView {
       showPhotoEventView(eventDetail: eventDetail)
       [pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
       break
-    case .Animation:[pendingLabelAnimationView,photoEventImageView,pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
+    case .Animation:
+      [pendingLabelAnimationView,photoEventImageView,pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
+      showAnimationEventView(eventDetail: eventDetail)
       break
     default:
       showPendingAndDefaultEventView(message: "Couldn't find Event Type")
@@ -84,6 +88,21 @@ class PlayEventView: UIView {
   
   // Show Animation Event View
   func showAnimationEventView(eventDetail: EventDetail) {
+    print(eventDetail.photoStringURL)
+    if let photoStringURL = eventDetail.photoStringURL {
+      photoEventImageView.loadGif(name: photoStringURL)
+    } else {
+      // Place Holder Emage
+      photoEventImageView.image = UIImage(named: "Ironbg")
+    }
+    
+    addSubview(photoEventImageView)
+    photoEventImageView.translatesAutoresizingMaskIntoConstraints = false
+    photoEventImageView.anchor(top: self.topAnchor,
+                               leading: self.leadingAnchor,
+                               bottom: self.bottomAnchor,
+                               trailing: self.trailingAnchor,
+                               padding: .zero)
     
   }
   
@@ -98,7 +117,10 @@ class PlayEventView: UIView {
       photoEventImageView.image = UIImage(data: data as Data)
     } else {
       if let photoName = eventDetail.photoname, let url = URL(string : photoName) {
+        photoEventImageView.sd_setShowActivityIndicatorView(true)
+        photoEventImageView.sd_setIndicatorStyle(.gray)
         photoEventImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Ironbg"), options: [.continueInBackground, .progressiveDownload])
+        
       } else {
         //Place Holder
          photoEventImageView.image = UIImage(named: "Ironbg")

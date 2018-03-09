@@ -48,7 +48,8 @@ class EventDetailViewModel: NSObject {
        firebaseNodeNames.eventDetailAnimationNameChild : eventdetail.animationName,
        firebaseNodeNames.eventDetailSpeedChild : eventdetail.speed,
        firebaseNodeNames.eventDetailPhotoNameChild : eventdetail.photoname,
-       firebaseNodeNames.eventDetailCodeChild : eventdetail.code],
+       firebaseNodeNames.eventDetailCodeChild : eventdetail.code,
+       firebaseNodeNames.eventDetailPhotoStringURLChild : eventdetail.photoStringURL],
       withCompletionBlock: { (error, response) in
       guard error == nil else {
         completion(Result.Failure((error?.localizedDescription)!))
