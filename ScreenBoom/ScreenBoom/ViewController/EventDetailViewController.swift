@@ -11,7 +11,6 @@ import UIKit
 class EventDetailViewController: BaseViewController, DropDownSelectionDelegate , UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
   
   func didSelectItem(changedFieldName: String, itemName: String) {
-    
     switch changedFieldName {
     case firebaseNodeNames.eventDetailTextColorChild:
       self.eventDetail.textcolor = itemName
@@ -24,7 +23,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     }
     updatePreviewEventViewController()
   }
-  
   func updatePreviewEventViewController () {
     let playEventViewModel = PlayEventViewModel(event: self.event, eventDetail: self.eventDetail)
     if let playEventVC = self.playPreviewEventViewController {
@@ -52,7 +50,8 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   // playPreviewEventViewController
   var playPreviewEventViewController: PlayPreviewEventViewController?
   // Animation
-  let animationCollectionViewData = ["candle","firework","fire","heart"]
+  let constantNames = ConstantNames()
+  var animationCollectionViewData = [String]()
   var animationCollectionView : UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -60,18 +59,15 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     return view
   }()
   let animationCollectionViewCellIdentifier = "animationCollectionView"
-  
-  
+
   //Delegate
   var dropDownSelectionDelegate:DropDownSelectionDelegate!
-  
-  
   //  convenience init() {
   //    self.init(eventName: "")
   //  }
   init(event:Event) {
     self.event = event
-    self.eventDetail = EventDetail(photoStringURL: "candle", animationName: "", photoname: "Place holder", backgroundcolor: "Blue", textcolor: "White", speed: "", text: "Your Text", code: "" )
+    self.eventDetail = EventDetail(animationStringURL: constantNames.animationStringNames[0], animationName: "", photoname: "Place holder", backgroundcolor: "Blue", textcolor: "White", speed: "", text: "Your Text", code: "" )
     super.init(nibName: nil, bundle: nil)
   }
   required init?(coder aDecoder: NSCoder) {
@@ -86,7 +82,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     self.eventTextField.delegate = self
     self.animationCollectionView.delegate = self
     self.animationCollectionView.dataSource = self
-    
     // Do any additional setup after loading the view.
   }
   override func viewWillLayoutSubviews() {
@@ -94,11 +89,9 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   }
   
   func setupViews() {
-    
     // create Navigation bar right buttom (Send)
     let sendRightBarButton = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(EventDetailViewController.rightBarButtonPressed(_:)))
     navigationItem.rightBarButtonItem = sendRightBarButton
-    
     // create container view to hold the play event preview
     self.view.addSubview(playEventPreviewContainerView)
     playEventPreviewContainerView.frame = CGRect(x: 20,
@@ -136,22 +129,20 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   // show text, photo and animation views set up
   //Animation
   func setupAnimationEventViews() {
+    animationCollectionViewData = constantNames.animationStringNames
     animationCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: animationCollectionViewCellIdentifier)
     self.view.addSubview(animationCollectionView)
-    
+    // Anchor for animationCollectionView
     animationCollectionView.anchor(top: playEventPreviewContainerView.bottomAnchor,
                                    leading: self.view.leadingAnchor,
                                    bottom: self.view.bottomAnchor,
                                    trailing: self.view.trailingAnchor,
                                    padding: .init(top: 20, left: 20, bottom: 20, right: 20)
     )
-    
-    
   }
   
   // photo
   func setupPhotoEventViews() {
-    
     selectImageFromGallaryButton.setTitle("Photos", for: .normal)
     selectImageFromGallaryButton.backgroundColor = UIColor.blue
     selectImageFromCameraButton.setTitle("Camera", for: .normal)
@@ -178,7 +169,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   
   @objc func SelectImage(_ sender: UIButton) {
     imagePicker.allowsEditing = true
-    
     if sender.currentTitle == "Photos" {
       self.imagePicker.sourceType = .photoLibrary
     } else if  sender.currentTitle == "Camera" {
@@ -260,11 +250,11 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
                                             padding: .init(top: 10, left: 5, bottom: 0, right: 10),
                                             size: .init(width: (self.view.frame.width - 30) / 3, height: 40))
     //Set the drop down menu's options
-    textColorDropDownButton.dropView.dropDownOptions = ["Blue", "Green", "Magenta", "White", "Black", "Purple"]
+    textColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
     textColorDropDownButton.dropView.dropDownButtonTitle = firebaseNodeNames.eventDetailTextColorChild
-    backgroundColorDropDownButton.dropView.dropDownOptions = ["Blue", "Green", "Magenta", "White", "Black", "Purple"]
+    backgroundColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
     backgroundColorDropDownButton.dropView.dropDownButtonTitle = firebaseNodeNames.eventDetailBackGroundColorChild
-    animationNameColorDropDownButton.dropView.dropDownOptions = ["Shake", "Zoom", "Magenta", "White", "Black", "Purple"]
+    animationNameColorDropDownButton.dropView.dropDownOptions = constantNames.animationStringNames
     animationNameColorDropDownButton.dropView.dropDownButtonTitle = firebaseNodeNames.eventDetailAnimationNameChild
     
     // set the dropdown delegation for all buttons
@@ -312,7 +302,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   // Animation Event
   
   func saveAnimationEvent() {
-    guard !(eventDetail.photoStringURL?.isEmpty)! else {print("Photo not Empty")
+    guard !(eventDetail.animationStringURL?.isEmpty)! else {print("Photo not Empty")
       return}
      saveEventAndEventDetail()
   
@@ -393,6 +383,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
 
 // extension conform to UICollectionView
 extension EventDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+ 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return animationCollectionViewData.count
   }
@@ -420,7 +411,7 @@ extension EventDetailViewController: UICollectionViewDataSource, UICollectionVie
     return UIEdgeInsetsMake(10, 5, 10, 5)
   }
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    self.eventDetail.photoStringURL = animationCollectionViewData[indexPath.row]
+    self.eventDetail.animationStringURL = animationCollectionViewData[indexPath.row]
     updatePreviewEventViewController()
   }
 }

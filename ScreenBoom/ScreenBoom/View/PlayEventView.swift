@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 import Canvas
 
-
 class PlayEventView: UIView {
-  
   // Constants
   let firebaseNodeNames = FirebaseNodeNames()
   let userDefaultKeyNames = UserDefaultKeyNames()
@@ -50,17 +48,6 @@ class PlayEventView: UIView {
     view.backgroundColor = UIColor.clear
     return view
   }()
-  let eventNameAndCodeLabel: UILabel = {
-    let view = UILabel()
-    view.backgroundColor = UIColor.green
-    view.sizeToFit()
-    view.adjustsFontSizeToFitWidth = true
-    view.numberOfLines = 0
-    view.textAlignment = .center
-    return view
-  }()
-  var isShowEventNameAndCodeLabel = false
-  
   
   func configure(viewModel: PlayEventViewModel) {
     let eventDetail = viewModel.eventDetail
@@ -93,28 +80,15 @@ class PlayEventView: UIView {
        [textLabelAnimationView, photoEventImageView].forEach{$0.removeFromSuperview() }
       break
     }
-    
-    showEventNameAndCode(eventName: event.eventName, eventCode:event.eventCode)
-  }
-  
-  // show event Name And Code all the time on the screen
-  func showEventNameAndCode(eventName: String, eventCode:String) {
-    eventNameAndCodeLabel.text = "Title: \(eventName) \n Code: \(eventCode)"
-    self.addSubview(eventNameAndCodeLabel)
-    
-    eventNameAndCodeLabel.translatesAutoresizingMaskIntoConstraints = false
-    eventNameAndCodeLabel.frame = self.frame
-    
-    self.bringSubview(toFront: eventNameAndCodeLabel)
   }
   
   // Show Animation Event View
   func showAnimationEventView(eventDetail: EventDetail) {
-    if let photoStringURL = eventDetail.photoStringURL {
-      photoEventImageView.loadGif(name: photoStringURL)
+    if let animationStringURL = eventDetail.animationStringURL {
+      photoEventImageView.loadGif(name: animationStringURL)
     } else {
       // Place Holder Emage
-      photoEventImageView.image = UIImage(named: "Ironbg")
+      photoEventImageView.image = UIImage(named: "placeHolder")
     }
     addSubview(photoEventImageView)
     photoEventImageView.anchor(top: self.topAnchor,
@@ -123,13 +97,11 @@ class PlayEventView: UIView {
                                trailing: self.trailingAnchor,
                                padding: .zero)
   }
-  
-  
   // show Photo Event View
   func showPhotoEventView(eventDetail: EventDetail) {
     if eventDetail.photoname == "Place holder" {
       //Place Holder
-      photoEventImageView.image = UIImage(named: "Ironbg")
+      photoEventImageView.image = UIImage(named: "placeHolder")
     } else if eventDetail.photoname == userDefaultKeyNames.savedImageCodeKey {
       let data = UserDefaults.standard.object(forKey: userDefaultKeyNames.savedImageCodeKey) as! NSData
       photoEventImageView.image = UIImage(data: data as Data)
@@ -137,11 +109,11 @@ class PlayEventView: UIView {
       if let photoName = eventDetail.photoname, let url = URL(string : photoName) {
         photoEventImageView.sd_setShowActivityIndicatorView(true)
         photoEventImageView.sd_setIndicatorStyle(.gray)
-        photoEventImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Ironbg"), options: [.continueInBackground, .progressiveDownload])
+        photoEventImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "placeHolder"), options: [.continueInBackground, .progressiveDownload])
         
       } else {
         //Place Holder
-         photoEventImageView.image = UIImage(named: "Ironbg")
+         photoEventImageView.image = UIImage(named: "placeHolder")
       }
     }
     addSubview(photoEventImageView)

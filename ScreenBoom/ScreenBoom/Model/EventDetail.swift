@@ -12,7 +12,7 @@ import Foundation
 struct EventDetail: Decodable {
   
   //photo
-  var photoStringURL: String?
+  var animationStringURL: String?
   // text
   var animationName: String?
   var photoname: String?

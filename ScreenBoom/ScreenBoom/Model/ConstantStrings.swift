@@ -38,6 +38,12 @@ struct FirebaseNodeNames {
   
 }
 
+struct ConstantNames {
+  let animationStringNames = ["candle1","firework1", "firework2","colors1","colors2","heart1","heart2","heart3","heart4","heart5","laser1","flag1","birthday1"]
+  let colorsNamesList = ["Blue", "Green", "Magenta", "White", "Black", "Purple"]
+  let animationNamesList = ["Shake", "Zoom", "pop"]
+}
+
 
 struct UserDefaultKeyNames {
   let userIDKey = "userID"
