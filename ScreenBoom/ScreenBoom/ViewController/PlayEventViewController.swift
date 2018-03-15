@@ -39,7 +39,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     if !isPreviewInDetailEventViewController {
       // PlayEventViewController is playing event live and not previewing in EventDetailViewController
       // setup observation.
@@ -47,8 +46,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       self.playEventViewModelSource?.addObserver(observer: self)
       self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
       self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
-      
-      
+      saveUserDefaultOldEventAndUserID()
     }
   }
   //AddSwipeGesture
@@ -64,7 +62,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   }
   //respondToSwipeGesture
   @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-    
     if let swipeGesture = gesture as? UISwipeGestureRecognizer
     {
       switch swipeGesture.direction
@@ -97,7 +94,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   override func viewWillAppear(_ animated: Bool) {
     setupViews()
-    saveUserDefaultOldEventAndUserID()
     addSwipGuestureRecognizers()
     
   }
@@ -115,17 +111,17 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     }
     self.playEventView = playEventView
     if !isPreviewInDetailEventViewController{
-    // create rightMenuView to show options
-    let rightMenuView = RightMenuView(frame: CGRect(x: self.view.frame.maxX - 10,
-                                                    y: 0,
-                                                    width: 120,
-                                                    height: self.view.frame.height))
-    self.view.addSubview(rightMenuView)
-    self.rightMenuView = rightMenuView
-    rightMenuView.configureWith(eventName: self.event.eventName, eventCode: self.event.eventCode)
-    self.view.bringSubview(toFront: rightMenuView)
-    self.rightMenuView?.label.text = "Title: \n \(self.event.eventName) \n Code: \n \(self.event.eventCode)"
-    self.rightMenuView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGuestureOnShareImage)))
+      // create rightMenuView to show options
+      let rightMenuView = RightMenuView(frame: CGRect(x: self.view.frame.maxX - 10,
+                                                      y: 0,
+                                                      width: 120,
+                                                      height: self.view.frame.height))
+      self.view.addSubview(rightMenuView)
+      rightMenuView.configureWith(eventName: self.event.eventName, eventCode: self.event.eventCode)
+      rightMenuView.label.text = "Title: \n \(self.event.eventName) \n Code: \n \(self.event.eventCode)"
+      rightMenuView.shareImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGuestureOnShareImage)))
+      self.view.bringSubview(toFront: rightMenuView)
+      self.rightMenuView = rightMenuView
     }
   }
   // handle tap gesture recognizer on the share image
@@ -136,8 +132,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   func saveUserDefaultOldEventAndUserID(){
     UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
     UserDefaults.standard.set(self.eventDetail.code, forKey: userDefaultKeyNames.eventCodeKey)
-    
-    
   }
   
 }

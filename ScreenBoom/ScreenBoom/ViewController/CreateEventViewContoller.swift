@@ -15,17 +15,11 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   // Varibales
   var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
   let eventViewModel = EventViewModel()
-  
-  
   let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
   lazy var currentEventType:EventType = .Text
   
   // Outlets
   @IBOutlet weak var eventNameTextfield: UITextField!
-  
-  
-  
-  
   @IBOutlet weak var eventTypePickerview: UIPickerView!
   
   override func viewDidLoad() {
@@ -36,8 +30,6 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     eventTypePickerview.dataSource = self
     eventNameTextfield.delegate = self
   }
-  
- 
   
   // PickerView Protocol
   
@@ -88,21 +80,12 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
       }
     }
     HideSpinner()
-    
   }
-  
   
   func showDetailViewController(event: Event) {
- 
-    let detailViewController = EventDetailViewController(event: event)
-    self.navigationController?.pushViewController(detailViewController, animated: true)
-    
+    let eventDetailViewController = EventDetailViewController(event: event)
+    self.navigationController?.pushViewController(eventDetailViewController, animated: true)
   }
-  
-  
-  
-  
-  
   
   
 }

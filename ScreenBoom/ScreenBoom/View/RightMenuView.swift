@@ -37,6 +37,7 @@ class RightMenuView: UIView {
   let shareImage : UIImageView = {
     let view = UIImageView()
     view.image = UIImage(named: "share")
+    view.isUserInteractionEnabled = true 
     return view
   }()
   

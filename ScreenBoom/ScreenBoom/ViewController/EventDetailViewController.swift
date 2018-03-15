@@ -36,7 +36,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   let eventViewModel = EventViewModel()
   let eventDetailViewModel = EventDetailViewModel()
   var playEventPreviewContainerView = UIView()
-  var eventTypeContainerView = UIView()
+//  var eventTypeContainerView = UIView()
   // text event
   let eventTextField: UITextField = UITextField()
   var textColorDropDownButton: dropDownBtn = dropDownBtn()
@@ -84,9 +84,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     self.animationCollectionView.dataSource = self
     // Do any additional setup after loading the view.
   }
-  override func viewWillLayoutSubviews() {
-    
-  }
+
   
   func setupViews() {
     // create Navigation bar right buttom (Send)
@@ -217,11 +215,8 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     //Configure the button
     textColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     textColorDropDownButton.setTitle("Text Colors", for: .normal)
-    
-    
     backgroundColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     backgroundColorDropDownButton.setTitle("Background Colors", for: .normal)
-    
     animationNameColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     animationNameColorDropDownButton.setTitle("Animation", for: .normal)
     //Add Button to the View Controller
@@ -359,6 +354,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       case .Success(let code):
         //************* Should we remove the show spinner line it is already shown
         self.eventDetail.code = code
+        self.event.eventCode = code
         self.eventDetailViewModel.addEventDetail(event: self.event, eventdetail: self.eventDetail, completion: { (result) in
           switch result {
           case .Failure(let error):

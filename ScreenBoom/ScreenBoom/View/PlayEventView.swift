@@ -71,8 +71,7 @@ class PlayEventView: UIView {
       showPhotoEventView(eventDetail: eventDetail)
       [pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
       break
-    case .Animation:
-      [pendingLabelAnimationView,photoEventImageView,pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
+    case .Animation:[pendingLabelAnimationView,photoEventImageView,pendingLabelAnimationView,textLabelAnimationView].forEach{$0.removeFromSuperview() }
       showAnimationEventView(eventDetail: eventDetail)
       break
     default:

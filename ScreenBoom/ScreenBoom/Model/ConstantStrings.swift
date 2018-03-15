@@ -23,7 +23,7 @@ struct FirebaseNodeNames {
   let eventUserIDChild = "userid"
   
   // Event Detail Node
-  let eventDetailPhotoStringURLChild = "photoStringURL"
+  let eventDetailAnimationStringURLChild = "animationStringURL"
   let eventDetailNode = "EventDetails"
   let eventDetailTextChild = "text"
   let eventDetailTextColorChild = "textcolor"
