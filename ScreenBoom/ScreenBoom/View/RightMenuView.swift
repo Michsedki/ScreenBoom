@@ -13,25 +13,44 @@ class RightMenuView: UIView {
   
   let blurEffectView : UIVisualEffectView = {
     let view = UIVisualEffectView()
-    view.effect = UIBlurEffect(style: UIBlurEffectStyle.light)
+    view.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
     return view
   }()
-//  let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-//  let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//  blurEffectView.frame = view.bounds
-//  blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//  view.addSubview(blurEffectView)
-  
-  
-  
-  
-  let label : UILabel = {
-    let view = UILabel()
+  let editButton : UIButton = {
+    let view = UIButton()
+    view.setTitle("Edit", for: .normal)
+    view.titleLabel?.textColor = UIColor.blue
+    view.titleLabel?.backgroundColor = UIColor.clear
+    view.backgroundColor = UIColor.clear
+    return view
+  }()
+  let pauseImage : UIImageView = {
+    let view = UIImageView()
+    view.image = UIImage(named: "pauseEnable")
+    view.isUserInteractionEnabled = true
+    return view
+  }()
+  let playImage : UIImageView = {
+    let view = UIImageView()
+    view.image = UIImage(named: "playNotEnable")
+    view.isUserInteractionEnabled = false
+    return view
+  }()
+  let deleteImage : UIImageView = {
+    let view = UIImageView()
+    view.image = UIImage(named: "delete")
+    view.isUserInteractionEnabled = true
+    return view
+  }()
+  let eventNameAndCodeButtonLabel : UIButton = {
+    let view = UIButton()
     view.sizeToFit()
-    view.adjustsFontSizeToFitWidth = true
-    view.numberOfLines = 0
-    view.textAlignment = .left
-    view.backgroundColor = UIColor.lightGray
+    view.titleLabel?.adjustsFontSizeToFitWidth = true
+    view.titleLabel?.numberOfLines = 0
+    view.titleLabel?.textAlignment = .left
+    view.backgroundColor = UIColor.clear
+    view.titleLabel?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+    view.isEnabled = false
     return view
   }()
   let shareImage : UIImageView = {
@@ -43,10 +62,13 @@ class RightMenuView: UIView {
   
   func configureWith(eventName: String, eventCode: String) {
     backgroundColor = UIColor.clear
-   
     addSubview(blurEffectView)
+    addSubview(editButton)
+    addSubview(playImage)
+    addSubview(pauseImage)
+    addSubview(deleteImage)
     addSubview(shareImage)
-    addSubview(label)
+    addSubview(eventNameAndCodeButtonLabel)
     
     
     blurEffectView.anchor(top: topAnchor,
@@ -54,19 +76,42 @@ class RightMenuView: UIView {
                      bottom: bottomAnchor,
                      trailing: trailingAnchor,
                      padding: .init(top: 0, left: 0, bottom: 0, right: 0))
-    shareImage.anchor(top: nil,
+    editButton.anchor(top: topAnchor,
                       leading: leadingAnchor,
-                      bottom: bottomAnchor,
+                      bottom: nil,
                       trailing: trailingAnchor,
-                      padding: .init(top: 0, left: 10, bottom: 2, right: 10),
-                      size: .init(width: 0, height: 100))
-    label.anchor(top: nil,
-                 leading: leadingAnchor,
-                 bottom: shareImage.topAnchor,
-                 trailing: trailingAnchor,
-                 padding: .init(top: 0, left: 10, bottom: 2, right: 10),
-                 size: .init(width: 0, height: 100))
-    
+                      padding: .init(top: 84, left: 10, bottom: 0, right: 10),
+                      size: .init(width: 0, height: 30))
+    playImage.anchor(top: editButton.bottomAnchor,
+                     leading: leadingAnchor,
+                     bottom: nil,
+                     trailing: trailingAnchor,
+                     padding: .init(top: 15, left: 20, bottom: 0, right: 20),
+                     size: .init(width: 0, height: 40))
+    pauseImage.anchor(top: playImage.bottomAnchor,
+                      leading: leadingAnchor,
+                      bottom: nil,
+                      trailing: trailingAnchor,
+                      padding: .init(top: 10, left: 20, bottom: 0, right: 20),
+                      size: .init(width: 0, height: 40))
+    deleteImage.anchor(top: pauseImage.bottomAnchor,
+                       leading: leadingAnchor,
+                       bottom: nil,
+                       trailing: trailingAnchor,
+                       padding: .init(top: 10, left: 20, bottom: 0, right: 20),
+                       size: .init(width: 0, height: 40))
+    shareImage.anchor(top: deleteImage.bottomAnchor,
+                      leading: leadingAnchor,
+                      bottom: nil,
+                      trailing: trailingAnchor,
+                      padding: .init(top: 15, left: 20, bottom: 0, right: 20),
+                      size: .init(width: 0, height: 40))
+    eventNameAndCodeButtonLabel.anchor(top: shareImage.bottomAnchor,
+                                       leading: leadingAnchor,
+                                       bottom: bottomAnchor,
+                                       trailing: trailingAnchor,
+                                       padding: .init(top: 10, left: 20, bottom: 10, right: 20),
+                                       size: .init(width: 0, height: 0))
   }
   
   

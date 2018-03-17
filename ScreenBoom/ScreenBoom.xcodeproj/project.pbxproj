@@ -14,6 +14,7 @@
 		3747C8A82044724D00171FCF /* ConstantStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A72044724D00171FCF /* ConstantStrings.swift */; };
 		3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */; };
 		3747C8B22045F88000171FCF /* DetailEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8B12045F88000171FCF /* DetailEventView.swift */; };
+		3758DE26205DC0D1004C55A2 /* SetEventDetailPhotoNameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758DE25205DC0D1004C55A2 /* SetEventDetailPhotoNameDelegate.swift */; };
 		37776645204DB260006699DD /* DropDownListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776644204DB25F006699DD /* DropDownListButton.swift */; };
 		37776649204E0B27006699DD /* PlayPreviewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */; };
 		3777664B204E0D14006699DD /* DropDownSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */; };
@@ -64,6 +65,7 @@
 		3747C8A72044724D00171FCF /* ConstantStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantStrings.swift; sourceTree = "<group>"; };
 		3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Anchors.swift"; sourceTree = "<group>"; };
 		3747C8B12045F88000171FCF /* DetailEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventView.swift; sourceTree = "<group>"; };
+		3758DE25205DC0D1004C55A2 /* SetEventDetailPhotoNameDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetEventDetailPhotoNameDelegate.swift; sourceTree = "<group>"; };
 		37776644204DB25F006699DD /* DropDownListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownListButton.swift; sourceTree = "<group>"; };
 		37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPreviewEventViewController.swift; sourceTree = "<group>"; };
 		3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownSelectionDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			children = (
 				3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */,
 				3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */,
+				3758DE25205DC0D1004C55A2 /* SetEventDetailPhotoNameDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */,
 				377B6F02202FF11B00AFD85C /* String+random.swift in Sources */,
 				3747C8A82044724D00171FCF /* ConstantStrings.swift in Sources */,
+				3758DE26205DC0D1004C55A2 /* SetEventDetailPhotoNameDelegate.swift in Sources */,
 				3777664B204E0D14006699DD /* DropDownSelectionDelegate.swift in Sources */,
 				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
 				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,

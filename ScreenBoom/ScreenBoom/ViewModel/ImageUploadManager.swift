@@ -16,15 +16,12 @@ import Firebase
 class ImageUploadManager: NSObject {
 
   let firebaseNodeNames = FirebaseNodeNames()
+  let storageReference = Storage.storage().reference()
   
   func uploadImage(event: Event,_ image: UIImage, progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
-        let storage = Storage.storage()
-        let storageReference = storage.reference()
-
-        // storage/carImages/image.jpg
+        // storage/Datefrom1970/_eventName.jpg
         let imageName = "\(Date().timeIntervalSince1970)_\(event.eventName).jpg"
         let imagesReference = storageReference.child(firebaseNodeNames.eventImagesFolderName).child(imageName)
-
         if let imageData = UIImageJPEGRepresentation(image, 0.8) {
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
@@ -48,5 +45,28 @@ class ImageUploadManager: NSObject {
             completionBlock(nil, "Image couldn't be converted to Data.")
         }
     }
-
+  
+  // Delete Image from firebase storage
+  func deleteImage(eventDetail: EventDetail, completion: (@escaping(Result<Void>) -> Void )) {
+    let imagesReference = storageReference.child(firebaseNodeNames.eventImagesFolderName).child(eventDetail.photoname!)
+    let delteteImageReference = Storage.storage().reference(forURL: eventDetail.photoname!)
+    delteteImageReference.delete { (error) in
+      if let error = error {
+        completion(Result.Failure(error.localizedDescription))
+      } else {
+        completion(Result.Success(()))
+      }
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
+

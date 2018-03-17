@@ -83,7 +83,6 @@ class EventDetailViewModel: NSObject {
       completion(Result.Failure("Unknown event type"))
       break
     }
-    
     eventFIRReferance.setValue(
       eventDetails,
       withCompletionBlock: { (error, response) in
@@ -91,13 +90,38 @@ class EventDetailViewModel: NSObject {
         completion(Result.Failure((error?.localizedDescription)!))
         return
       }
-        
         guard let eventCode = eventdetail.code else {
           completion(Result.Failure("Couldn't Retrive the event Code"))
           return}
       completion(Result.Success(eventCode))
     })
   }
+  
+  /// remove eventDetail
+  func removeEventDetail(event: Event, eventDetail: EventDetail,completion:(@escaping(Result<Void>) -> Void )) {
+    if event.eventType == .Photo {
+      let imageUploadManager = ImageUploadManager()
+      imageUploadManager.deleteImage(eventDetail: eventDetail, completion: { (result) in
+        switch result {
+        case.Failure(let error):
+          completion(Result.Failure(error))
+          break
+        case .Success():
+          completion(Result.Success(()))
+          break
+        }
+      })
+    }
+  firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
+      if error != nil {
+        completion(Result.Failure((error?.localizedDescription)!))
+      } else {
+        completion(Result.Success(()))
+      }
+      
+    }
+  }
+  ///
   
   
 }

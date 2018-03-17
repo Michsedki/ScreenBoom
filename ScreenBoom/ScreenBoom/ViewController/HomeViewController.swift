@@ -18,6 +18,7 @@ class HomeViewController: BaseViewController {
     static let imageTopDistancePortrait: CGFloat = 100
   }
   let userDefaultICloudViewModel = UserDefaultICloudViewModel()
+  var isDeepLinking = false
   
   // Constrains
   
@@ -25,8 +26,9 @@ class HomeViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    if !isDeepLinking {
     rigisterUser()
-    
+    }
   }
   
   override func viewWillLayoutSubviews() {

@@ -147,7 +147,7 @@ class JoinEventViewController: BaseViewController {
       let lastEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() {
       getEventAndCmpareCode(eventName: lastEventName, eventCode: lastEventCode)
     } else {
-      lastEventLabel.text = "We have a proble!"
+      lastEventLabel.text = "We have a problem!"
       lastEventLabel.textColor = UIColor.red
       joinLastEventButton.isEnabled = false
     }

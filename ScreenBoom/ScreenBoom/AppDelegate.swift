@@ -43,6 +43,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
+  
+  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    
+    print("url \(url)")
+    print("url host :\(url.host!)")
+    print("url path :\(url.path)")
+    
+    let urlPath : String = url.path as String!
+    let urlHost : String = url.host as String!
+    var pathStringArray = urlPath.components(separatedBy: "/")
+    pathStringArray.remove(at: 0)
+    let urlPathRoot = pathStringArray[0]
+    let eventName = pathStringArray[1]
+    let eventCode = pathStringArray[2]
+    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    
+    if(urlHost != "screenBoomEvent")
+    {
+      print("Host is not correct")
+      return false
+    }
+
+    if(urlPathRoot == "joinDL"){
+      
+      if let joinEventViewController = mainStoryboard.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController {
+       joinEventViewController.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
+        self.window?.rootViewController?.navigationController?.pushViewController(joinEventViewController, animated: true)
+        self.window?.rootViewController?.presentedViewController
+        
+        
+      } else {
+        return false
+      }
+      
+    } else {
+      return false
+    }
+    
+    
+    
+    
+    return true
+  }
+  // dlt://swiftdeveloperblog.com/inner
+
 
 
 }

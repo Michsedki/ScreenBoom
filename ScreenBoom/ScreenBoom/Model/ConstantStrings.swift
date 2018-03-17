@@ -37,6 +37,15 @@ struct FirebaseNodeNames {
   let eventImagesFolderName = "EventImages"
   
 }
+struct ImageNames {
+  let delete = "delete"
+  let share = "share"
+  let playEnable = "playEnable"
+  let playNotEnable = "playNotEnable"
+  let pauseEnable = "pauseEnable"
+  let pauseNotEnable = "pauseNotEnable"
+  let placeHolder = "placeHolder"
+}
 
 struct ConstantNames {
   let animationStringNames = ["candle1","firework1", "firework2","colors1","colors2","heart1","heart2","heart3","heart4","heart5","laser1","flag1","birthday1"]

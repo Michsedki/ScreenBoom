@@ -18,12 +18,15 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   // variables
   var event: Event
   var eventDetail: EventDetail
+  var eventViewModel = EventViewModel()
+  var eventDetailViewModel = EventDetailViewModel()
   var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
   var playEventViewModelSource: PlayEventViewModelSource?
   var isPreviewInDetailEventViewController: Bool
   var isShowEventNameAndCodeLabel = false
+  var setEventDetailPhotoNameDelegate : SetEventDetailPhotoNameDelegate!
   
   
   // init
@@ -77,7 +80,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       case UISwipeGestureRecognizerDirection.left:
         if !isShowEventNameAndCodeLabel {
           isShowEventNameAndCodeLabel = true
-          self.rightMenuView?.frame.origin.x =  self.view.frame.maxX - 110
+          self.rightMenuView?.frame.origin.x =  self.view.frame.maxX - 80
         }
         print("Swiped left")
       case UISwipeGestureRecognizerDirection.up:
@@ -114,19 +117,100 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       // create rightMenuView to show options
       let rightMenuView = RightMenuView(frame: CGRect(x: self.view.frame.maxX - 10,
                                                       y: 0,
-                                                      width: 120,
+                                                      width: 80,
                                                       height: self.view.frame.height))
       self.view.addSubview(rightMenuView)
       rightMenuView.configureWith(eventName: self.event.eventName, eventCode: self.event.eventCode)
-      rightMenuView.label.text = "Title: \n \(self.event.eventName) \n Code: \n \(self.event.eventCode)"
+      rightMenuView.eventNameAndCodeButtonLabel.setTitle("Title: \(self.event.eventName) \n Code: \(self.event.eventCode)", for: .normal)
       rightMenuView.shareImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGuestureOnShareImage)))
+      rightMenuView.pauseImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureOnPauseImage)))
+      rightMenuView.playImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnPlayImage)))
+      rightMenuView.deleteImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnDeleteImage)))
+      
+      
       self.view.bringSubview(toFront: rightMenuView)
       self.rightMenuView = rightMenuView
     }
   }
-  // handle tap gesture recognizer on the share image
+  // handle tap gesture recognizer on delete image
+  @objc func handleTapGestureRecognizerOnDeleteImage() {
+    ShowSpinner()
+    eventDetailViewModel.removeEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
+      switch result {
+      case .Failure(let error):
+        self.infoView(message: error, color: Colors.smoothRed)
+        break
+      case .Success():
+        self.eventViewModel.removeEvent(event: self.event, completion: { (result) in
+          switch result {
+          case .Failure(let error):
+            self.eventViewModel.updateEvenIsLive(event: self.event, isLive: self.firebaseNodeNames.eventNodeIsLiveNoValue, completion: { (result) in
+              switch result {
+              case .Failure(let error):
+                self.infoView(message: error, color: Colors.smoothRed)
+                break
+              case .Success():
+                self.infoView(message: "Event Blocked, sorry we have a problem", color: Colors.smoothRed)
+                break
+              }
+            })
+            self.infoView(message: error, color: Colors.smoothRed)
+            break
+          case .Success():
+            self.infoView(message: "Event Deleted successfully", color: Colors.lightGreen)
+            // set the eventDetail.photoName in the event detail view controller
+            self.setEventDetailPhotoNameDelegate.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
+           self.navigationController?.popViewController(animated: true)
+            
+            break
+          }
+        })
+        break
+      }
+    }
+    HideSpinner()
+    
+  }
+  
+  // handle tap gesture recognizer on the Play image
+  @objc func handleTapGestureRecognizerOnPlayImage() {
+    rightMenuView?.pauseImage.image = UIImage(named: imageNames.pauseEnable)
+    rightMenuView?.playImage.image = UIImage(named: imageNames.playNotEnable)
+    rightMenuView?.pauseImage.isUserInteractionEnabled = true
+    rightMenuView?.playImage.isUserInteractionEnabled = false
+    ShowSpinner()
+    eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in
+      switch result {
+      case .Failure(let error):
+        self.infoView(message: error, color: Colors.smoothRed)
+      case .Success():
+        self.infoView(message: "Play", color: Colors.lightGreen)
+      }
+    }
+    HideSpinner()
+  }
+  
+  // handle tap gesture recognizer on the Pause image
+  @objc func handleTapGestureOnPauseImage() {
+    rightMenuView?.pauseImage.image = UIImage(named: imageNames.pauseNotEnable)
+    rightMenuView?.playImage.image = UIImage(named: imageNames.playEnable)
+    rightMenuView?.pauseImage.isUserInteractionEnabled = false
+    rightMenuView?.playImage.isUserInteractionEnabled = true
+    ShowSpinner()
+    eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLivePauseValue) { (result) in
+      switch result {
+      case .Failure(let error):
+        self.infoView(message: error, color: Colors.smoothRed)
+      case .Success():
+        self.infoView(message: "Pause", color: Colors.lightGreen)
+      }
+    }
+    HideSpinner()
+  }
+   // handle tap gesture recognizer on the share image
   @objc func handleTapGuestureOnShareImage() {
-    let activityController = UIActivityViewController(activityItems: [self.rightMenuView?.label.text ?? "Ops we have a problem sharing this Event!"], applicationActivities: nil)
+    let deepLinkURL = "sbdl://screenBoomEvent/joinDL/\(self.event.eventName)/\(self.event.eventCode)"
+    let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
     present(activityController, animated: true, completion: nil)
   }
   func saveUserDefaultOldEventAndUserID(){

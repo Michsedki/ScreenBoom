@@ -84,7 +84,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     self.animationCollectionView.dataSource = self
     // Do any additional setup after loading the view.
   }
-
   
   func setupViews() {
     // create Navigation bar right buttom (Send)
@@ -269,9 +268,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   
   override func viewWillDisappear(_ animated: Bool) {
     playPreviewEventViewController?.willMove(toParentViewController: nil)
-    
     playPreviewEventViewController?.view.removeFromSuperview()
-    
     playPreviewEventViewController?.removeFromParentViewController()
   }
   
@@ -319,7 +316,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
         return }
       guard let url = URL else {self?.infoView(message: "Photo upload faild!", color: Colors.smoothRed)
         return }
-      
       strongSelf.eventDetail.photoname = url.absoluteString
       strongSelf.saveEventAndEventDetail()
     })
@@ -358,6 +354,14 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
         self.eventDetailViewModel.addEventDetail(event: self.event, eventdetail: self.eventDetail, completion: { (result) in
           switch result {
           case .Failure(let error):
+            self.eventViewModel.removeEvent(event: self.event, completion: { (result) in
+              switch result {
+              case .Failure( _):
+                print("fail in removing event after failed of adding eventDetail")
+              case .Success():
+                print("success in removing event after failed of adding eventDetail")
+              }
+            })
             self.infoView(message: error, color: Colors.smoothRed)
           case .Success(let eventCode):
             self.infoView(message: "Event Created Successfully: EventName\(self.event.eventName), Code: \(eventCode) ", color: Colors.lightGreen)
@@ -371,11 +375,19 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   // Push PlayEventViewController
   func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
     let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail, isPreviewInDetailEventViewController: false)
+    PlayViewController.setEventDetailPhotoNameDelegate = self
     self.navigationController?.pushViewController(PlayViewController, animated: true)
   }
 /// End of EventDetailViewController
 }
 
+
+// extension conform to SetEventPhotoName
+extension EventDetailViewController: SetEventDetailPhotoNameDelegate {
+  func updateEventDetailPhotoNameDelegate(eventDetailPhotoName: String) {
+    self.eventDetail.photoname = eventDetailPhotoName
+  }
+}
 
 // extension conform to UICollectionView
 extension EventDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

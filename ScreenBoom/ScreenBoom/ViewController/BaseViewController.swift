@@ -31,10 +31,8 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
   // Firebase
   let firebaseNodeNames = FirebaseNodeNames()
   let userDefaultKeyNames = UserDefaultKeyNames()
-  
-  
+  let imageNames = ImageNames()
   let fontSize12 = UIScreen.main.bounds.width / 31
-  
   let spinner = UIActivityIndicatorView()
 
   // boolean to check if errorView is currently showing or not
