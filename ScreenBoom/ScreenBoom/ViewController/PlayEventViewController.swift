@@ -26,9 +26,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var playEventViewModelSource: PlayEventViewModelSource?
   var isPreviewInDetailEventViewController: Bool
   var isShowEventNameAndCodeLabel = false
-  var setEventDetailPhotoNameDelegate : SetEventDetailPhotoNameDelegate!
-  
-  
+  var setPhotoEventDetailDelegate : SetPhotoEventDetailDelegate!
   // init
   init (event:Event, eventDetail: EventDetail, isPreviewInDetailEventViewController: Bool) {
     self.event = event
@@ -101,6 +99,11 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
   }
   
+  override func viewWillDisappear(_ animated: Bool) {
+    self.setPhotoEventDetailDelegate.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
+    self.setPhotoEventDetailDelegate.updateOldEventDetail(oldEventDetail: self.eventDetail)
+  }
+  
   func setupViews() {
     // create playEventView to view the events
     let playEventView = PlayEventView(frame: CGRect(x: 0,
@@ -135,39 +138,55 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   // handle tap gesture recognizer on delete image
   @objc func handleTapGestureRecognizerOnDeleteImage() {
     ShowSpinner()
-    eventDetailViewModel.removeEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
+    eventDetailViewModel.removeEventDetailWithEventAndEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
       switch result {
       case .Failure(let error):
         self.infoView(message: error, color: Colors.smoothRed)
         break
       case .Success():
-        self.eventViewModel.removeEvent(event: self.event, completion: { (result) in
-          switch result {
-          case .Failure(let error):
-            self.eventViewModel.updateEvenIsLive(event: self.event, isLive: self.firebaseNodeNames.eventNodeIsLiveNoValue, completion: { (result) in
-              switch result {
-              case .Failure(let error):
-                self.infoView(message: error, color: Colors.smoothRed)
-                break
-              case .Success():
-                self.infoView(message: "Event Blocked, sorry we have a problem", color: Colors.smoothRed)
-                break
-              }
-            })
-            self.infoView(message: error, color: Colors.smoothRed)
-            break
-          case .Success():
-            self.infoView(message: "Event Deleted successfully", color: Colors.lightGreen)
-            // set the eventDetail.photoName in the event detail view controller
-            self.setEventDetailPhotoNameDelegate.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
-           self.navigationController?.popViewController(animated: true)
-            
-            break
-          }
-        })
+        self.infoView(message: "Event Deleted successfully", color: Colors.lightGreen)
+        // set the eventDetail.photoName in the event detail view controller
+        
+        self.navigationController?.popViewController(animated: true)
         break
       }
     }
+    
+    
+//
+//    eventDetailViewModel.removeEventDetailWithEventAndEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
+//      switch result {
+//      case .Failure(let error):
+//        self.infoView(message: error, color: Colors.smoothRed)
+//        break
+//      case .Success():
+//        self.eventViewModel.removeEvent(event: self.event, completion: { (result) in
+//          switch result {
+//          case .Failure(let error):
+//            self.eventViewModel.updateEvenIsLive(event: self.event, isLive: self.firebaseNodeNames.eventNodeIsLiveNoValue, completion: { (result) in
+//              switch result {
+//              case .Failure(let error):
+//                self.infoView(message: error, color: Colors.smoothRed)
+//                break
+//              case .Success():
+//                self.infoView(message: "Event Blocked, sorry we have a problem", color: Colors.smoothRed)
+//                break
+//              }
+//            })
+//            self.infoView(message: error, color: Colors.smoothRed)
+//            break
+//          case .Success():
+//            self.infoView(message: "Event Deleted successfully", color: Colors.lightGreen)
+//            // set the eventDetail.photoName in the event detail view controller
+//            self.setEventDetailPhotoNameDelegate.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
+//           self.navigationController?.popViewController(animated: true)
+//
+//            break
+//          }
+//        })
+//        break
+//      }
+//    }
     HideSpinner()
     
   }

@@ -12,12 +12,14 @@ import FirebaseDatabase
 
 class EventDetailViewModel: NSObject {
   
-  let firebaseDatabaseReference = Database.database().reference()
+  let firebaseDatabaseReference2 = Database.database().reference()
   var eventDetail: EventDetail?
+//  let eventViewModel = EventViewModel()
+  let firebaseNodeNames = FirebaseNodeNames()
   
   // Check if event detail is exist and return the eventDetail if success or error string if failure
   func checkIfEventDetailExist (event: Event, completion: (@escaping(Result<EventDetail>) -> Void) ) {
-  firebaseDatabaseReference.child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
+  firebaseDatabaseReference2.child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
       
       if eventDetailSnapshot.exists() {
         guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: Any] else { return }
@@ -35,12 +37,10 @@ class EventDetailViewModel: NSObject {
     })
   }
   
-  
-  
   // Add Event Detail
   func addEventDetail(event :Event , eventdetail: EventDetail, completion:(@escaping(Result<String>) -> Void)) {
     
-    let eventFIRReferance = firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(event.eventName)
+    let eventFIRReferance = firebaseDatabaseReference2.child(firebaseNodeNames.eventDetailNode).child(event.eventName)
     
     var eventDetails = [String:String]()
     switch event.eventType {
@@ -97,28 +97,97 @@ class EventDetailViewModel: NSObject {
     })
   }
   
-  /// remove eventDetail
-  func removeEventDetail(event: Event, eventDetail: EventDetail,completion:(@escaping(Result<Void>) -> Void )) {
+  
+  // remove event and eventdetail
+  func removeEventAndEventDetail(event: Event,eventDetail: EventDetail? ,completion:(@escaping(Result<Void>) -> Void )) {
+    if let eventDetail = eventDetail {
+      // eventDetail is exist
+      removeEventDetailWithEventAndEventDetail(event: event, eventDetail: eventDetail, completion: { (resultOfDelete) in
+        switch resultOfDelete {
+        case .Failure( _):
+          completion(Result.Failure("Event not deleted!"))
+          break
+        case .Success():
+          completion(Result.Success(()))
+          break
+          
+        }
+      })
+      
+    } else {
+      // eventDetail not exist and we need to get it
+      self.checkIfEventDetailExist(event: event, completion: { (result) in
+        switch result {
+        case .Failure( _):
+          completion(Result.Failure("Event not deleted!"))
+          break
+        case .Success(let eventDetailFirebase):
+          self.removeEventDetailWithEventAndEventDetail(event: event, eventDetail: eventDetailFirebase, completion: { (resultOfDelete) in
+            switch resultOfDelete {
+            case .Failure( _):
+              completion(Result.Failure("Event not deleted!"))
+              break
+            case .Success():
+              completion(Result.Success(()))
+              break
+            }
+          })
+          break
+        }
+      })
+    }
+  }
+  
+  
+  /// remove eventDetail givin event and event detail
+  func removeEventDetailWithEventAndEventDetail(event: Event, eventDetail: EventDetail,completion:(@escaping(Result<Void>) -> Void )) {
     if event.eventType == .Photo {
       let imageUploadManager = ImageUploadManager()
       imageUploadManager.deleteImage(eventDetail: eventDetail, completion: { (result) in
         switch result {
         case.Failure(let error):
+          print("couldn't remove the Image")
           completion(Result.Failure(error))
           break
         case .Success():
-          completion(Result.Success(()))
+          print("Image removed successsfully")
           break
         }
       })
     }
-  firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
+  firebaseDatabaseReference2.child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
+      if error != nil {
+        completion(Result.Failure((error?.localizedDescription)!))
+      } else {
+        self.firebaseDatabaseReference2.child(self.firebaseNodeNames.eventNode).child(event.eventName).removeValue(completionBlock: { (error, _) in
+          if error != nil {
+            self.updateEvenIsLive(event: event, isLive: self.firebaseNodeNames.eventNodeIsLiveNoValue, completion: { (result) in
+              switch result {
+              case .Failure(let error):
+                completion(Result.Failure(error))
+                break
+              case .Success():
+                completion(Result.Failure("Event Blocked, sorry we have a problem"))
+                break
+              }
+            })
+          } else {
+            completion(Result.Success(()))
+          }
+        })
+      }
+      
+    }
+  }
+  
+  /// update the Event islive node with yes or no
+  func updateEvenIsLive(event: Event, isLive: String, completion:(@escaping(Result<Void>) -> Void)) {
+    firebaseDatabaseReference2.child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeIsLiveChild).setValue(isLive) { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {
         completion(Result.Success(()))
       }
-      
     }
   }
   ///

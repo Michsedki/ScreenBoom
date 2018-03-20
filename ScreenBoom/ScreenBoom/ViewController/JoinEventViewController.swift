@@ -78,16 +78,15 @@ class JoinEventViewController: BaseViewController {
         self.infoView(message: "event is not Exist", color: Colors.smoothRed)
         return
       }
-      guard let eventCodeFirebase = snapshot?.childSnapshot(forPath: "code").value as? String, let eventTypeFirebase = snapshot?.childSnapshot(forPath: "type").value as? String
+      guard let eventCodeFirebase = snapshot?.childSnapshot(forPath: "code").value as? String,
+            let eventTypeFirebase = snapshot?.childSnapshot(forPath: "type").value as? String,
+            let eventIsLiveFirebase = snapshot?.childSnapshot(forPath: "islive").value as? String
         else {
           self.infoView(message: "Couldn't retrive event", color: Colors.smoothRed)
           return
       }
       if eventCodeFirebase == eventCode {
-        
-        if let eventIsLiveFirebase = snapshot?.childSnapshot(forPath: "islive").value as? String {
-          event.eventIsLive = eventIsLiveFirebase
-        }
+        event.eventIsLive = eventIsLiveFirebase
         switch eventTypeFirebase {
         case "text":
           event.eventType = .Text

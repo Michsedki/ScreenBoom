@@ -8,6 +8,7 @@
 
 import Foundation
 
-protocol SetEventDetailPhotoNameDelegate {
+protocol SetPhotoEventDetailDelegate {
   func updateEventDetailPhotoNameDelegate(eventDetailPhotoName: String)
+  func updateOldEventDetail(oldEventDetail: EventDetail)
 }

@@ -23,11 +23,10 @@ class EventViewModel: NSObject {
   let firebaseDatabaseReference = Database.database().reference()
   let firebaseNodeNames = FirebaseNodeNames()
   var event: Event?
+//  let eventDetailViewModel = EventDetailViewModel()
   
   func configureWithEvent(event:Event, completion:ConfigureWithEventCompletionHandler? = nil) {
     checkIfEventExists(event: event, completion: { eventExists, snapshot  in
-      
-      
       if !eventExists {
         // if the event is not exists set the value
         self.event = event
@@ -44,12 +43,9 @@ class EventViewModel: NSObject {
   
   // check if event is already exist
   func checkIfEventExists (event: Event, completion:(@escaping (Bool, DataSnapshot?) -> Void)) {
-    
     firebaseDatabaseReference.child("Event").child(event.eventName).observeSingleEvent(of: .value, with: { (snapshot) in
-      
       if snapshot.exists() {
         completion(true,snapshot )
-        
       } else {
         completion(false,nil )
       }
@@ -59,9 +55,14 @@ class EventViewModel: NSObject {
   
   // add event method takes event and completion to insert the event in the firbase
   //Database and return result (error or firebasedatareferense
-  func addEvent(event: Event, completion:(@escaping(Result<String>) -> Void)) {
+  func addEvent(event: Event, oldEventCode: String?, completion:(@escaping(Result<String>) -> Void)) {
+    var eventCode = ""
+    if let oldEventCode = oldEventCode {
+      eventCode = oldEventCode
+    } else {
+      eventCode = String.random()
+    }
     
-    let eventCode = String.random()
     let eventFIRReferance = firebaseDatabaseReference.child("Event").child(event.eventName)
     eventFIRReferance.setValue(
       [firebaseNodeNames.eventNodeTypeChild:event.eventType.rawValue,
@@ -77,8 +78,7 @@ class EventViewModel: NSObject {
       completion(Result.Success(eventCode))
     })
   }
-  
-  //Michael start
+
   /// update the Event islive node with yes or no
   func updateEvenIsLive(event: Event, isLive: String, completion:(@escaping(Result<Void>) -> Void)) {
  firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeIsLiveChild).setValue(isLive) { (error, _) in
@@ -89,7 +89,6 @@ class EventViewModel: NSObject {
       }
     }
   }
-  
   
   /// update the Event type node with text, photo or animation
   func updateEvenType(event: Event, eventType: EventType, completion:(@escaping(Result<Void>) -> Void)) {
@@ -141,11 +140,6 @@ class EventViewModel: NSObject {
     }
     completion(Result.Failure("Event Not Found"))
   }
-  
-  
-  
-  // Michael end
-  
 }
 
 

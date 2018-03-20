@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       if let joinEventViewController = mainStoryboard.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController {
        joinEventViewController.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
         self.window?.rootViewController?.navigationController?.pushViewController(joinEventViewController, animated: true)
-        self.window?.rootViewController?.presentedViewController
+//        self.window?.rootViewController?.presentedViewController
         
         
       } else {

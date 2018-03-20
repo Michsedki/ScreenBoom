@@ -33,6 +33,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   // Variables
   var event:Event
   var eventDetail: EventDetail
+  var oldEventDetail: EventDetail?
   let eventViewModel = EventViewModel()
   let eventDetailViewModel = EventDetailViewModel()
   var playEventPreviewContainerView = UIView()
@@ -274,7 +275,6 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   
   // Selectors
   @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
-    
     switch event.eventType {
     case .Text:
       saveTextEvent()
@@ -296,7 +296,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   func saveAnimationEvent() {
     guard !(eventDetail.animationStringURL?.isEmpty)! else {print("Photo not Empty")
       return}
-     saveEventAndEventDetail()
+     prepareForSavingEventAndEventDetail()
   
   }
   // Photo Event
@@ -317,8 +317,9 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       guard let url = URL else {self?.infoView(message: "Photo upload faild!", color: Colors.smoothRed)
         return }
       strongSelf.eventDetail.photoname = url.absoluteString
-      strongSelf.saveEventAndEventDetail()
+      strongSelf.prepareForSavingEventAndEventDetail()
     })
+    
   }
   
   // Text Event
@@ -337,13 +338,64 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       self.infoView(message: "No event background Color!", color: Colors.smoothRed)
       return
     }
-    saveEventAndEventDetail()
-    
+   
+    prepareForSavingEventAndEventDetail()
+  }
+  func prepareForSavingEventAndEventDetail() {
+    checkIfUpdateEventOrAddNewEvent { (result) in
+      switch result {
+      case .Failure(let error):
+        if (error == "Don't Save") {
+          return
+        } else if (error == "Not Exist") {
+          self.saveEventAndEventDetail(oldCode: nil)
+        }
+        break
+      case .Success(let code):
+        self.saveEventAndEventDetail(oldCode: code)
+        break
+      }
+    }
   }
   
-  func saveEventAndEventDetail() {
+  func checkIfUpdateEventOrAddNewEvent(completion:(@escaping(Result<String?>) -> Void )) {
+    eventViewModel.checkIfEventExists(event: self.event) { (isExist, eventFirebase) in
+      if isExist, let eventCodeFirebase = eventFirebase?.childSnapshot(forPath: self.firebaseNodeNames.eventNodeCodeChild).value as? String {
+              if let eventTypeFirebase = eventFirebase?.childSnapshot(forPath: self.firebaseNodeNames.eventNodeTypeChild).value as? String,
+                eventTypeFirebase == EventType.Photo.rawValue,
+                let oldEventDetail = self.oldEventDetail
+              {
+                let imageUploadManager = ImageUploadManager()
+                imageUploadManager.deleteImage(eventDetail: oldEventDetail, completion: { (result) in
+                  switch result {
+                  case .Failure( _):
+                    self.infoView(message: "Can't Update event", color: Colors.smoothRed)
+                    completion(Result.Failure("Don't Save"))
+                    break
+                  case .Success():
+                    self.infoView(message: "Update event in progress", color: Colors.lightGreen)
+                    completion(Result.Success(eventCodeFirebase))
+                    break
+                  }
+                })
+              } else {
+                completion(Result.Success(eventCodeFirebase))
+        }
+
+        
+      } else {
+        completion(Result.Failure("Not Exist"))
+      }
+
+    }
+
+  }
+  
+  func saveEventAndEventDetail(oldCode : String?) {
+    
     self.ShowSpinner()
-    eventViewModel.addEvent(event: self.event) { (result) in
+    
+    eventViewModel.addEvent(event: self.event, oldEventCode: oldCode) { (result) in
       switch result {
       case .Failure(let error):
         self.infoView(message: error, color: Colors.smoothRed)
@@ -375,7 +427,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   // Push PlayEventViewController
   func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
     let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail, isPreviewInDetailEventViewController: false)
-    PlayViewController.setEventDetailPhotoNameDelegate = self
+    PlayViewController.setPhotoEventDetailDelegate = self
     self.navigationController?.pushViewController(PlayViewController, animated: true)
   }
 /// End of EventDetailViewController
@@ -383,7 +435,10 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
 
 
 // extension conform to SetEventPhotoName
-extension EventDetailViewController: SetEventDetailPhotoNameDelegate {
+extension EventDetailViewController: SetPhotoEventDetailDelegate {
+  func updateOldEventDetail(oldEventDetail: EventDetail) {
+    self.oldEventDetail = oldEventDetail
+  }
   func updateEventDetailPhotoNameDelegate(eventDetailPhotoName: String) {
     self.eventDetail.photoname = eventDetailPhotoName
   }
