@@ -21,6 +21,8 @@ struct EventDetail: Decodable {
   var speed: String?
   var text: String?
   var code: String?
+  var font: String?
+  var fontsize: String?
 }
 
 //struct AnimationEventDetail {

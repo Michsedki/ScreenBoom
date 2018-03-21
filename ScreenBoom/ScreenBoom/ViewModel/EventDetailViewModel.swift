@@ -50,7 +50,9 @@ class EventDetailViewModel: NSObject {
             let backgroundColor = eventdetail.backgroundcolor,
             let animationName = eventdetail.animationName,
             let speed = eventdetail.speed,
-            let code = eventdetail.code else {
+            let code = eventdetail.code,
+            let font = eventdetail.font,
+            let fontSize = eventdetail.fontsize else {
         completion(Result.Failure("Couldn't build text eventDetail"))
         return
       }
@@ -59,7 +61,9 @@ class EventDetailViewModel: NSObject {
                       firebaseNodeNames.eventDetailBackGroundColorChild : backgroundColor,
                       firebaseNodeNames.eventDetailAnimationNameChild : animationName,
                       firebaseNodeNames.eventDetailSpeedChild : speed,
-                      firebaseNodeNames.eventDetailCodeChild : code ]
+                      firebaseNodeNames.eventDetailCodeChild : code,
+                      firebaseNodeNames.eventDetailFoneChild : font,
+                      firebaseNodeNames.eventDetailFontSizeChild : fontSize ]
       break
     case .Photo:
       guard let photoName = eventdetail.photoname,

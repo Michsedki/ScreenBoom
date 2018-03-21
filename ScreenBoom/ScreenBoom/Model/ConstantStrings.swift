@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 struct FirebaseNodeNames {
   // Event Node
   let eventNode = "Event"
@@ -32,6 +34,9 @@ struct FirebaseNodeNames {
     let eventDetailAnimationNameChild = "animationName"
     let eventDetailSpeedChild = "speed"
     let eventDetailCodeChild = "code"
+    let eventDetailFoneChild = "font"
+    let eventDetailFontSizeChild = "fontsize"
+  
   
   // Event User Log
   let eventUsersNodeChild = "Users"
@@ -55,9 +60,31 @@ struct ImageNames {
 }
 
 struct ConstantNames {
-  let animationStringNames = ["candle1","firework1", "firework2","colors1","colors2","heart1","heart2","heart3","heart4","heart5","laser1","flag1","birthday1"]
+  
   let colorsNamesList = ["Blue", "Green", "Magenta", "White", "Black", "Purple"]
-  let animationNamesList = ["Shake", "Zoom", "pop"]
+  let animationNamesArray = ["Shake", "Zoom", "pop"]
+  var fontNames = [String]()
+  var fontStyle = [String]()
+  let fontsize = Array(0...50).map({String($0)})
+  let gifAnimationNamesArray = ["candle1","firework1", "firework2","colors1","colors2","heart1","heart2","heart3","heart4","heart5","laser1","flag1","birthday1"]
+  
+  let textColorButtonTitle = "Text Colors"
+  let backgroungButtonTitle = "Background Colors"
+  let animationButtonTitle = "Animation"
+  let fontButtonTitle = "Font"
+  let fontSizeButtonTitle = "Size"
+  
+  init() {
+    UIFont.familyNames.sorted().forEach{ familyName in
+      //  print("*** \(familyName) ***")
+      UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+        fontNames.append(fontName)
+      // print("\(fontName)")
+      }
+      
+    }
+  }
+  
 }
 
 

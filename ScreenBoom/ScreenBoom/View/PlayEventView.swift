@@ -24,6 +24,9 @@ class PlayEventView: UIView {
   let textLabel: UILabel = {
     let view = UILabel()
     view.backgroundColor = UIColor.clear
+    view.numberOfLines = 0
+    view.sizeToFit()
+    view.adjustsFontSizeToFitWidth = true
     view.font = UIFont.boldSystemFont(ofSize: 25)
     view.textAlignment = .center
     return view
@@ -128,11 +131,16 @@ class PlayEventView: UIView {
   
   // Show Text Event View
   func showTextEventView(eventDetail: EventDetail) {
+    // i should add if let statement to unwrap all this value first
+    
     // set PlayView background color
     backgroundColor = eventDetail.backgroundcolor?.stringToUIColor()
     // Set textLabel with text and textColor
     textLabel.text = eventDetail.text
     textLabel.textColor = eventDetail.textcolor?.stringToUIColor()
+//    textLabel.font = UIFont(name: eventDetail.font!, size: CGFloat(Int(eventDetail.fontsize!)!))
+    
+    
     // Add Canvas Animation to the pendingLabelAnimationView
     textLabelAnimationView.type = eventDetail.animationName
     textLabelAnimationView.duration = 10
@@ -145,7 +153,7 @@ class PlayEventView: UIView {
                                   leading: self.leadingAnchor,
                                   bottom: self.bottomAnchor,
                                   trailing: self.trailingAnchor,
-                                  padding: .init(top: 100,left: 100,bottom: 100,right: 100))
+                                  padding: .zero)
     textLabel.anchor(top: textLabelAnimationView.topAnchor,
                      leading: textLabelAnimationView.leadingAnchor,
                      bottom: textLabelAnimationView.bottomAnchor,

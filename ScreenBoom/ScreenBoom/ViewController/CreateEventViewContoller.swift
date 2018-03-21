@@ -130,7 +130,17 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   
   func showDetailViewController(event: Event, eventDetail : EventDetail?) {
     
-     var eventDetailItem = EventDetail(animationStringURL: self.constantNames.animationStringNames[0], animationName: "", photoname: "Place holder", backgroundcolor: "Blue", textcolor: "White", speed: "", text: "Your Text", code: "" )
+    var eventDetailItem = EventDetail(
+      animationStringURL: self.constantNames.gifAnimationNamesArray[0],
+      animationName: "",
+      photoname: "Place holder",
+      backgroundcolor: "Blue",
+      textcolor: "White",
+      speed: "",
+      text: "Your Text",
+      code: "",
+      font: "",
+      fontsize: "" )
     if let eventDetail = eventDetail {
        eventDetailItem = eventDetail
     }
