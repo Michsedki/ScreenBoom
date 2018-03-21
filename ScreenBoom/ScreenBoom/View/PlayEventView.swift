@@ -48,6 +48,9 @@ class PlayEventView: UIView {
     view.backgroundColor = UIColor.clear
     return view
   }()
+  func configureWithPhotoEventImage(image: UIImage) {
+    photoEventImageView.image = image
+  }
   
   func configure(viewModel: PlayEventViewModel) {
     let eventDetail = viewModel.eventDetail
@@ -177,3 +180,5 @@ class PlayEventView: UIView {
   }
   
 }
+
+

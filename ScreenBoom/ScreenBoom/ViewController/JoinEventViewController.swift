@@ -13,7 +13,6 @@ class JoinEventViewController: BaseViewController {
   
   // variables
   let userDefaultICloudViewModel = UserDefaultICloudViewModel()
-  var baseDatabaseReference = Database.database().reference()
   var event: Event?
   var eventViewModel = EventViewModel()
   var eventDetailViewModel = EventDetailViewModel()
@@ -80,13 +79,15 @@ class JoinEventViewController: BaseViewController {
       }
       guard let eventCodeFirebase = snapshot?.childSnapshot(forPath: "code").value as? String,
             let eventTypeFirebase = snapshot?.childSnapshot(forPath: "type").value as? String,
-            let eventIsLiveFirebase = snapshot?.childSnapshot(forPath: "islive").value as? String
+            let eventIsLiveFirebase = snapshot?.childSnapshot(forPath: "islive").value as? String,
+            let eventUserIDFirebase = snapshot?.childSnapshot(forPath: "userid").value as? String
         else {
           self.infoView(message: "Couldn't retrive event", color: Colors.smoothRed)
           return
       }
       if eventCodeFirebase == eventCode {
         event.eventIsLive = eventIsLiveFirebase
+        event.userID = eventUserIDFirebase
         switch eventTypeFirebase {
         case "text":
           event.eventType = .Text

@@ -10,28 +10,35 @@ import Foundation
 struct FirebaseNodeNames {
   // Event Node
   let eventNode = "Event"
-  let eventNodeCodeChild = "code"
-  let eventNodeTypeChild = "type"
+    let eventNodeCodeChild = "code"
+    let eventNodeTypeChild = "type"
     let eventNodeTypeTextValue = "text"
     let eventNodeTypePhotoValue = "photo"
     let eventNodeTypeAnimationValue = "animation"
     let eventNodeTypeDefaultValue = ""
-  let eventNodeIsLiveChild = "islive"
-    let eventNodeIsLiveYesValue = "yes"
-    let eventNodeIsLiveNoValue = "no"
-    let eventNodeIsLivePauseValue = "pause"
-  let eventUserIDChild = "userid"
+    let eventNodeIsLiveChild = "islive"
+      let eventNodeIsLiveYesValue = "yes"
+      let eventNodeIsLiveNoValue = "no"
+      let eventNodeIsLivePauseValue = "pause"
+    let eventUserIDChild = "userid"
   
   // Event Detail Node
   let eventDetailAnimationStringURLChild = "animationStringURL"
-  let eventDetailNode = "EventDetails"
-  let eventDetailTextChild = "text"
-  let eventDetailTextColorChild = "textcolor"
-  let eventDetailBackGroundColorChild = "backgroundcolor"
-  let eventDetailPhotoNameChild = "photoname"
-  let eventDetailAnimationNameChild = "animationName"
-  let eventDetailSpeedChild = "speed"
-  let eventDetailCodeChild = "code"
+    let eventDetailNode = "EventDetails"
+    let eventDetailTextChild = "text"
+    let eventDetailTextColorChild = "textcolor"
+    let eventDetailBackGroundColorChild = "backgroundcolor"
+    let eventDetailPhotoNameChild = "photoname"
+    let eventDetailAnimationNameChild = "animationName"
+    let eventDetailSpeedChild = "speed"
+    let eventDetailCodeChild = "code"
+  
+  // Event User Log
+  let eventUsersNodeChild = "Users"
+  let isOwnerChild = "isowner"
+    let isOwnerYesValue = "yes"
+    let isOwnerNoValue = "No"
+    
  
   //Storage
   let eventImagesFolderName = "EventImages"

@@ -30,7 +30,7 @@ class Event: NSObject {
     self.eventIsLive = eventIsLive
     self.eventCode = eventCode
     self.userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as! String
-    
+//    self.userID = "123"
     super.init()
   }
 }

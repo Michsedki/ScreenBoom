@@ -7,11 +7,23 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class BaseViewController: UIViewController, UITextFieldDelegate {
 
+  var firebaseDatabaseReference: DatabaseReference!
+  
+  // Constants
+  // Firebase
+  let firebaseNodeNames = FirebaseNodeNames()
+  let userDefaultKeyNames = UserDefaultKeyNames()
+  let imageNames = ImageNames()
+  let fontSize12 = UIScreen.main.bounds.width / 31
+  let spinner = UIActivityIndicatorView()
+  
     override func viewDidLoad() {
         super.viewDidLoad()
+      firebaseDatabaseReference = Database.database().reference()
 
       
         // Do any additional setup after loading the view.
@@ -27,13 +39,7 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     return true;
   }
   
-  // Constants
-  // Firebase
-  let firebaseNodeNames = FirebaseNodeNames()
-  let userDefaultKeyNames = UserDefaultKeyNames()
-  let imageNames = ImageNames()
-  let fontSize12 = UIScreen.main.bounds.width / 31
-  let spinner = UIActivityIndicatorView()
+  
 
   // boolean to check if errorView is currently showing or not
   var infoViewIsShowing = false
@@ -47,15 +53,11 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
       
       // cast as errorview is currently showing
       infoViewIsShowing = true
-      
       // errorView - red background creation
       let infoView_Hieght = self.view.bounds.height / 14.2
       let infoView_Y = 0 - infoView_Hieght
-      
       let infoView = UIView()
       infoView.frame = CGRect(x: 0, y: infoView_Y, width: self.view.bounds.width, height: infoView_Hieght)
-      
-      
       infoView.backgroundColor = color
       self.view.addSubview(infoView)
       if let navController = self.navigationController {

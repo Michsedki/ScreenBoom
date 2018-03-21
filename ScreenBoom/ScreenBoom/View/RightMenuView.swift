@@ -18,6 +18,7 @@ class RightMenuView: UIView {
   }()
   let editButton : UIButton = {
     let view = UIButton()
+    view.isHidden = true
     view.setTitle("Edit", for: .normal)
     view.titleLabel?.textColor = UIColor.blue
     view.titleLabel?.backgroundColor = UIColor.clear
@@ -26,18 +27,21 @@ class RightMenuView: UIView {
   }()
   let pauseImage : UIImageView = {
     let view = UIImageView()
+    view.isHidden = true
     view.image = UIImage(named: "pauseEnable")
     view.isUserInteractionEnabled = true
     return view
   }()
   let playImage : UIImageView = {
     let view = UIImageView()
+    view.isHidden = true
     view.image = UIImage(named: "playNotEnable")
     view.isUserInteractionEnabled = false
     return view
   }()
   let deleteImage : UIImageView = {
     let view = UIImageView()
+    view.isHidden = true
     view.image = UIImage(named: "delete")
     view.isUserInteractionEnabled = true
     return view

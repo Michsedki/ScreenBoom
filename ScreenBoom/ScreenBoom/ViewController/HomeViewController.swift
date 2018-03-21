@@ -8,17 +8,23 @@
 
 import UIKit
 import CloudKit
+import FirebaseDatabase
+
 
 
 class HomeViewController: BaseViewController {
+  
+  let userDefaultICloudViewModel = UserDefaultICloudViewModel()
+  let eventViewModel = EventViewModel()
+  var isDeepLinking = false
   
   // Struct
   struct Constant {
     static let imageTopDistanceLandScape: CGFloat = 20
     static let imageTopDistancePortrait: CGFloat = 100
   }
-  let userDefaultICloudViewModel = UserDefaultICloudViewModel()
-  var isDeepLinking = false
+ 
+  
   
   // Constrains
   
@@ -26,8 +32,9 @@ class HomeViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+//    firebaseDatabaseReference = Database.database().reference()
     if !isDeepLinking {
-    rigisterUser()
+      rigisterUser()
     }
   }
   
@@ -44,14 +51,17 @@ class HomeViewController: BaseViewController {
   func rigisterUser() {
     userDefaultICloudViewModel.getICloudUserID { (userID, error) in
       if error == nil , let userID = userID {
-        if self.userDefaultICloudViewModel.checkIfTheSameUserIcloudID(userID: userID) {
-          if let oldEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
-            let oldEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() {
-            // show alert to join Old Event
-            self.showJoinOldEventAlert(eventName: oldEventName, eventCode: oldEventCode)
-          } else { return }
-        } else {
-          return
+        _ = self.userDefaultICloudViewModel.checkIfTheSameUserIcloudID(userID: userID)
+        if let oldEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
+          let oldEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() {
+          let oldEvent = Event(eventName: oldEventName, eventIsLive: "no", eventType: .Unknown, eventCode: oldEventCode)
+          self.eventViewModel.checkIfEventExists(event: oldEvent, completion: { (isExist, eventSnapShot) in
+            if isExist, let eventuserIDFirebase = eventSnapShot?.childSnapshot(forPath: self.firebaseNodeNames.eventUserIDChild).value as? String {
+              if eventuserIDFirebase == userID {
+                self.showJoinOldEventAlert(eventName: oldEventName, eventCode: oldEventCode)
+              }
+            }
+          })
         }
       } else {
         // show alert
@@ -90,7 +100,7 @@ class HomeViewController: BaseViewController {
       joinEventViewController.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
       self.navigationController?.pushViewController(joinEventViewController, animated: true)
     }
- 
+    
   }
   
 }

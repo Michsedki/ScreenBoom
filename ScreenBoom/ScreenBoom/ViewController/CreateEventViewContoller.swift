@@ -13,11 +13,11 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   
   
   // Varibales
-  var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
   let eventViewModel = EventViewModel()
   let eventDetailViewModel = EventDetailViewModel()
   let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
   var currentEventType:EventType = .Text
+  let constantNames = ConstantNames()
   
   // Outlets
   @IBOutlet weak var eventNameTextfield: UITextField!
@@ -74,11 +74,9 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     
     ShowSpinner()
     eventViewModel.checkIfEventExists(event: currentEvent) { (isExist, eventSnapShot) in
-      
       if !isExist {
-        self.showDetailViewController(event : currentEvent)
+        self.showDetailViewController(event : currentEvent, eventDetail: nil)
       } else {
-        
     guard let eventCodeFirebase = eventSnapShot?.childSnapshot(forPath: "code").value as? String,
        let eventTypeFirebase = eventSnapShot?.childSnapshot(forPath: "type").value as? String,
        let eventIsLiveFirebase = eventSnapShot?.childSnapshot(forPath: "islive").value as? String,
@@ -92,10 +90,19 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
         // set current event with firebase old event information
         currentEvent.eventIsLive = eventIsLiveFirebase
         currentEvent.eventCode = eventCodeFirebase
-        
+        currentEvent.userID = eventuserIDFirebase
         if eventTypeFirebase == currentEvent.eventType.rawValue {
           // same type
-          self.showDetailViewController(event : currentEvent)
+          self.eventDetailViewModel.checkIfEventDetailExist(event: currentEvent, completion: { (result) in
+            switch result {
+            case .Failure( _):
+              self.showDetailViewController(event : currentEvent, eventDetail: nil)
+              break
+            case .Success(let eventDetail):
+              self.showDetailViewController(event : currentEvent, eventDetail: eventDetail)
+              break
+            }
+          })
           //tell the showDetailViewController that is old event to drow it
         } else {
           // deferent type
@@ -109,7 +116,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
               break
             case .Success(()):
               currentEvent.eventType = self.currentEventType
-              self.showDetailViewController(event : currentEvent)
+              self.showDetailViewController(event : currentEvent, eventDetail: nil)
               break
             }
           })
@@ -121,8 +128,13 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     HideSpinner()
   }
   
-  func showDetailViewController(event: Event) {
-    let eventDetailViewController = EventDetailViewController(event: event)
+  func showDetailViewController(event: Event, eventDetail : EventDetail?) {
+    
+     var eventDetailItem = EventDetail(animationStringURL: self.constantNames.animationStringNames[0], animationName: "", photoname: "Place holder", backgroundcolor: "Blue", textcolor: "White", speed: "", text: "Your Text", code: "" )
+    if let eventDetail = eventDetail {
+       eventDetailItem = eventDetail
+    }
+    let eventDetailViewController = EventDetailViewController(event: event,eventDetail : eventDetailItem)
     self.navigationController?.pushViewController(eventDetailViewController, animated: true)
   }
   

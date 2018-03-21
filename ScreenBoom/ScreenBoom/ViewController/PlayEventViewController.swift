@@ -20,7 +20,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var eventDetail: EventDetail
   var eventViewModel = EventViewModel()
   var eventDetailViewModel = EventDetailViewModel()
-  var firebaseDatabaseReference: DatabaseReference = Database.database().reference()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
   var playEventViewModelSource: PlayEventViewModelSource?
@@ -100,8 +99,9 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   }
   
   override func viewWillDisappear(_ animated: Bool) {
-    self.setPhotoEventDetailDelegate.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
-    self.setPhotoEventDetailDelegate.updateOldEventDetail(oldEventDetail: self.eventDetail)
+    self.setPhotoEventDetailDelegate?.updateOldEventDetail(oldEventDetail: self.eventDetail)
+    self.setPhotoEventDetailDelegate?.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
+    removeFromViewList()
   }
   
   func setupViews() {
@@ -129,12 +129,74 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       rightMenuView.pauseImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureOnPauseImage)))
       rightMenuView.playImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnPlayImage)))
       rightMenuView.deleteImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnDeleteImage)))
-      
-      
+      rightMenuView.editButton.addTarget(self, action: #selector(handleEditButtonPressed(_:)), for: .touchUpInside)
+      // show this options for event owner only (Edit, play, pause and delete)
+      if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+        userID == self.event.userID {
+        print("isOwner")
+        [rightMenuView.editButton, rightMenuView.deleteImage, rightMenuView.pauseImage, rightMenuView.playImage].forEach{$0.isHidden = false}
+      }
+      // add user to list of viewer
+     addToViewList()
+      // add Event To User Log
+      addEventToUserEvents()
       self.view.bringSubview(toFront: rightMenuView)
       self.rightMenuView = rightMenuView
     }
   }
+  
+  
+  func addEventToUserEvents() {
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
+      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).setValue(
+        [firebaseNodeNames.eventNodeCodeChild: self.event.eventCode,
+         firebaseNodeNames.isOwnerChild: self.event.userID == userID ?  firebaseNodeNames.isOwnerYesValue : firebaseNodeNames.isOwnerNoValue], withCompletionBlock: { (error, _) in
+          if error != nil {
+            print("Couldn't Add Event to User Log, Error: \(String(describing: error?.localizedDescription))")
+          }
+      })
+    }
+  }
+  func removeFromUserEvents() {
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
+      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).removeValue(completionBlock: { (error, _) in
+        if error != nil {
+          print("Couldn't remove Event From User Log, Error: \(String(describing: error?.localizedDescription))")
+        }
+      })
+    }
+  }
+  
+  // add user to list of viewer
+  func addToViewList() {
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+      userID != self.event.userID {
+      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).setValue("", withCompletionBlock: { (error, _) in
+        if error != nil {
+          print("Couldn't add user to views, Error: \(String(describing: error?.localizedDescription))")
+        }
+      })
+    }
+  }
+  // remove user from list of viewer
+  func removeFromViewList() {
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+      userID != self.event.userID {
+      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).removeValue(completionBlock: { (error, _) in
+        if error != nil {
+          print("Couldn't remove user from views, Error: \(String(describing: error?.localizedDescription))")
+        }
+      })
+    }
+    
+  }
+  
+  
+  // handle Edit button pressed
+  @objc func handleEditButtonPressed(_ sender: UIButton) {
+    
+  }
+  
   // handle tap gesture recognizer on delete image
   @objc func handleTapGestureRecognizerOnDeleteImage() {
     ShowSpinner()
@@ -146,47 +208,10 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       case .Success():
         self.infoView(message: "Event Deleted successfully", color: Colors.lightGreen)
         // set the eventDetail.photoName in the event detail view controller
-        
         self.navigationController?.popViewController(animated: true)
         break
       }
     }
-    
-    
-//
-//    eventDetailViewModel.removeEventDetailWithEventAndEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
-//      switch result {
-//      case .Failure(let error):
-//        self.infoView(message: error, color: Colors.smoothRed)
-//        break
-//      case .Success():
-//        self.eventViewModel.removeEvent(event: self.event, completion: { (result) in
-//          switch result {
-//          case .Failure(let error):
-//            self.eventViewModel.updateEvenIsLive(event: self.event, isLive: self.firebaseNodeNames.eventNodeIsLiveNoValue, completion: { (result) in
-//              switch result {
-//              case .Failure(let error):
-//                self.infoView(message: error, color: Colors.smoothRed)
-//                break
-//              case .Success():
-//                self.infoView(message: "Event Blocked, sorry we have a problem", color: Colors.smoothRed)
-//                break
-//              }
-//            })
-//            self.infoView(message: error, color: Colors.smoothRed)
-//            break
-//          case .Success():
-//            self.infoView(message: "Event Deleted successfully", color: Colors.lightGreen)
-//            // set the eventDetail.photoName in the event detail view controller
-//            self.setEventDetailPhotoNameDelegate.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
-//           self.navigationController?.popViewController(animated: true)
-//
-//            break
-//          }
-//        })
-//        break
-//      }
-//    }
     HideSpinner()
     
   }
@@ -226,7 +251,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     }
     HideSpinner()
   }
-   // handle tap gesture recognizer on the share image
+  // handle tap gesture recognizer on the share image
   @objc func handleTapGuestureOnShareImage() {
     let deepLinkURL = "sbdl://screenBoomEvent/joinDL/\(self.event.eventName)/\(self.event.eventCode)"
     let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
@@ -236,5 +261,22 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
     UserDefaults.standard.set(self.eventDetail.code, forKey: userDefaultKeyNames.eventCodeKey)
   }
+
   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -66,9 +66,9 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   //  convenience init() {
   //    self.init(eventName: "")
   //  }
-  init(event:Event) {
+  init(event:Event, eventDetail: EventDetail) {
     self.event = event
-    self.eventDetail = EventDetail(animationStringURL: constantNames.animationStringNames[0], animationName: "", photoname: "Place holder", backgroundcolor: "Blue", textcolor: "White", speed: "", text: "Your Text", code: "" )
+    self.eventDetail = eventDetail
     super.init(nibName: nil, bundle: nil)
   }
   required init?(coder aDecoder: NSCoder) {
@@ -187,9 +187,24 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       selectedImageFromPicker = originalImage
     }
     if let selectedImage = selectedImageFromPicker {
-      
+
       let imageData: NSData = UIImagePNGRepresentation(selectedImage)! as NSData
       UserDefaults.standard.set(imageData, forKey: userDefaultKeyNames.savedImageCodeKey)
+      if (self.eventDetail.photoname != userDefaultKeyNames.savedImageCodeKey && self.eventDetail.photoname != "Place holder" ) {
+        let imageUploadManager = ImageUploadManager()
+        imageUploadManager.deleteImage(eventDetail: self.eventDetail, completion: { (result) in
+          switch result {
+          case.Failure( _):
+            print("couldn't remove the Image")
+            break
+          case .Success():
+            print("Image removed successsfully")
+            break
+          }
+        })
+        
+      }
+      
       self.eventDetail.photoname = userDefaultKeyNames.savedImageCodeKey
       updatePreviewEventViewController()
     }
@@ -301,25 +316,32 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
   }
   // Photo Event
   func savePhotoEvent() {
-    guard self.eventDetail.photoname == userDefaultKeyNames.savedImageCodeKey else {
-      infoView(message: "No photo Selected", color: Colors.smoothRed)
-      return
-    }
-    let data = UserDefaults.standard.object(forKey: userDefaultKeyNames.savedImageCodeKey) as! NSData
-    guard let imageToUpload = UIImage(data: data as Data) else {return}
-    imageUploadManager = ImageUploadManager()
-    imageUploadManager?.uploadImage(event: self.event, imageToUpload, progressBlock: { (percentage) in
-      print(percentage)
-    }, completionBlock: { [weak self] (URL, error) in
-      guard let strongSelf = self else { return }
-      guard error == nil else { self?.infoView(message: "error", color: Colors.smoothRed)
-        return }
-      guard let url = URL else {self?.infoView(message: "Photo upload faild!", color: Colors.smoothRed)
-        return }
-      strongSelf.eventDetail.photoname = url.absoluteString
-      strongSelf.prepareForSavingEventAndEventDetail()
-    })
     
+//    guard !(self.eventDetail.photoname?.isEmpty)! else {
+//      infoView(message: "No photo Selected", color: Colors.smoothRed)
+//      return
+//    }
+    if self.eventDetail.photoname == "Place holder" {
+      infoView(message: "No photo Selected", color: Colors.smoothRed)
+    } else if self.eventDetail.photoname == userDefaultKeyNames.savedImageCodeKey {
+      let data = UserDefaults.standard.object(forKey: userDefaultKeyNames.savedImageCodeKey) as! NSData
+      guard let imageToUpload = UIImage(data: data as Data) else {return}
+      imageUploadManager = ImageUploadManager()
+      imageUploadManager?.uploadImage(event: self.event, imageToUpload, progressBlock: { (percentage) in
+        print(percentage)
+      }, completionBlock: { [weak self] (URL, error) in
+        guard let strongSelf = self else { return }
+        guard error == nil else { self?.infoView(message: "error", color: Colors.smoothRed)
+          return }
+        guard let url = URL else {self?.infoView(message: "Photo upload faild!", color: Colors.smoothRed)
+          return }
+        strongSelf.eventDetail.photoname = url.absoluteString
+        strongSelf.prepareForSavingEventAndEventDetail()
+      })
+      
+    } else {
+      self.prepareForSavingEventAndEventDetail()
+    }
   }
   
   // Text Event
@@ -433,20 +455,20 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
 /// End of EventDetailViewController
 }
 
-
 // extension conform to SetEventPhotoName
 extension EventDetailViewController: SetPhotoEventDetailDelegate {
   func updateOldEventDetail(oldEventDetail: EventDetail) {
     self.oldEventDetail = oldEventDetail
+    print(oldEventDetail)
   }
   func updateEventDetailPhotoNameDelegate(eventDetailPhotoName: String) {
     self.eventDetail.photoname = eventDetailPhotoName
+    print(eventDetailPhotoName)
   }
 }
 
 // extension conform to UICollectionView
 extension EventDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
- 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return animationCollectionViewData.count
   }

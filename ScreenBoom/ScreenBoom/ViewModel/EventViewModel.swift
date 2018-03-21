@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FirebaseCore
 import FirebaseDatabase
 
 
@@ -20,10 +21,10 @@ typealias ConfigureWithEventCompletionHandler = (_:Result<Void>) -> Void
 
 class EventViewModel: NSObject {
   
-  let firebaseDatabaseReference = Database.database().reference()
+//  var firebaseDatabaseReference: DatabaseReference?
   let firebaseNodeNames = FirebaseNodeNames()
   var event: Event?
-//  let eventDetailViewModel = EventDetailViewModel()
+
   
   func configureWithEvent(event:Event, completion:ConfigureWithEventCompletionHandler? = nil) {
     checkIfEventExists(event: event, completion: { eventExists, snapshot  in
@@ -43,7 +44,7 @@ class EventViewModel: NSObject {
   
   // check if event is already exist
   func checkIfEventExists (event: Event, completion:(@escaping (Bool, DataSnapshot?) -> Void)) {
-    firebaseDatabaseReference.child("Event").child(event.eventName).observeSingleEvent(of: .value, with: { (snapshot) in
+    Database.database().reference().child("Event").child(event.eventName).observeSingleEvent(of: .value, with: { (snapshot) in
       if snapshot.exists() {
         completion(true,snapshot )
       } else {
@@ -63,7 +64,7 @@ class EventViewModel: NSObject {
       eventCode = String.random()
     }
     
-    let eventFIRReferance = firebaseDatabaseReference.child("Event").child(event.eventName)
+    let eventFIRReferance = Database.database().reference().child("Event").child(event.eventName)
     eventFIRReferance.setValue(
       [firebaseNodeNames.eventNodeTypeChild:event.eventType.rawValue,
        firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive ,
@@ -81,7 +82,7 @@ class EventViewModel: NSObject {
 
   /// update the Event islive node with yes or no
   func updateEvenIsLive(event: Event, isLive: String, completion:(@escaping(Result<Void>) -> Void)) {
- firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeIsLiveChild).setValue(isLive) { (error, _) in
+ Database.database().reference().child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeIsLiveChild).setValue(isLive) { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {
@@ -92,7 +93,7 @@ class EventViewModel: NSObject {
   
   /// update the Event type node with text, photo or animation
   func updateEvenType(event: Event, eventType: EventType, completion:(@escaping(Result<Void>) -> Void)) {
-  firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeTypeChild).setValue(eventType.rawValue) { (error, _) in
+  Database.database().reference().child(firebaseNodeNames.eventNode).child(event.eventName).child(firebaseNodeNames.eventNodeTypeChild).setValue(eventType.rawValue) { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {
@@ -103,7 +104,7 @@ class EventViewModel: NSObject {
   
   /// update the Event node with new Event
   func updateEvenType(event: Event, completion:(@escaping(Result<Void>) -> Void)) {
-    firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).updateChildValues([firebaseNodeNames.eventNodeTypeChild : event.eventType, firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive]) { (error, _) in
+    Database.database().reference().child(firebaseNodeNames.eventNode).child(event.eventName).updateChildValues([firebaseNodeNames.eventNodeTypeChild : event.eventType, firebaseNodeNames.eventNodeIsLiveChild: event.eventIsLive]) { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {
@@ -114,7 +115,7 @@ class EventViewModel: NSObject {
   
   /// remove Event
   func removeEvent(event: Event,completion:(@escaping(Result<Void>) -> Void )) {
-    firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(event.eventName).removeValue { (error, _) in
+    Database.database().reference().child(firebaseNodeNames.eventNode).child(event.eventName).removeValue { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {
@@ -127,7 +128,7 @@ class EventViewModel: NSObject {
   // get Event
   
   func getEvent(eventName: String,completion:(@escaping(Result<Event>) -> Void )) {
-    firebaseDatabaseReference.child(firebaseNodeNames.eventNode).child(eventName).observeSingleEvent(of: .value) { (eventSnapShot) in
+    Database.database().reference().child(firebaseNodeNames.eventNode).child(eventName).observeSingleEvent(of: .value) { (eventSnapShot) in
       if let eventValue = eventSnapShot.value as? [String:String] {
         guard let eventIsLive = eventValue[self.firebaseNodeNames.eventNodeIsLiveChild],
               let eventType = eventValue[self.firebaseNodeNames.eventNodeTypeChild],
