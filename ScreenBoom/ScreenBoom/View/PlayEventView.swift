@@ -138,9 +138,7 @@ class PlayEventView: UIView {
     // Set textLabel with text and textColor
     textLabel.text = eventDetail.text
     textLabel.textColor = eventDetail.textcolor?.stringToUIColor()
-//    textLabel.font = UIFont(name: eventDetail.font!, size: CGFloat(Int(eventDetail.fontsize!)!))
-    
-    
+    textLabel.font = UIFont(name: eventDetail.font!, size: CGFloat(Int(eventDetail.fontsize!)!))
     // Add Canvas Animation to the pendingLabelAnimationView
     textLabelAnimationView.type = eventDetail.animationName
     textLabelAnimationView.duration = 10

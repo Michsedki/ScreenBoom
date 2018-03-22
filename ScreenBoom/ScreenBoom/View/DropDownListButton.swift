@@ -10,16 +10,13 @@ import UIKit
 
 
 protocol dropDownProtocol {
-  func dropDownPressed(string : String, color: UIColor?)
+  func dropDownPressed(string : String)
 }
 
 class dropDownBtn: UIButton, dropDownProtocol {
   
-  func dropDownPressed(string: String, color: UIColor?) {
+  func dropDownPressed(string: String) {
     self.setTitle(string, for: .normal)
-    if let color = color {
-      self.backgroundColor = color
-    }
     self.dismissDropDown()
   }
   
@@ -29,7 +26,10 @@ class dropDownBtn: UIButton, dropDownProtocol {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor.lightGray
+    self.backgroundColor = UIColor.blue
+    self.sizeToFit()
+    self.titleLabel?.adjustsFontSizeToFitWidth = true
+    self.titleLabel?.numberOfLines = 0
     dropView = dropDownView.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: 0))
     dropView.delegate = self
     dropView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,19 +47,14 @@ class dropDownBtn: UIButton, dropDownProtocol {
   var isOpen = false
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     if isOpen == false {
-      
       isOpen = true
-      
       NSLayoutConstraint.deactivate([self.height])
-      
       if self.dropView.tableView.contentSize.height > 150 {
         self.height.constant = 150
       } else {
         self.height.constant = self.dropView.tableView.contentSize.height
       }
-      
       NSLayoutConstraint.activate([self.height])
-      
       UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
         self.dropView.layoutIfNeeded()
         self.dropView.center.y += self.dropView.frame.height / 2
@@ -100,17 +95,13 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
   var delegate : dropDownProtocol!
   var dropDownSelectionDelegate : DropDownSelectionDelegate!
   
-  
   var dropDownOptions = [String]()
   var dropDownButtonTitle : String?
   
   var tableView = UITableView()
   
-  
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
     tableView.delegate = self
     tableView.dataSource = self
     tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -133,22 +124,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     let cell = UITableViewCell()
     cell.textLabel?.text = dropDownOptions[indexPath.row]
     cell.textLabel?.textAlignment = .center
-    if dropDownOptions[indexPath.row].stringToUIColor() != nil
-    {
-      // check if the strings can be casted to UIColors
-     cell.backgroundColor = dropDownOptions[indexPath.row].stringToUIColor()
-      if dropDownOptions[indexPath.row].stringToUIColor() == UIColor.white {
-        // if the cell background color is white let the text color be black
-        cell.textLabel?.textColor = UIColor.black
-      } else {
-        // for any other color for cell background let the text color be white
-        cell.textLabel?.textColor = UIColor.white
-      }
-    } else {
-      // if the strings can not be casted to UIColors let the background color light gray
-      cell.backgroundColor = UIColor.lightGray
-    }
-    
+    cell.backgroundColor = UIColor.white
     return cell
   }
   
@@ -157,7 +133,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     if let dropDownButtonTitle = dropDownButtonTitle {
       self.dropDownSelectionDelegate.didSelectItem(changedFieldName: dropDownButtonTitle, itemName: dropDownOptions[indexPath.row])
     }
-    self.delegate.dropDownPressed(string: dropDownOptions[indexPath.row], color: tableView.cellForRow(at: indexPath)?.backgroundColor)
+    self.delegate.dropDownPressed(string: dropDownOptions[indexPath.row])
     self.tableView.deselectRow(at: indexPath, animated: true)
   }
   
