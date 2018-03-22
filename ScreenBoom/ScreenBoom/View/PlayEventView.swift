@@ -59,6 +59,7 @@ class PlayEventView: UIView {
     let eventDetail = viewModel.eventDetail
     let event = viewModel.event
     
+    
     self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
     
     // Check if the Event not is live, set playView with Label Event pending
@@ -104,12 +105,14 @@ class PlayEventView: UIView {
   }
   // show Photo Event View
   func showPhotoEventView(eventDetail: EventDetail) {
-    if eventDetail.photoname == "Place holder" {
+    if eventDetail.photoname == "placeHolder" {
       //Place Holder
       photoEventImageView.image = UIImage(named: "placeHolder")
     } else if eventDetail.photoname == userDefaultKeyNames.savedImageCodeKey {
+      
       let data = UserDefaults.standard.object(forKey: userDefaultKeyNames.savedImageCodeKey) as! NSData
       photoEventImageView.image = UIImage(data: data as Data)
+    
     } else {
       if let photoName = eventDetail.photoname, let url = URL(string : photoName) {
         photoEventImageView.sd_setShowActivityIndicatorView(true)
@@ -138,7 +141,7 @@ class PlayEventView: UIView {
     // Set textLabel with text and textColor
     textLabel.text = eventDetail.text
     textLabel.textColor = eventDetail.textcolor?.stringToUIColor()
-    textLabel.font = UIFont(name: eventDetail.font!, size: CGFloat(Int(eventDetail.fontsize!)!))
+    textLabel.font = UIFont(name: eventDetail.font!+"-Bold", size: CGFloat(Int(eventDetail.fontsize!)!))
     // Add Canvas Animation to the pendingLabelAnimationView
     textLabelAnimationView.type = eventDetail.animationName
     textLabelAnimationView.duration = 10

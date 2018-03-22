@@ -12,6 +12,7 @@ class PlayEventViewModel: NSObject {
   var event: Event
   var eventDetail: EventDetail
   
+  
   init(event: Event, eventDetail: EventDetail) {
     self.event = event
     self.eventDetail = eventDetail

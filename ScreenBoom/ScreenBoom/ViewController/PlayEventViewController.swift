@@ -47,6 +47,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
       self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
       self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
       saveUserDefaultOldEventAndUserID()
+      
+      
     }
   }
   //AddSwipeGesture
@@ -113,7 +115,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     self.view.addSubview(playEventView)
     // PlayEventViewController is previewing in EventDetailViewController and not playing event live
     if isPreviewInDetailEventViewController {
-      playEventView.configure(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+      let viewModel = PlayEventViewModel(event: self.event, eventDetail: self.eventDetail)
+      playEventView.configure(viewModel: viewModel)
     }
     self.playEventView = playEventView
     if !isPreviewInDetailEventViewController{

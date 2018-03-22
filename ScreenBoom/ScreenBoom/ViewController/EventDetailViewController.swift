@@ -91,13 +91,7 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
     self.animationCollectionView.dataSource = self
     self.eventTextField.delegate = self
     
-    setupViews()
-    LoadData()
-    playPreviewEventViewController?.view.anchor(top: playEventPreviewContainerView.topAnchor,
-                                                leading: playEventPreviewContainerView.leadingAnchor,
-                                                bottom: playEventPreviewContainerView.bottomAnchor,
-                                                trailing: playEventPreviewContainerView.trailingAnchor,
-                                                padding: .zero)
+    
     // Do any additional setup after loading the view.
   }
   func LoadData() {
@@ -109,9 +103,9 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       animationNameDropDownButton.setTitle(self.eventDetail.animationName, for: .normal)
       fontNameDropDownButton.setTitle(self.eventDetail.font, for: .normal)
       fontsizeDropDownButton.setTitle(self.eventDetail.fontsize, for: .normal)
-      
       break
     case .Photo:
+      
       break
     case .Animation:
       break
@@ -220,10 +214,9 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
       selectedImageFromPicker = originalImage
     }
     if let selectedImage = selectedImageFromPicker {
-
       let imageData: NSData = UIImagePNGRepresentation(selectedImage)! as NSData
       UserDefaults.standard.set(imageData, forKey: userDefaultKeyNames.savedImageCodeKey)
-      if (self.eventDetail.photoname != userDefaultKeyNames.savedImageCodeKey && self.eventDetail.photoname != "Place holder" ) {
+      if (self.eventDetail.photoname != userDefaultKeyNames.savedImageCodeKey && self.eventDetail.photoname != "placeHolder" ) {
         let imageUploadManager = ImageUploadManager()
         imageUploadManager.deleteImage(eventDetail: self.eventDetail, completion: { (result) in
           switch result {
@@ -237,11 +230,10 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
         })
         
       }
-      
       self.eventDetail.photoname = userDefaultKeyNames.savedImageCodeKey
       updatePreviewEventViewController()
     }
-    dismiss(animated: true, completion: nil)
+   dismiss(animated: true, completion: nil)
   }
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     dismiss(animated: true, completion: nil)
@@ -353,7 +345,14 @@ class EventDetailViewController: BaseViewController, DropDownSelectionDelegate ,
 
   
   override func viewWillAppear(_ animated: Bool) {
-    
+     LoadData()
+    setupViews()
+   
+    playPreviewEventViewController?.view.anchor(top: playEventPreviewContainerView.topAnchor,
+                                                leading: playEventPreviewContainerView.leadingAnchor,
+                                                bottom: playEventPreviewContainerView.bottomAnchor,
+                                                trailing: playEventPreviewContainerView.trailingAnchor,
+                                                padding: .zero)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -554,19 +553,29 @@ extension EventDetailViewController: UICollectionViewDataSource, UICollectionVie
   }
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = animationCollectionView.dequeueReusableCell(withReuseIdentifier: animationCollectionViewCellIdentifier, for: indexPath)
+    
+    for view in cell.subviews {
+      view.removeFromSuperview()
+    }
+    
     cell.backgroundColor = UIColor.blue
+    
     let animationImage : UIImageView = {
       let view = UIImageView()
       view.backgroundColor = UIColor.orange
       return view
     }()
+    
     cell.addSubview(animationImage)
+    
     animationImage.anchor(top: cell.topAnchor,
                           leading: cell.leadingAnchor,
                           bottom: cell.bottomAnchor,
                           trailing: cell.trailingAnchor,
                           padding: .zero)
+    
     animationImage.loadGif(name: animationCollectionViewData[indexPath.row])
+    
     return cell
   }
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

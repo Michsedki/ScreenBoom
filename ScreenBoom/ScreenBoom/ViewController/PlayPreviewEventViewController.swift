@@ -16,13 +16,11 @@ class PlayPreviewEventViewController: PlayEventViewController {
         // Do any additional setup after loading the view.
     }
 
-    
+
   func configureWithPreviewPlayViewModel(playViewModel: PlayEventViewModel) {
     self.playEventView?.configure(viewModel: playViewModel)
   }
-  func configureWithImage (image : UIImage) {
-    self.playEventView?.configureWithPhotoEventImage(image: image)
-  }
+
 
   
 

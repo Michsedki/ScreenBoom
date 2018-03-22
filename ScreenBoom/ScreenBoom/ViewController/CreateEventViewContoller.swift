@@ -148,7 +148,7 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
       eventDetailItem = EventDetail(
         animationStringURL: nil,
         animationName: nil,
-        photoname: "Place holder",
+        photoname: imageNames.placeHolder,
         backgroundcolor: nil,
         textcolor: nil,
         speed: nil,

@@ -22,7 +22,6 @@ class Event: NSObject {
   var eventType: EventType
   var userID: String
   var eventCode: String
-
   
   init (eventName: String, eventIsLive: String, eventType: EventType, eventCode: String) {
     self.eventName = eventName
