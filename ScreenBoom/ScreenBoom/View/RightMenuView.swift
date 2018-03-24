@@ -11,6 +11,10 @@ import UIKit
 
 class RightMenuView: UIView {
   
+  let eventViewModel = EventViewModel()
+  let imageNames = ImageNames()
+  var sideMenuButtonsDidSelectedDelegate : SideMenuButtonsDidSelectedDelegate?
+  
   let blurEffectView : UIVisualEffectView = {
     let view = UIVisualEffectView()
     view.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
@@ -25,25 +29,22 @@ class RightMenuView: UIView {
     view.backgroundColor = UIColor.clear
     return view
   }()
-  let pauseImage : UIImageView = {
-    let view = UIImageView()
+  let pauseButton : UIButton = {
+    let view = UIButton()
     view.isHidden = true
-    view.image = UIImage(named: "pauseEnable")
-    view.isUserInteractionEnabled = true
+    view.setImage(UIImage(named: "pauseEnable"), for: .normal)
     return view
   }()
-  let playImage : UIImageView = {
-    let view = UIImageView()
+  let playButton : UIButton = {
+    let view = UIButton()
     view.isHidden = true
-    view.image = UIImage(named: "playNotEnable")
-    view.isUserInteractionEnabled = false
+    view.setImage(UIImage(named: "playNotEnable"), for: .normal)
     return view
   }()
-  let deleteImage : UIImageView = {
-    let view = UIImageView()
+  let deleteButton : UIButton = {
+    let view = UIButton()
     view.isHidden = true
-    view.image = UIImage(named: "delete")
-    view.isUserInteractionEnabled = true
+    view.setImage(UIImage(named: "delete"), for: .normal)
     return view
   }()
   let eventNameAndCodeButtonLabel : UIButton = {
@@ -57,21 +58,22 @@ class RightMenuView: UIView {
     view.isEnabled = false
     return view
   }()
-  let shareImage : UIImageView = {
-    let view = UIImageView()
-    view.image = UIImage(named: "share")
-    view.isUserInteractionEnabled = true 
+  let shareButton : UIButton = {
+    let view = UIButton()
+    view.setImage(UIImage(named: "share"), for: .normal)
     return view
   }()
+  
+  
   
   func configureWith(eventName: String, eventCode: String) {
     backgroundColor = UIColor.clear
     addSubview(blurEffectView)
     addSubview(editButton)
-    addSubview(playImage)
-    addSubview(pauseImage)
-    addSubview(deleteImage)
-    addSubview(shareImage)
+    addSubview(playButton)
+    addSubview(pauseButton)
+    addSubview(deleteButton)
+    addSubview(shareButton)
     addSubview(eventNameAndCodeButtonLabel)
     
     
@@ -86,38 +88,86 @@ class RightMenuView: UIView {
                       trailing: trailingAnchor,
                       padding: .init(top: 84, left: 10, bottom: 0, right: 10),
                       size: .init(width: 0, height: 30))
-    playImage.anchor(top: editButton.bottomAnchor,
+    playButton.anchor(top: editButton.bottomAnchor,
                      leading: leadingAnchor,
                      bottom: nil,
                      trailing: trailingAnchor,
                      padding: .init(top: 15, left: 20, bottom: 0, right: 20),
                      size: .init(width: 0, height: 40))
-    pauseImage.anchor(top: playImage.bottomAnchor,
+    pauseButton.anchor(top: playButton.bottomAnchor,
                       leading: leadingAnchor,
                       bottom: nil,
                       trailing: trailingAnchor,
                       padding: .init(top: 10, left: 20, bottom: 0, right: 20),
                       size: .init(width: 0, height: 40))
-    deleteImage.anchor(top: pauseImage.bottomAnchor,
+    deleteButton.anchor(top: pauseButton.bottomAnchor,
                        leading: leadingAnchor,
                        bottom: nil,
                        trailing: trailingAnchor,
                        padding: .init(top: 10, left: 20, bottom: 0, right: 20),
                        size: .init(width: 0, height: 40))
-    shareImage.anchor(top: deleteImage.bottomAnchor,
+    shareButton.anchor(top: deleteButton.bottomAnchor,
                       leading: leadingAnchor,
                       bottom: nil,
                       trailing: trailingAnchor,
                       padding: .init(top: 15, left: 20, bottom: 0, right: 20),
                       size: .init(width: 0, height: 40))
-    eventNameAndCodeButtonLabel.anchor(top: shareImage.bottomAnchor,
+    eventNameAndCodeButtonLabel.anchor(top: shareButton.bottomAnchor,
                                        leading: leadingAnchor,
                                        bottom: bottomAnchor,
                                        trailing: trailingAnchor,
                                        padding: .init(top: 10, left: 20, bottom: 10, right: 20),
                                        size: .init(width: 0, height: 0))
+    
+    addButtonsAction()
+    
+    
   }
   
+  func addButtonsAction() {
+    shareButton.addTarget(self, action: #selector(sideMenuShareButtonPressed(_:)), for: .touchUpInside)
+    pauseButton.addTarget(self, action:#selector(sideMenuPauseButtonPressed(_:)), for: .touchUpInside)
+    playButton.addTarget(self, action: #selector(sideMenuPlayButtonPressed(_:)), for: .touchUpInside)
+    deleteButton.addTarget(self, action: #selector(sideMenuDeleteButtonPressed(_:)), for: .touchUpInside)
+    editButton.addTarget(self, action: #selector(sideMenuEditButtonPressed(_:)), for: .touchUpInside)
+  }
   
+  @objc func sideMenuEditButtonPressed(_ sender: UIButton) {
+    
+  }
+  
+  @objc func sideMenuDeleteButtonPressed(_ sender: UIButton) {
+    
+    self.sideMenuButtonsDidSelectedDelegate?.sideMenuDeleteButtonPressed()
+    
+  }
+  
+  @objc func sideMenuPlayButtonPressed(_ sender: UIButton) {
+    
+    pauseButton.setImage(UIImage(named: imageNames.pauseEnable), for: .normal)
+    playButton.setImage(UIImage(named: imageNames.playNotEnable), for: .normal)
+    
+    pauseButton.isEnabled = true
+    playButton.isEnabled = false
+    
+    self.sideMenuButtonsDidSelectedDelegate?.sideMenuPlayButtonPressed()
+   
+  }
+  
+  @objc func sideMenuPauseButtonPressed(_ sender: UIButton) {
+
+    pauseButton.setImage(UIImage(named: imageNames.pauseNotEnable), for: .normal)
+    playButton.setImage(UIImage(named: imageNames.playEnable), for: .normal)
+    
+    pauseButton.isEnabled = false
+    playButton.isEnabled = true
+    
+    self.sideMenuButtonsDidSelectedDelegate?.sideMenuPauseButtonPressed()
+  }
+  
+  @objc func sideMenuShareButtonPressed(_ sender: UIButton) {
+    
+    self.sideMenuButtonsDidSelectedDelegate?.sideMenuShareButtonPressed()
+  }
   
 }

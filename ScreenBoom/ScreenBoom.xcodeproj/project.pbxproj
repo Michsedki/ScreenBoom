@@ -42,6 +42,7 @@
 		378AB0B12065B9930074E4B7 /* TextPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */; };
 		378AB0B32065B9AA0074E4B7 /* PhotoPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */; };
 		378AB0B52065B9BD0074E4B7 /* AnimationPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */; };
+		378AB0B7206702CB0074E4B7 /* SideMenuButtonsDidSelectedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B6206702CB0074E4B7 /* SideMenuButtonsDidSelectedDelegate.swift */; };
 		37C2C5C62039F46000032927 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C52039F46000032927 /* EventDetail.swift */; };
 		37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */; };
 		37D011B1204755B000739B62 /* Canvas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D011B2204755B000739B62 /* Canvas.framework */; };
@@ -104,6 +105,7 @@
 		378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPlayEventView.swift; sourceTree = "<group>"; };
 		378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPlayEventView.swift; sourceTree = "<group>"; };
 		378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationPlayEventView.swift; sourceTree = "<group>"; };
+		378AB0B6206702CB0074E4B7 /* SideMenuButtonsDidSelectedDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuButtonsDidSelectedDelegate.swift; sourceTree = "<group>"; };
 		37C2C5C52039F46000032927 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
 		37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewModel.swift; sourceTree = "<group>"; };
 		37D011B2204755B000739B62 /* Canvas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Canvas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +154,7 @@
 				3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */,
 				3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */,
 				3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */,
+				378AB0B6206702CB0074E4B7 /* SideMenuButtonsDidSelectedDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
 				378AB09F2064B1FE0074E4B7 /* PhotoEventDetail.swift in Sources */,
 				37E8D42B2054A99F008D83B1 /* RightMenuView.swift in Sources */,
+				378AB0B7206702CB0074E4B7 /* SideMenuButtonsDidSelectedDelegate.swift in Sources */,
 				3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */,
 				3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */,
 				378AB0A32064B3700074E4B7 /* TextEventDetail.swift in Sources */,
