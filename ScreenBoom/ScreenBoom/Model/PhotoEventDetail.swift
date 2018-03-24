@@ -13,10 +13,11 @@ class PhotoEventDetail: EventDetail {
   var photoname: String?
   var photo: UIImage?
   
-  init(photoname: String?, code: String?) {
+  init(photoname: String?, code: String?, photo:UIImage? = nil) {
     super.init(code: code)
     
     self.photoname = photoname
+    self.photo = photo
   }
   
   required init(from decoder: Decoder) throws {

@@ -17,6 +17,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   // variables
   var event: Event
+  var eventDetail: EventDetail
   var eventViewModel = EventViewModel()
   var eventDetailViewModel = EventDetailViewModel()
   var playEventView: PlayEventView?
@@ -26,19 +27,29 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
 
   
   // init
-  init (event:Event) {
+  init (event:Event, eventDetail: EventDetail) {
     self.event = event
+    self.eventDetail = eventDetail
+    
     super.init(nibName: nil, bundle: nil)
   }
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+        
+    // setup observation.
+    self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
+    self.playEventViewModelSource?.addObserver(observer: self)
+    self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
+    self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
       
-      saveUserDefaultOldEventAndUserID()
+    saveUserDefaultOldEventAndUserID()
+    
+    setupViews()
   }
   
   //AddSwipeGesture
@@ -87,10 +98,16 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   override func viewWillAppear(_ animated: Bool) {
     setupSideMenu()
     addSwipGuestureRecognizers()
+    
     // add user to list of viewer
     addToViewList()
+    
     // add Event To User Log
     addEventToUserEvents()
+    
+    // Now that the view has been loaded we can safely setup our
+    // constraints
+    setupConstraints()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -98,6 +115,39 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     self.playEventViewModelSource?.removeObserver(observer: self)
   }
   
+  // Here we want to setup the correct play view based on the the event type that we have
+  // we switch on the event type and add the appropriate playView to our view hierarchy
+  func setupViews() {
+    var playView: PlayEventView?
+    
+    switch (self.event.eventType) {
+      case .Text:
+        playView = TextPlayEventView()
+        break
+      case .Photo:
+        playView = PhotoPlayEventView()
+        break
+      case .Animation:
+        playView = AnimationPlayEventView()
+        break
+      case .Unknown:
+        playView = nil
+        break
+    }
+    
+    guard let finalPlayView = playView else { return }
+    self.playEventView = finalPlayView
+  }
+  
+  func setupConstraints() {
+    if let playView = playEventView {
+      self.view.addSubview(playView)
+      playView.frame = CGRect(x: 0,
+                              y: 0,
+                              width: self.view.bounds.width,
+                              height: self.view.bounds.height)
+    }
+  }
   
   func setupSideMenu() {
     // create rightMenuView to show options

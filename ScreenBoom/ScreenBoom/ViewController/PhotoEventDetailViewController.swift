@@ -50,14 +50,13 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
     // create Navigation bar right buttom (Send)
     let sendRightBarButton = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(PhotoEventDetailViewController.rightBarButtonPressed(_:)))
     navigationItem.rightBarButtonItem = sendRightBarButton
+    
     // create container view to hold the play event preview
     self.view.addSubview(playEventPreviewContainerView)
     playEventPreviewContainerView.frame = CGRect(x: 20,
                                                  y: 84,
                                                  width: self.view.frame.width - 40,
                                                  height: 300)
-    playEventPreviewContainerView.backgroundColor = UIColor.clear
-    
     playPreviewEventViewController = PlayPreviewEventViewController(event: self.event,
                                                                     eventDetail: self.eventDetail)
     
@@ -78,6 +77,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
     selectImageFromGallaryButton.backgroundColor = UIColor.blue
     selectImageFromCameraButton.setTitle("Camera", for: .normal)
     selectImageFromCameraButton.backgroundColor = UIColor.blue
+    
     // add views
     self.view.addSubview(selectImageFromGallaryButton)
     self.view.addSubview(selectImageFromCameraButton)
@@ -94,55 +94,64 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
                                        trailing: self.view.trailingAnchor,
                                        padding: .init(top: 30, left: 20, bottom: 0, right: 20),
                                        size: .init(width: 0, height: 40))
+    
     selectImageFromGallaryButton.addTarget(self, action: #selector(SelectImage(_:)), for: .touchUpInside)
     selectImageFromCameraButton.addTarget(self, action: #selector(SelectImage(_:)), for: .touchUpInside)
   }
   
   @objc func SelectImage(_ sender: UIButton) {
     imagePicker.allowsEditing = true
+    
     if sender.currentTitle == "Photos" {
+      
+      // if the photo button was pressed, we want to present the user
+      // with their photo library
       self.imagePicker.sourceType = .photoLibrary
-    } else if  sender.currentTitle == "Camera" {
-      if UIImagePickerController.isSourceTypeAvailable(.camera) {
-        self.imagePicker.sourceType = .camera
-      } else {
-        infoView(message: "Camera is not available", color: Colors.smoothRed)
+    } else if sender.currentTitle == "Camera" {
+      
+      // if the camera button was pressed, we need to ensure we have the
+      // camera as an available source and then we present the user with
+      // the camera
+      guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+        self.infoView(message: "Camera is not available", color: Colors.smoothRed)
+        
+        return
       }
+      
+      self.imagePicker.sourceType = .camera
+    } else {
+      
+      // if we have an unrecognized selector, we escape scope
+      return
     }
+    
     present(imagePicker, animated: true, completion: nil)
   }
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     var selectedImageFromPicker : UIImage?
     
+    // we want to see if the user has edited an image or simply selected the original
+    // from their phot library.
     if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
       selectedImageFromPicker = editedImage
     } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
       selectedImageFromPicker = originalImage
     }
-    if let selectedImage = selectedImageFromPicker {
+    
+    guard let selectedImage = selectedImageFromPicker  else {
+      self.infoView(message: "No Image Was Selected", color: Colors.smoothRed)
       
-     // send the image to photoplaypreviewevntdetail
-      
-      //      let imageData: NSData = UIImagePNGRepresentation(selectedImage)! as NSData
-      //      UserDefaults.standard.set(imageData, forKey: userDefaultKeyNames.savedImageCodeKey)
-      if (self.eventDetail.photoname != userDefaultKeyNames.savedImageCodeKey && self.eventDetail.photoname != "placeHolder" ) {
-        let imageUploadManager = ImageUploadManager()
-        imageUploadManager.deleteImage(eventDetail: self.eventDetail, completion: { (result) in
-          switch result {
-          case.Failure( _):
-            print("couldn't remove the Image")
-            break
-          case .Success():
-            print("Image removed successsfully")
-            break
-          }
-        })
-        
-      }
-      self.eventDetail.photoname = userDefaultKeyNames.savedImageCodeKey
-      updatePreviewEventViewController()
+      dismiss(animated: true, completion: nil)
+      return
     }
+    
+    // now that we have an image we want to update our event detail object with the selected
+    // image and propogate it to our preview view
+    self.eventDetail.configureWithPhoto(photo: selectedImage)
+    
+    // TODO:(MT) Add functionality to remove folder for UserID before new image upload
+    updatePreviewEventViewController()
     dismiss(animated: true, completion: nil)
   }
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

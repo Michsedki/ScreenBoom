@@ -39,9 +39,6 @@
 		378AB0A52064B65F0074E4B7 /* TextEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0A42064B65F0074E4B7 /* TextEventDetailViewController.swift */; };
 		378AB0A72064B6730074E4B7 /* PhotoEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0A62064B6730074E4B7 /* PhotoEventDetailViewController.swift */; };
 		378AB0A92064B68A0074E4B7 /* AnimationEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0A82064B68A0074E4B7 /* AnimationEventDetailViewController.swift */; };
-		378AB0AB2065A7820074E4B7 /* TextPlayEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0AA2065A7820074E4B7 /* TextPlayEventViewController.swift */; };
-		378AB0AD2065A79B0074E4B7 /* PhotoPlayEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0AC2065A79B0074E4B7 /* PhotoPlayEventViewController.swift */; };
-		378AB0AF2065A7A80074E4B7 /* AnimationPlayEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0AE2065A7A80074E4B7 /* AnimationPlayEventViewController.swift */; };
 		378AB0B12065B9930074E4B7 /* TextPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */; };
 		378AB0B32065B9AA0074E4B7 /* PhotoPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */; };
 		378AB0B52065B9BD0074E4B7 /* AnimationPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */; };
@@ -104,9 +101,6 @@
 		378AB0A42064B65F0074E4B7 /* TextEventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEventDetailViewController.swift; sourceTree = "<group>"; };
 		378AB0A62064B6730074E4B7 /* PhotoEventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEventDetailViewController.swift; sourceTree = "<group>"; };
 		378AB0A82064B68A0074E4B7 /* AnimationEventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationEventDetailViewController.swift; sourceTree = "<group>"; };
-		378AB0AA2065A7820074E4B7 /* TextPlayEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPlayEventViewController.swift; sourceTree = "<group>"; };
-		378AB0AC2065A79B0074E4B7 /* PhotoPlayEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPlayEventViewController.swift; sourceTree = "<group>"; };
-		378AB0AE2065A7A80074E4B7 /* AnimationPlayEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationPlayEventViewController.swift; sourceTree = "<group>"; };
 		378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPlayEventView.swift; sourceTree = "<group>"; };
 		378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPlayEventView.swift; sourceTree = "<group>"; };
 		378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationPlayEventView.swift; sourceTree = "<group>"; };
@@ -240,9 +234,6 @@
 				378AB0A42064B65F0074E4B7 /* TextEventDetailViewController.swift */,
 				378AB0A62064B6730074E4B7 /* PhotoEventDetailViewController.swift */,
 				378AB0A82064B68A0074E4B7 /* AnimationEventDetailViewController.swift */,
-				378AB0AA2065A7820074E4B7 /* TextPlayEventViewController.swift */,
-				378AB0AC2065A79B0074E4B7 /* PhotoPlayEventViewController.swift */,
-				378AB0AE2065A7A80074E4B7 /* AnimationPlayEventViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -465,7 +456,6 @@
 				37C2C5C62039F46000032927 /* EventDetail.swift in Sources */,
 				3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */,
 				377B6F0C20300E1C00AFD85C /* Event.swift in Sources */,
-				378AB0AB2065A7820074E4B7 /* TextPlayEventViewController.swift in Sources */,
 				378AB0B52065B9BD0074E4B7 /* AnimationPlayEventView.swift in Sources */,
 				378AB0B12065B9930074E4B7 /* TextPlayEventView.swift in Sources */,
 				37E8D3FD204F34FF008D83B1 /* ImageUploadManager.swift in Sources */,
@@ -479,7 +469,6 @@
 				378AB0A32064B3700074E4B7 /* TextEventDetail.swift in Sources */,
 				37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */,
 				378AB0B32065B9AA0074E4B7 /* PhotoPlayEventView.swift in Sources */,
-				378AB0AD2065A79B0074E4B7 /* PhotoPlayEventViewController.swift in Sources */,
 				378AB0A52064B65F0074E4B7 /* TextEventDetailViewController.swift in Sources */,
 				377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */,
 				377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */,
@@ -494,7 +483,6 @@
 				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
 				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,
 				3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */,
-				378AB0AF2065A7A80074E4B7 /* AnimationPlayEventViewController.swift in Sources */,
 				377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */,
 				377B6F00202FE5A500AFD85C /* BaseViewController.swift in Sources */,
 				37776645204DB260006699DD /* DropDownListButton.swift in Sources */,

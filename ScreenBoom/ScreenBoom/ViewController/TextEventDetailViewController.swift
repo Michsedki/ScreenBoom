@@ -182,7 +182,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     backgroundColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
     animationNameDropDownButton.dropView.dropDownOptions = constantNames.animationNamesArray
     fontNameDropDownButton.dropView.dropDownOptions = constantNames.fontNames
-    fontsizeDropDownButton.dropView.dropDownOptions = [0...50].map({ String(describing: $0) })
+    fontsizeDropDownButton.dropView.dropDownOptions = Array([0...50]).map({ String(describing: $0) })
     
     // set dropDownButtonTitle in the dropDown
     textColorDropDownButton.dropView.dropDownButtonTitle = constantNames.textColorButtonTitle
