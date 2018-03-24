@@ -11,17 +11,20 @@ import UIKit
 class PlayPreviewEventViewController: PlayEventViewController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+      super.viewDidLoad()
+      
+      // setup observation.
+      self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
+      self.playEventViewModelSource?.addObserver(observer: self)
     }
 
-
+  override func viewWillAppear(_ animated: Bool) {
+    setupViews()
+    addSwipGuestureRecognizers()
+  }
+  
   func configureWithPreviewPlayViewModel(playViewModel: PlayEventViewModel) {
     self.playEventView?.configure(viewModel: playViewModel)
   }
-
-
-  
 
 }

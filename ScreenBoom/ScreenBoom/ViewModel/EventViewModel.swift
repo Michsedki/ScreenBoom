@@ -56,7 +56,7 @@ class EventViewModel: NSObject {
   
   // add event method takes event and completion to insert the event in the firbase
   //Database and return result (error or firebasedatareferense
-  func addEvent(event: Event, oldEventCode: String?, completion:(@escaping(Result<String>) -> Void)) {
+  func addEvent(event: Event, oldEventCode: String? = "", completion:(@escaping(Result<String>) -> Void)) {
     var eventCode = ""
     if let oldEventCode = oldEventCode {
       eventCode = oldEventCode

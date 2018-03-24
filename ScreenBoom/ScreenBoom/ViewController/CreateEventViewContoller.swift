@@ -129,57 +129,52 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
   }
   
   func showDetailViewController(event: Event, eventDetail : EventDetail?) {
-    var eventDetailItem = EventDetail()
+    var eventDetailItem:EventDetail
+    var eventDetailVC: EventDetailViewController?
+    
     switch event.eventType {
     case .Text:
-      eventDetailItem = EventDetail(
-        animationStringURL: nil,
+      eventDetailItem = TextEventDetail(
         animationName: constantNames.animationNamesArray[0],
-        photoname: nil,
         backgroundcolor: constantNames.colorsNamesList[3],
         textcolor: constantNames.colorsNamesList[0],
-        speed: "",
+        speed: 0,
         text: "Your Text",
-        code: "",
         font: constantNames.fontNames[0],
-        fontsize: constantNames.fontsize[25] )
+        fontsize: 25,
+        code: "")
+      guard let textEventDetail = eventDetailItem as? TextEventDetail else { return }
+      eventDetailVC = TextEventDetailViewController(event: event, eventDetail: textEventDetail)
+      
       break
     case .Photo:
-      eventDetailItem = EventDetail(
-        animationStringURL: nil,
-        animationName: nil,
+      eventDetailItem = PhotoEventDetail(
         photoname: imageNames.placeHolder,
-        backgroundcolor: nil,
-        textcolor: nil,
-        speed: nil,
-        text: nil,
-        code: "",
-        font: nil,
-        fontsize: nil )
+        code: "")
+      
+      guard let photoEventDetail = eventDetailItem as? PhotoEventDetail else { return }
+      eventDetailVC = PhotoEventDetailViewController(event: event, eventDetail: photoEventDetail)
+      
       break
     case .Animation:
-      eventDetailItem = EventDetail(
+      eventDetailItem = AnimationEventDetail(
         animationStringURL: constantNames.gifAnimationNamesArray[0],
-        animationName: nil,
-        photoname: nil,
-        backgroundcolor: nil,
-        textcolor: nil,
-        speed: nil,
-        text: nil,
-        code: "",
-        font: nil,
-        fontsize: nil )
+        code: "")
+      
+      guard let animationEventDetail = eventDetailItem as? AnimationEventDetail else { return }
+      eventDetailVC = AnimationEventDetailViewController(event: event, eventDetail: animationEventDetail)
+      
       break
     case .Unknown:
+      
+      eventDetailVC = nil
       break
       
     }
     
-    if let eventDetail = eventDetail {
-       eventDetailItem = eventDetail
+    if let vc = eventDetailVC {
+      self.navigationController?.pushViewController(vc, animated: true)
     }
-    let eventDetailViewController = EventDetailViewController(event: event,eventDetail : eventDetailItem)
-    self.navigationController?.pushViewController(eventDetailViewController, animated: true)
   }
   
   

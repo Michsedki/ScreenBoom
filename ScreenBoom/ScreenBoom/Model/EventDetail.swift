@@ -9,48 +9,11 @@
 import Foundation
 
 
-struct EventDetail: Decodable {
+class EventDetail: Decodable {
   
-  //photo
-  var animationStringURL: String?
-  // text
-  var animationName: String?
-  var photoname: String?
-  var backgroundcolor: String?
-  var textcolor: String?
-  var speed: String?
-  var text: String?
   var code: String?
-  var font: String?
-  var fontsize: String?
+  
+  init(code: String?){
+    self.code = code
+  }
 }
-
-//struct AnimationEventDetail {
-//  var animationName: String?
-//  var code: String?
-//}
-//
-//
-//struct PhotoEventDetail {
-//  var PhotoStringURL: String?
-//  var code: String?
-//}
-//
-//struct TextEventDetail: Decodable {
-//  var animationName: String?
-//  var backgroundPhotoStringURL: String?
-//  var backgroundcolor: String?
-//  var textcolor: String?
-//  var speed: String?
-//  var text: String?
-//  var code: String?
-//}
-//
-//struct MultiPhotoEventDetail {
-//  var PhotoStringNames: [String?]
-//}
-
-
-
-
-

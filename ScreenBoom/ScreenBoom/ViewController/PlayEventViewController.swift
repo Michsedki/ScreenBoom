@@ -17,20 +17,17 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   // variables
   var event: Event
-  var eventDetail: EventDetail
   var eventViewModel = EventViewModel()
   var eventDetailViewModel = EventDetailViewModel()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
   var playEventViewModelSource: PlayEventViewModelSource?
-  var isPreviewInDetailEventViewController: Bool
   var isShowEventNameAndCodeLabel = false
-  var setPhotoEventDetailDelegate : SetPhotoEventDetailDelegate!
+
+  
   // init
-  init (event:Event, eventDetail: EventDetail, isPreviewInDetailEventViewController: Bool) {
+  init (event:Event) {
     self.event = event
-    self.eventDetail = eventDetail
-    self.isPreviewInDetailEventViewController = isPreviewInDetailEventViewController
     super.init(nibName: nil, bundle: nil)
   }
   required init?(coder aDecoder: NSCoder) {
@@ -39,18 +36,11 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    if !isPreviewInDetailEventViewController {
-      // PlayEventViewController is playing event live and not previewing in EventDetailViewController
-      // setup observation.
-      self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
-      self.playEventViewModelSource?.addObserver(observer: self)
-      self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
-      self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
+
+      
       saveUserDefaultOldEventAndUserID()
-      
-      
-    }
   }
+  
   //AddSwipeGesture
   func addSwipGuestureRecognizers() {
     [UISwipeGestureRecognizerDirection.right,
@@ -95,57 +85,42 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    setupViews()
+    setupSideMenu()
     addSwipGuestureRecognizers()
-    
+    // add user to list of viewer
+    addToViewList()
+    // add Event To User Log
+    addEventToUserEvents()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
-    self.setPhotoEventDetailDelegate?.updateOldEventDetail(oldEventDetail: self.eventDetail)
-    self.setPhotoEventDetailDelegate?.updateEventDetailPhotoNameDelegate(eventDetailPhotoName: self.userDefaultKeyNames.savedImageCodeKey)
     removeFromViewList()
+    self.playEventViewModelSource?.removeObserver(observer: self)
   }
   
-  func setupViews() {
-    // create playEventView to view the events
-    let playEventView = PlayEventView(frame: CGRect(x: 0,
+  
+  func setupSideMenu() {
+    // create rightMenuView to show options
+    let rightMenuView = RightMenuView(frame: CGRect(x: self.view.frame.maxX - 10,
                                                     y: 0,
-                                                    width: self.view.bounds.width,
-                                                    height: self.view.bounds.height))
-    self.view.addSubview(playEventView)
-    // PlayEventViewController is previewing in EventDetailViewController and not playing event live
-    if isPreviewInDetailEventViewController {
-      let viewModel = PlayEventViewModel(event: self.event, eventDetail: self.eventDetail)
-      playEventView.configure(viewModel: viewModel)
+                                                    width: 80,
+                                                    height: self.view.frame.height))
+    self.view.addSubview(rightMenuView)
+    rightMenuView.configureWith(eventName: self.event.eventName, eventCode: self.event.eventCode)
+    rightMenuView.eventNameAndCodeButtonLabel.setTitle("Title: \(self.event.eventName) \n Code: \(self.event.eventCode)", for: .normal)
+    rightMenuView.shareImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGuestureOnShareImage)))
+    rightMenuView.pauseImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureOnPauseImage)))
+    rightMenuView.playImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnPlayImage)))
+    rightMenuView.deleteImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnDeleteImage)))
+    rightMenuView.editButton.addTarget(self, action: #selector(handleEditButtonPressed(_:)), for: .touchUpInside)
+    // show this options for event owner only (Edit, play, pause and delete)
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+      userID == self.event.userID {
+      print("isOwner")
+      [rightMenuView.editButton, rightMenuView.deleteImage, rightMenuView.pauseImage, rightMenuView.playImage].forEach{$0.isHidden = false}
     }
-    self.playEventView = playEventView
-    if !isPreviewInDetailEventViewController{
-      // create rightMenuView to show options
-      let rightMenuView = RightMenuView(frame: CGRect(x: self.view.frame.maxX - 10,
-                                                      y: 0,
-                                                      width: 80,
-                                                      height: self.view.frame.height))
-      self.view.addSubview(rightMenuView)
-      rightMenuView.configureWith(eventName: self.event.eventName, eventCode: self.event.eventCode)
-      rightMenuView.eventNameAndCodeButtonLabel.setTitle("Title: \(self.event.eventName) \n Code: \(self.event.eventCode)", for: .normal)
-      rightMenuView.shareImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGuestureOnShareImage)))
-      rightMenuView.pauseImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureOnPauseImage)))
-      rightMenuView.playImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnPlayImage)))
-      rightMenuView.deleteImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnDeleteImage)))
-      rightMenuView.editButton.addTarget(self, action: #selector(handleEditButtonPressed(_:)), for: .touchUpInside)
-      // show this options for event owner only (Edit, play, pause and delete)
-      if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
-        userID == self.event.userID {
-        print("isOwner")
-        [rightMenuView.editButton, rightMenuView.deleteImage, rightMenuView.pauseImage, rightMenuView.playImage].forEach{$0.isHidden = false}
-      }
-      // add user to list of viewer
-     addToViewList()
-      // add Event To User Log
-      addEventToUserEvents()
-      self.view.bringSubview(toFront: rightMenuView)
-      self.rightMenuView = rightMenuView
-    }
+    self.view.bringSubview(toFront: rightMenuView)
+    self.rightMenuView = rightMenuView
   }
   
   

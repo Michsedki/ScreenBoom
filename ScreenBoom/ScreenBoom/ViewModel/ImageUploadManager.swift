@@ -47,7 +47,7 @@ class ImageUploadManager: NSObject {
     }
   
   // Delete Image from firebase storage
-  func deleteImage(eventDetail: EventDetail, completion: (@escaping(Result<Void>) -> Void )) {
+  func deleteImage(eventDetail: PhotoEventDetail, completion: (@escaping(Result<Void>) -> Void )) {
     let delteteImageReference = Storage.storage().reference(forURL: eventDetail.photoname!)
     delteteImageReference.delete { (error) in
       if let error = error {

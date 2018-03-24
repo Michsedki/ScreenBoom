@@ -88,6 +88,11 @@ class PlayEventViewModelSource {
     self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
   }
   
+  func configureWithImagePickerSelection(image: UIImage) {
+    
+      self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+  }
+  
   
   // Configure with Device will TransiChange Oriantation
   func configureWithViewWillTransition() {

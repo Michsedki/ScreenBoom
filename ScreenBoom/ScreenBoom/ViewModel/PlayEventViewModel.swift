@@ -11,7 +11,7 @@ import Foundation
 class PlayEventViewModel: NSObject {
   var event: Event
   var eventDetail: EventDetail
-  
+  var selectedImageFromImagePicker: UIImage?
   
   init(event: Event, eventDetail: EventDetail) {
     self.event = event

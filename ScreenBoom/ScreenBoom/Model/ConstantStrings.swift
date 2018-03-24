@@ -65,7 +65,6 @@ struct ConstantNames {
   let animationNamesArray = ["Shake", "Zoom", "pop"]
   var fontNames = [String]()
   var fontStyle = [String]()
-  let fontsize = Array(0...50).map({String($0)})
   let gifAnimationNamesArray = ["candle1","firework1", "firework2","colors1","colors2","heart1","heart2","heart3","heart4","heart5","laser1","flag1","birthday1"]
   
   let textColorButtonTitle = "Text Colors"

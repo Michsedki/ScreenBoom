@@ -45,14 +45,15 @@ class EventDetailViewModel: NSObject {
     var eventDetails = [String:String]()
     switch event.eventType {
     case .Text:
-      guard let text = eventdetail.text ,
-            let textColor = eventdetail.textcolor,
-            let backgroundColor = eventdetail.backgroundcolor,
-            let animationName = eventdetail.animationName,
-            let speed = eventdetail.speed,
-            let code = eventdetail.code,
-            let font = eventdetail.font,
-            let fontSize = eventdetail.fontsize else {
+      guard let textEventDetail = eventdetail as? TextEventDetail else { return }
+      guard let text = textEventDetail.text ,
+            let textColor = textEventDetail.textcolor,
+            let backgroundColor = textEventDetail.backgroundcolor,
+            let animationName = textEventDetail.animationName,
+            let speed = textEventDetail.speed,
+            let code = textEventDetail.code,
+            let font = textEventDetail.font,
+            let fontSize = textEventDetail.fontsize else {
         completion(Result.Failure("Couldn't build text eventDetail"))
         return
       }
@@ -60,14 +61,15 @@ class EventDetailViewModel: NSObject {
                       firebaseNodeNames.eventDetailTextColorChild : textColor,
                       firebaseNodeNames.eventDetailBackGroundColorChild : backgroundColor,
                       firebaseNodeNames.eventDetailAnimationNameChild : animationName,
-                      firebaseNodeNames.eventDetailSpeedChild : speed,
+                      firebaseNodeNames.eventDetailSpeedChild : String(describing: speed),
                       firebaseNodeNames.eventDetailCodeChild : code,
                       firebaseNodeNames.eventDetailFoneChild : font,
-                      firebaseNodeNames.eventDetailFontSizeChild : fontSize ]
+                      firebaseNodeNames.eventDetailFontSizeChild : String(describing: fontSize)]
       break
     case .Photo:
-      guard let photoName = eventdetail.photoname,
-            let code = eventdetail.code else {
+      guard let photoEventDetail = eventdetail as? PhotoEventDetail else { return }
+      guard let photoName = photoEventDetail.photoname,
+            let code = photoEventDetail.code else {
                 completion(Result.Failure("Couldn't build photo eventDetail"))
                 return
       }
@@ -75,8 +77,9 @@ class EventDetailViewModel: NSObject {
                       firebaseNodeNames.eventDetailCodeChild : code]
       break
     case .Animation:
-      guard let animationStringURL = eventdetail.animationStringURL,
-            let code = eventdetail.code else {
+      guard let animationEventDetail = eventdetail as? AnimationEventDetail else { return }
+      guard let animationStringURL = animationEventDetail.animationStringURL,
+            let code = animationEventDetail.code else {
                 completion(Result.Failure("Couldn't build animation eventDetail"))
                 return
       }
@@ -146,8 +149,9 @@ class EventDetailViewModel: NSObject {
   /// remove eventDetail givin event and event detail
   func removeEventDetailWithEventAndEventDetail(event: Event, eventDetail: EventDetail,completion:(@escaping(Result<Void>) -> Void )) {
     if event.eventType == .Photo {
+      guard let photoEventDetail = eventDetail as? PhotoEventDetail else { return }
       let imageUploadManager = ImageUploadManager()
-      imageUploadManager.deleteImage(eventDetail: eventDetail, completion: { (result) in
+      imageUploadManager.deleteImage(eventDetail: photoEventDetail, completion: { (result) in
         switch result {
         case.Failure(let error):
           print("couldn't remove the Image")
