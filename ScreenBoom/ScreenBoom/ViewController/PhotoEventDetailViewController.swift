@@ -159,33 +159,73 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   }
   
   @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
-//    saveEvent()
+    
+    guard let uploadImage = eventDetail.photo else {
+      self.infoView(message: "No image selected", color: Colors.smoothRed)
+      return }
+    
+    self.ShowSpinner()
+    
+    let imageUploadManager = ImageUploadManager()
+    
+    imageUploadManager.uploadImage(event: event, uploadImage, progressBlock: { (percentage) in
+      print(percentage)
+    }, completionBlock: { [weak self] (URL, error) in
+      
+      guard let strongSelf = self else {return}
+      
+      
+      guard error == nil,
+        let url = URL
+        else {
+          strongSelf.infoView(message: "Failed to save the event", color: Colors.smoothRed)
+          return }
+      
+      strongSelf.eventDetail.photoname = url.absoluteString
+      
+      strongSelf.saveEvent()
+    })
+    
+     self.HideSpinner()
+   
   }
   
-//  func saveEvent() {
-//
-//    if self.eventDetail.photoname == "PlaceHolder" {
-//      infoView(message: "No photo Selected", color: Colors.smoothRed)
-//    } else if self.eventDetail.photoname == userDefaultKeyNames.savedImageCodeKey {
-//      let data = UserDefaults.standard.object(forKey: userDefaultKeyNames.savedImageCodeKey) as! NSData
-//      guard let imageToUpload = UIImage(data: data as Data) else {return}
-//      imageUploadManager = ImageUploadManager()
-//      imageUploadManager?.uploadImage(event: self.event, imageToUpload, progressBlock: { (percentage) in
-//        print(percentage)
-//      }, completionBlock: { [weak self] (URL, error) in
-//        guard let strongSelf = self else { return }
-//        guard error == nil else { self?.infoView(message: "error", color: Colors.smoothRed)
-//          return }
-//        guard let url = URL else {self?.infoView(message: "Photo upload faild!", color: Colors.smoothRed)
-//          return }
-//        strongSelf.eventDetail.photoname = url.absoluteString
-//        strongSelf.prepareForSavingEventAndEventDetail()
-//      })
-//
-//    } else {
-//      self.prepareForSavingEventAndEventDetail()
-//    }
-//  }
+  func saveEvent() {
+    
+    self.ShowSpinner()
+    
+    eventViewModel.addEvent(event: self.event) { (result) in
+      switch result {
+        
+      case .Failure(let error):
+        print(error)
+        self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
+        
+      case .Success(let code):
+        
+        self.eventDetail.code = code
+        
+        self.eventDetailViewModel.addEventDetail(event: self.event, eventdetail: self.eventDetail, completion: { (result) in
+          switch result {
+            
+          case .Failure(let error):
+            print(error)
+            self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
+            
+          case .Success():
+            
+            self.infoView(message: "Event Created Successfully ", color: Colors.lightGreen)
+            
+            self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
+          }
+        })
+      }
+    }
+    self.HideSpinner()
+    
+    
+    
+  }
   
 }
 

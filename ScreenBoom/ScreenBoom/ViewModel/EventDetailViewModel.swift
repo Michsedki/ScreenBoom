@@ -12,24 +12,24 @@ import FirebaseDatabase
 
 class EventDetailViewModel: NSObject {
   
-//  var firebaseDatabaseReference2: DatabaseReference = Database.database().reference()
+  //  var firebaseDatabaseReference2: DatabaseReference = Database.database().reference()
   var eventDetail: EventDetail?
-//  let eventViewModel = EventViewModel()
+  //  let eventViewModel = EventViewModel()
   let firebaseNodeNames = FirebaseNodeNames()
   
   // Check if event detail is exist and return the eventDetail if success or error string if failure
   func checkIfEventDetailExist (event: Event, completion: (@escaping(Result<EventDetail>) -> Void) ) {
-  Database.database().reference().child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
+    Database.database().reference().child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
       
       if eventDetailSnapshot.exists() {
         guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: Any] else { return }
         
         do {
           let jsonData = try JSONSerialization.data(withJSONObject: eventDetailSnapshotValue, options: [])
-           let eventDetail = try JSONDecoder().decode(EventDetail.self, from: jsonData)
+          let eventDetail = try JSONDecoder().decode(EventDetail.self, from: jsonData)
           completion(Result.Success(eventDetail))
         } catch {
-         completion(Result.Failure("Error serializing Data from firebase"))
+          completion(Result.Failure("Error serializing Data from firebase"))
         }
       } else {
         completion(Result.Failure("EventDetails Not Found"))
@@ -38,25 +38,29 @@ class EventDetailViewModel: NSObject {
   }
   
   // Add Event Detail
-  func addEventDetail(event :Event , eventdetail: EventDetail, completion:(@escaping(Result<String>) -> Void)) {
+  func addEventDetail(event :Event , eventdetail: EventDetail, completion:(@escaping(Result<Void>) -> Void)) {
     
     let eventFIRReferance = Database.database().reference().child(firebaseNodeNames.eventDetailNode).child(event.eventName)
     
     var eventDetails = [String:String]()
+    
     switch event.eventType {
     case .Text:
       guard let textEventDetail = eventdetail as? TextEventDetail else { return }
+      
       guard let text = textEventDetail.text ,
-            let textColor = textEventDetail.textcolor,
-            let backgroundColor = textEventDetail.backgroundcolor,
-            let animationName = textEventDetail.animationName,
-            let speed = textEventDetail.speed,
-            let code = textEventDetail.code,
-            let font = textEventDetail.font,
-            let fontSize = textEventDetail.fontsize else {
-        completion(Result.Failure("Couldn't build text eventDetail"))
-        return
+        let textColor = textEventDetail.textcolor,
+        let backgroundColor = textEventDetail.backgroundcolor,
+        let animationName = textEventDetail.animationName,
+        let speed = textEventDetail.speed,
+        let code = textEventDetail.code,
+        let font = textEventDetail.font,
+        let fontSize = textEventDetail.fontsize
+        else {
+          completion(Result.Failure("Couldn't build text eventDetail"))
+          return
       }
+      
       eventDetails = [firebaseNodeNames.eventDetailTextChild : text,
                       firebaseNodeNames.eventDetailTextColorChild : textColor,
                       firebaseNodeNames.eventDetailBackGroundColorChild : backgroundColor,
@@ -65,26 +69,32 @@ class EventDetailViewModel: NSObject {
                       firebaseNodeNames.eventDetailCodeChild : code,
                       firebaseNodeNames.eventDetailFoneChild : font,
                       firebaseNodeNames.eventDetailFontSizeChild : String(describing: fontSize)]
+      
       break
     case .Photo:
       guard let photoEventDetail = eventdetail as? PhotoEventDetail else { return }
+      
       guard let photoName = photoEventDetail.photoname,
-            let code = photoEventDetail.code else {
-                completion(Result.Failure("Couldn't build photo eventDetail"))
-                return
-      }
+        let code = photoEventDetail.code
+        else {
+          completion(Result.Failure("Couldn't build photo eventDetail"))
+          return}
+      
       eventDetails = [firebaseNodeNames.eventDetailPhotoNameChild : photoName,
                       firebaseNodeNames.eventDetailCodeChild : code]
+      
       break
     case .Animation:
       guard let animationEventDetail = eventdetail as? AnimationEventDetail else { return }
+      
       guard let animationStringURL = animationEventDetail.animationStringURL,
-            let code = animationEventDetail.code else {
-                completion(Result.Failure("Couldn't build animation eventDetail"))
-                return
+        let code = animationEventDetail.code
+        else {
+          completion(Result.Failure("Couldn't build animation eventDetail"))
+          return
       }
       eventDetails = [firebaseNodeNames.eventDetailAnimationStringURLChild : animationStringURL,
-                     firebaseNodeNames.eventDetailCodeChild : code]
+                      firebaseNodeNames.eventDetailCodeChild : code]
       break
     case.Unknown:
       completion(Result.Failure("Unknown event type"))
@@ -92,15 +102,12 @@ class EventDetailViewModel: NSObject {
     }
     eventFIRReferance.setValue(
       eventDetails,
-      withCompletionBlock: { (error, response) in
-      guard error == nil else {
-        completion(Result.Failure((error?.localizedDescription)!))
-        return
-      }
-        guard let eventCode = eventdetail.code else {
-          completion(Result.Failure("Couldn't Retrive the event Code"))
-          return}
-      completion(Result.Success(eventCode))
+      withCompletionBlock: { (error, _) in
+        guard error == nil else {
+          completion(Result.Failure((error?.localizedDescription)!))
+          return
+        }
+        completion(Result.Success(()))
     })
   }
   
@@ -163,7 +170,7 @@ class EventDetailViewModel: NSObject {
         }
       })
     }
-  Database.database().reference().child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
+    Database.database().reference().child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {
