@@ -13,7 +13,7 @@ class RightMenuView: UIView {
   
   let eventViewModel = EventViewModel()
   let imageNames = ImageNames()
-  var sideMenuButtonsDidSelectedDelegate : SideMenuButtonsDidSelectedDelegate?
+  var sideMenuDelegate : SideMenuDelegate?
   
   let blurEffectView : UIVisualEffectView = {
     let view = UIVisualEffectView()
@@ -22,7 +22,7 @@ class RightMenuView: UIView {
   }()
   let editButton : UIButton = {
     let view = UIButton()
-    view.isHidden = true
+//    view.isHidden = true
     view.setTitle("Edit", for: .normal)
     view.titleLabel?.textColor = UIColor.blue
     view.titleLabel?.backgroundColor = UIColor.clear
@@ -31,19 +31,19 @@ class RightMenuView: UIView {
   }()
   let pauseButton : UIButton = {
     let view = UIButton()
-    view.isHidden = true
+//    view.isHidden = true
     view.setImage(UIImage(named: "pauseEnable"), for: .normal)
     return view
   }()
   let playButton : UIButton = {
     let view = UIButton()
-    view.isHidden = true
+//    view.isHidden = true
     view.setImage(UIImage(named: "playNotEnable"), for: .normal)
     return view
   }()
   let deleteButton : UIButton = {
     let view = UIButton()
-    view.isHidden = true
+//    view.isHidden = true
     view.setImage(UIImage(named: "delete"), for: .normal)
     return view
   }()
@@ -66,17 +66,26 @@ class RightMenuView: UIView {
   
   
   
-  func configureWith(eventName: String, eventCode: String) {
+  func configureWith(event: Event, eventCode: String) {
+    
     backgroundColor = UIColor.clear
+    eventNameAndCodeButtonLabel.setTitle("Title: \(event.eventName) \n Code: \(eventCode)", for: .normal)
+    
+    
     addSubview(blurEffectView)
-    addSubview(editButton)
-    addSubview(playButton)
-    addSubview(pauseButton)
-    addSubview(deleteButton)
     addSubview(shareButton)
     addSubview(eventNameAndCodeButtonLabel)
     
-    
+    // set the right Menu only if the owner is playing the event
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+      userID == event.userID {
+      print("isOwner")
+      addSubview(editButton)
+      addSubview(playButton)
+      addSubview(pauseButton)
+      addSubview(deleteButton)
+    }
+   
     blurEffectView.anchor(top: topAnchor,
                      leading: leadingAnchor,
                      bottom: bottomAnchor,
@@ -125,10 +134,15 @@ class RightMenuView: UIView {
   }
   
   func addButtonsAction() {
+    
     shareButton.addTarget(self, action: #selector(sideMenuShareButtonPressed(_:)), for: .touchUpInside)
+    
     pauseButton.addTarget(self, action:#selector(sideMenuPauseButtonPressed(_:)), for: .touchUpInside)
+    
     playButton.addTarget(self, action: #selector(sideMenuPlayButtonPressed(_:)), for: .touchUpInside)
+    
     deleteButton.addTarget(self, action: #selector(sideMenuDeleteButtonPressed(_:)), for: .touchUpInside)
+    
     editButton.addTarget(self, action: #selector(sideMenuEditButtonPressed(_:)), for: .touchUpInside)
   }
   
@@ -138,7 +152,7 @@ class RightMenuView: UIView {
   
   @objc func sideMenuDeleteButtonPressed(_ sender: UIButton) {
     
-    self.sideMenuButtonsDidSelectedDelegate?.sideMenuDeleteButtonPressed()
+    self.sideMenuDelegate?.sideMenuDeleteButtonPressed()
     
   }
   
@@ -150,7 +164,7 @@ class RightMenuView: UIView {
     pauseButton.isEnabled = true
     playButton.isEnabled = false
     
-    self.sideMenuButtonsDidSelectedDelegate?.sideMenuPlayButtonPressed()
+    self.sideMenuDelegate?.sideMenuPlayButtonPressed()
    
   }
   
@@ -162,12 +176,12 @@ class RightMenuView: UIView {
     pauseButton.isEnabled = false
     playButton.isEnabled = true
     
-    self.sideMenuButtonsDidSelectedDelegate?.sideMenuPauseButtonPressed()
+    self.sideMenuDelegate?.sideMenuPauseButtonPressed()
   }
   
   @objc func sideMenuShareButtonPressed(_ sender: UIButton) {
     
-    self.sideMenuButtonsDidSelectedDelegate?.sideMenuShareButtonPressed()
+    self.sideMenuDelegate?.sideMenuShareButtonPressed()
   }
   
 }

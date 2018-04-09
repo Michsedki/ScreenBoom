@@ -12,28 +12,67 @@ import FirebaseDatabase
 
 class EventDetailViewModel: NSObject {
   
-//  var firebaseDatabaseReference2: DatabaseReference = Database.database().reference()
+  //  var firebaseDatabaseReference2: DatabaseReference = Database.database().reference()
   var eventDetail: EventDetail?
-//  let eventViewModel = EventViewModel()
+  //  let eventViewModel = EventViewModel()
   let firebaseNodeNames = FirebaseNodeNames()
   
   // Check if event detail is exist and return the eventDetail if success or error string if failure
-  func checkIfEventDetailExist (event: Event, completion: (@escaping(Result<EventDetail>) -> Void) ) {
-  Database.database().reference().child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
+  func checkIfEventDetailExist (event: Event, completion: (@escaping(Result<EventDetail?>) -> Void) ) {
+    Database.database().reference().child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
       
-      if eventDetailSnapshot.exists() {
-        guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: Any] else { return }
+        guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: String] else {
+          completion(Result.Failure("Event Not Found"))
+          return }
         
-        do {
-          let jsonData = try JSONSerialization.data(withJSONObject: eventDetailSnapshotValue, options: [])
-           let eventDetail = try JSONDecoder().decode(EventDetail.self, from: jsonData)
-          completion(Result.Success(eventDetail))
-        } catch {
-         completion(Result.Failure("Error serializing Data from firebase"))
+        var eventDetail : EventDetail?
+        
+        switch event.eventType {
+        case .Text:
+          guard let animationName = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailAnimationNameChild],
+                let backgroundcolor = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailBackGroundColorChild],
+                let textcolor = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailTextColorChild],
+                let speed = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailSpeedChild],
+                let text = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailTextChild],
+                let font = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailFoneChild],
+                let fontsize = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailFontSizeChild],
+                let code = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailCodeChild] else {
+              completion(Result.Failure("Event Not Found"))
+              return }
+          eventDetail = TextEventDetail(animationName: animationName,
+                                        backgroundcolor: backgroundcolor,
+                                        textcolor: textcolor,
+                                        speed: Int(speed),
+                                        text: text,
+                                        font: font,
+                                        fontsize: Double(fontsize),
+                                        code: code)
+          break
+        case .Photo:
+          guard let photoname = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailPhotoNameChild],
+            let code = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailCodeChild] else {
+              completion(Result.Failure("Event Not Found"))
+              return }
+          eventDetail = PhotoEventDetail(photoname: photoname, code: code)
+          break
+        case .Animation:
+          guard let animationStringURL = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailAnimationStringURLChild],
+            let code = eventDetailSnapshotValue[self.firebaseNodeNames.eventDetailCodeChild] else {
+              completion(Result.Failure("Event Not Found"))
+              return }
+          eventDetail = AnimationEventDetail(animationStringURL: animationStringURL, code: code)
+          break
+        case .Unknown:
+          completion(Result.Failure("Unknown event type "))
+          break
+          
         }
+      if let eventDetailFinal = eventDetail {
+        completion(Result.Success(eventDetailFinal))
       } else {
-        completion(Result.Failure("EventDetails Not Found"))
+        completion(Result.Failure("Event Not Found"))
       }
+     
     })
   }
   
@@ -47,15 +86,15 @@ class EventDetailViewModel: NSObject {
     case .Text:
       guard let textEventDetail = eventdetail as? TextEventDetail else { return }
       guard let text = textEventDetail.text ,
-            let textColor = textEventDetail.textcolor,
-            let backgroundColor = textEventDetail.backgroundcolor,
-            let animationName = textEventDetail.animationName,
-            let speed = textEventDetail.speed,
-            let code = textEventDetail.code,
-            let font = textEventDetail.font,
-            let fontSize = textEventDetail.fontsize else {
-        completion(Result.Failure("Couldn't build text eventDetail"))
-        return
+        let textColor = textEventDetail.textcolor,
+        let backgroundColor = textEventDetail.backgroundcolor,
+        let animationName = textEventDetail.animationName,
+        let speed = textEventDetail.speed,
+        let code = textEventDetail.code,
+        let font = textEventDetail.font,
+        let fontSize = textEventDetail.fontsize else {
+          completion(Result.Failure("Couldn't build text eventDetail"))
+          return
       }
       eventDetails = [firebaseNodeNames.eventDetailTextChild : text,
                       firebaseNodeNames.eventDetailTextColorChild : textColor,
@@ -69,9 +108,9 @@ class EventDetailViewModel: NSObject {
     case .Photo:
       guard let photoEventDetail = eventdetail as? PhotoEventDetail else { return }
       guard let photoName = photoEventDetail.photoname,
-            let code = photoEventDetail.code else {
-                completion(Result.Failure("Couldn't build photo eventDetail"))
-                return
+        let code = photoEventDetail.code else {
+          completion(Result.Failure("Couldn't build photo eventDetail"))
+          return
       }
       eventDetails = [firebaseNodeNames.eventDetailPhotoNameChild : photoName,
                       firebaseNodeNames.eventDetailCodeChild : code]
@@ -79,12 +118,12 @@ class EventDetailViewModel: NSObject {
     case .Animation:
       guard let animationEventDetail = eventdetail as? AnimationEventDetail else { return }
       guard let animationStringURL = animationEventDetail.animationStringURL,
-            let code = animationEventDetail.code else {
-                completion(Result.Failure("Couldn't build animation eventDetail"))
-                return
+        let code = animationEventDetail.code else {
+          completion(Result.Failure("Couldn't build animation eventDetail"))
+          return
       }
       eventDetails = [firebaseNodeNames.eventDetailAnimationStringURLChild : animationStringURL,
-                     firebaseNodeNames.eventDetailCodeChild : code]
+                      firebaseNodeNames.eventDetailCodeChild : code]
       break
     case.Unknown:
       completion(Result.Failure("Unknown event type"))
@@ -93,14 +132,14 @@ class EventDetailViewModel: NSObject {
     eventFIRReferance.setValue(
       eventDetails,
       withCompletionBlock: { (error, response) in
-      guard error == nil else {
-        completion(Result.Failure((error?.localizedDescription)!))
-        return
-      }
+        guard error == nil else {
+          completion(Result.Failure((error?.localizedDescription)!))
+          return
+        }
         guard let eventCode = eventdetail.code else {
           completion(Result.Failure("Couldn't Retrive the event Code"))
           return}
-      completion(Result.Success(eventCode))
+        completion(Result.Success(eventCode))
     })
   }
   
@@ -129,7 +168,7 @@ class EventDetailViewModel: NSObject {
           completion(Result.Failure("Event not deleted!"))
           break
         case .Success(let eventDetailFirebase):
-          self.removeEventDetailWithEventAndEventDetail(event: event, eventDetail: eventDetailFirebase, completion: { (resultOfDelete) in
+          self.removeEventDetailWithEventAndEventDetail(event: event, eventDetail: eventDetailFirebase!, completion: { (resultOfDelete) in
             switch resultOfDelete {
             case .Failure( _):
               completion(Result.Failure("Event not deleted!"))
@@ -163,7 +202,7 @@ class EventDetailViewModel: NSObject {
         }
       })
     }
-  Database.database().reference().child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
+    Database.database().reference().child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SideMenuButtonsDidSelectedDelegate {
+protocol SideMenuDelegate {
   func sideMenuEditButtonPressed()
   func sideMenuShareButtonPressed()
   func sideMenuPauseButtonPressed()

@@ -25,7 +25,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var playEventViewModelSource: PlayEventViewModelSource?
   var isShowEventNameAndCodeLabel = false
   
-  
   // init
   init (event:Event, eventDetail: EventDetail) {
     self.event = event
@@ -41,8 +40,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Delegates
-    self.rightMenuView?.sideMenuButtonsDidSelectedDelegate = self
     // setup observation.
     self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
     self.playEventViewModelSource?.addObserver(observer: self)
@@ -52,6 +49,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     saveUserDefaultOldEventAndUserID()
     
     setupViews()
+    
   }
   
   //AddSwipeGesture
@@ -78,6 +76,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         }
         print("Swiped right")
       case UISwipeGestureRecognizerDirection.down:
+        self.navigationController?.isNavigationBarHidden = false
         print("Swiped down")
       case UISwipeGestureRecognizerDirection.left:
         if !isShowEventNameAndCodeLabel {
@@ -86,6 +85,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         }
         print("Swiped left")
       case UISwipeGestureRecognizerDirection.up:
+        self.navigationController?.isNavigationBarHidden = true
         print("Swiped up")
       default:
         break
@@ -98,7 +98,9 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    setupSideMenu()
+    
+    self.navigationController?.isNavigationBarHidden = false
+   
     addSwipGuestureRecognizers()
     
     // add user to list of viewer
@@ -110,6 +112,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     // Now that the view has been loaded we can safely setup our
     // constraints
     setupConstraints()
+    
+    setupSideMenu()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -149,34 +153,26 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
                               width: self.view.bounds.width,
                               height: self.view.bounds.height)
     }
+    
   }
   
   func setupSideMenu() {
     
-    // create rightMenuView to show options
-    let rightMenuView = RightMenuView()
-    self.view.addSubview(rightMenuView)
-    rightMenuView.frame = CGRect(x: self.view.frame.maxX - 10,
-                                 y: 0,
-                                 width: 80,
-                                 height: self.view.frame.height)
+    let rightMenu = RightMenuView()
     
+    self.view.addSubview(rightMenu)
+    rightMenu.frame = CGRect(x: self.view.frame.maxX - 10,
+                             y: 0,
+                             width: 80,
+                             height: self.view.frame.height)
     
+    rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
+   
+    self.view.bringSubview(toFront: rightMenu)
+    self.rightMenuView = rightMenu
     
-    
-    rightMenuView.configureWith(eventName: self.event.eventName, eventCode: self.event.eventCode)
-    rightMenuView.eventNameAndCodeButtonLabel.setTitle("Title: \(self.event.eventName) \n Code: \(self.event.eventCode)", for: .normal)
-    
-    
-    
-    // show this options for event owner only (Edit, play, pause and delete)
-    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
-      userID == self.event.userID {
-      print("isOwner")
-      [rightMenuView.editButton, rightMenuView.deleteButton, rightMenuView.pauseButton, rightMenuView.playButton].forEach{$0.isHidden = false}
-    }
-    self.view.bringSubview(toFront: rightMenuView)
-    self.rightMenuView = rightMenuView
+    // Delegates
+    self.rightMenuView?.sideMenuDelegate = self
   }
   
   
@@ -227,13 +223,13 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   func saveUserDefaultOldEventAndUserID(){
     UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
-    UserDefaults.standard.set(self.eventDetail.code, forKey: userDefaultKeyNames.eventCodeKey)
+    UserDefaults.standard.set(self.event.eventCode, forKey: userDefaultKeyNames.eventCodeKey)
   }
   
   
 }
 
-extension PlayEventViewController: SideMenuButtonsDidSelectedDelegate {
+extension PlayEventViewController: SideMenuDelegate {
   func sideMenuEditButtonPressed() {
     // Here we need to implement update feature
   }
@@ -249,7 +245,9 @@ extension PlayEventViewController: SideMenuButtonsDidSelectedDelegate {
   }
   
   func sideMenuPlayButtonPressed() {
-    
+    for view in (self.playEventView?.subviews)! {
+      view.removeFromSuperview()
+    }
     ShowSpinner()
     
     eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in
@@ -286,6 +284,9 @@ extension PlayEventViewController: SideMenuButtonsDidSelectedDelegate {
   }
   
   func sideMenuPauseButtonPressed() {
+    for view in (self.playEventView?.subviews)! {
+      view.removeFromSuperview()
+    }
     ShowSpinner()
     
     eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLivePauseValue) { (result) in

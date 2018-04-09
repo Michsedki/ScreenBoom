@@ -43,10 +43,11 @@ class PlayEventView: UIView {
     
     // Check if the Event not is live, set playView with Label Event pending
     guard event.eventIsLive != firebaseNodeNames.eventNodeIsLivePauseValue else {
+      
       showPendingAndDefaultEventView(message: "Pending Event")
       return
     }
-    
+        
   }
   
   // Show Pending Event View
