@@ -162,24 +162,24 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
     
     guard let uploadImage = eventDetail.photo else {
       self.infoView(message: "No image selected", color: Colors.smoothRed)
-      return }
+      return
+    }
     
     self.ShowSpinner()
     
     let imageUploadManager = ImageUploadManager()
     
     imageUploadManager.uploadImage(event: event, uploadImage, progressBlock: { (percentage) in
-      print(percentage)
+//      print(percentage)
     }, completionBlock: { [weak self] (URL, error) in
-      
+        
       guard let strongSelf = self else {return}
       
-      
-      guard error == nil,
-        let url = URL
+      guard error == nil, let url = URL
         else {
           strongSelf.infoView(message: "Failed to save the event", color: Colors.smoothRed)
-          return }
+          return
+        }
       
       strongSelf.eventDetail.photoname = url.absoluteString
       
@@ -222,11 +222,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
       }
     }
     self.HideSpinner()
-    
-    
-    
   }
-  
 }
 
 
