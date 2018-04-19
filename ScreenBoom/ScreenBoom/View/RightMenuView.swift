@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 
 class RightMenuView: UIView {
-  
-  let eventViewModel = EventViewModel()
+  // ImageNames is struct holding the names of the images in the asset
+  // ( playEnabled, playNotEnabled, pauseEnabled, pauseNotEnabled) which we need to show it in
+  // the rightMenuView
   let imageNames = ImageNames()
   var sideMenuDelegate : SideMenuDelegate?
   
@@ -22,7 +23,6 @@ class RightMenuView: UIView {
   }()
   let editButton : UIButton = {
     let view = UIButton()
-//    view.isHidden = true
     view.setTitle("Edit", for: .normal)
     view.titleLabel?.textColor = UIColor.blue
     view.titleLabel?.backgroundColor = UIColor.clear
@@ -31,19 +31,16 @@ class RightMenuView: UIView {
   }()
   let pauseButton : UIButton = {
     let view = UIButton()
-//    view.isHidden = true
     view.setImage(UIImage(named: "pauseEnable"), for: .normal)
     return view
   }()
   let playButton : UIButton = {
     let view = UIButton()
-//    view.isHidden = true
     view.setImage(UIImage(named: "playNotEnable"), for: .normal)
     return view
   }()
   let deleteButton : UIButton = {
     let view = UIButton()
-//    view.isHidden = true
     view.setImage(UIImage(named: "delete"), for: .normal)
     return view
   }()
@@ -64,13 +61,11 @@ class RightMenuView: UIView {
     return view
   }()
   
-  
-  
   func configureWith(event: Event, eventCode: String) {
     
     backgroundColor = UIColor.clear
-    eventNameAndCodeButtonLabel.setTitle("Title: \(event.eventName) \n Code: \(eventCode)", for: .normal)
     
+    eventNameAndCodeButtonLabel.setTitle("Title: \(event.eventName) \n Code: \(eventCode)", for: .normal)
     
     addSubview(blurEffectView)
     addSubview(shareButton)
@@ -135,28 +130,27 @@ class RightMenuView: UIView {
   
   func addButtonsAction() {
     
-    shareButton.addTarget(self, action: #selector(sideMenuShareButtonPressed(_:)), for: .touchUpInside)
+    shareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
     
-    pauseButton.addTarget(self, action:#selector(sideMenuPauseButtonPressed(_:)), for: .touchUpInside)
+    pauseButton.addTarget(self, action:#selector(pauseButtonPressed(_:)), for: .touchUpInside)
     
-    playButton.addTarget(self, action: #selector(sideMenuPlayButtonPressed(_:)), for: .touchUpInside)
+    playButton.addTarget(self, action: #selector(playButtonPressed(_:)), for: .touchUpInside)
     
-    deleteButton.addTarget(self, action: #selector(sideMenuDeleteButtonPressed(_:)), for: .touchUpInside)
+    deleteButton.addTarget(self, action: #selector(deleteButtonPressed(_:)), for: .touchUpInside)
     
-    editButton.addTarget(self, action: #selector(sideMenuEditButtonPressed(_:)), for: .touchUpInside)
+    editButton.addTarget(self, action: #selector(editButtonPressed(_:)), for: .touchUpInside)
   }
   
-  @objc func sideMenuEditButtonPressed(_ sender: UIButton) {
+  @objc func editButtonPressed(_ sender: UIButton) {
     
   }
   
-  @objc func sideMenuDeleteButtonPressed(_ sender: UIButton) {
+  @objc func deleteButtonPressed(_ sender: UIButton) {
     
     self.sideMenuDelegate?.sideMenuDeleteButtonPressed()
-    
   }
   
-  @objc func sideMenuPlayButtonPressed(_ sender: UIButton) {
+  @objc func playButtonPressed(_ sender: UIButton) {
     
     pauseButton.setImage(UIImage(named: imageNames.pauseEnable), for: .normal)
     playButton.setImage(UIImage(named: imageNames.playNotEnable), for: .normal)
@@ -165,10 +159,9 @@ class RightMenuView: UIView {
     playButton.isEnabled = false
     
     self.sideMenuDelegate?.sideMenuPlayButtonPressed()
-   
   }
   
-  @objc func sideMenuPauseButtonPressed(_ sender: UIButton) {
+  @objc func pauseButtonPressed(_ sender: UIButton) {
 
     pauseButton.setImage(UIImage(named: imageNames.pauseNotEnable), for: .normal)
     playButton.setImage(UIImage(named: imageNames.playEnable), for: .normal)
@@ -179,7 +172,7 @@ class RightMenuView: UIView {
     self.sideMenuDelegate?.sideMenuPauseButtonPressed()
   }
   
-  @objc func sideMenuShareButtonPressed(_ sender: UIButton) {
+  @objc func shareButtonPressed(_ sender: UIButton) {
     
     self.sideMenuDelegate?.sideMenuShareButtonPressed()
   }

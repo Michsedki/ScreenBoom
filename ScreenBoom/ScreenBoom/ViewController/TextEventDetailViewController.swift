@@ -11,6 +11,8 @@ import Foundation
 class TextEventDetailViewController: EventDetailViewController, DropDownSelectionDelegate {
   
   var eventDetail: TextEventDetail
+  // maxFontSize is the max array value of the fontsizeDropDownButton
+  let maxFontSize = 50
   
   func updatePreviewEventViewController () {
     let playEventViewModel = PlayEventViewModel(event: self.event, eventDetail: self.eventDetail)
@@ -182,7 +184,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     backgroundColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
     animationNameDropDownButton.dropView.dropDownOptions = constantNames.animationNamesArray
     fontNameDropDownButton.dropView.dropDownOptions = constantNames.fontNames
-    fontsizeDropDownButton.dropView.dropDownOptions = Array(0...50).map({String($0)})
+    fontsizeDropDownButton.dropView.dropDownOptions = Array(0...maxFontSize).map({String($0)})
     
     // set dropDownButtonTitle in the dropDown
     textColorDropDownButton.dropView.dropDownButtonTitle = constantNames.textColorButtonTitle

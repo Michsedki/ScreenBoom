@@ -12,9 +12,7 @@ import FirebaseDatabase
 
 class EventDetailViewModel: NSObject {
   
-  //  var firebaseDatabaseReference2: DatabaseReference = Database.database().reference()
   var eventDetail: EventDetail?
-  //  let eventViewModel = EventViewModel()
   let firebaseNodeNames = FirebaseNodeNames()
   
   // Check if event detail is exist and return the eventDetail if success or error string if failure

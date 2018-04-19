@@ -21,10 +21,8 @@ typealias ConfigureWithEventCompletionHandler = (_:Result<Void>) -> Void
 
 class EventViewModel: NSObject {
   
-//  var firebaseDatabaseReference: DatabaseReference?
   let firebaseNodeNames = FirebaseNodeNames()
   var event: Event?
-
   
   func configureWithEvent(event:Event, completion:ConfigureWithEventCompletionHandler? = nil) {
     checkIfEventExists(event: event, completion: { eventExists, snapshot  in
@@ -35,10 +33,8 @@ class EventViewModel: NSObject {
       } else {
         // run the completion block if we have one
         // and pass the result
-        
         completion?(Result.Failure("Event is Already Exist"))
       }
-      
     })
   }
   
@@ -122,7 +118,6 @@ class EventViewModel: NSObject {
   }
   
   // get Event
-  
   func getEvent(eventName: String,completion:(@escaping(Result<Event>) -> Void )) {
     Database.database().reference().child(firebaseNodeNames.eventNode).child(eventName).observeSingleEvent(of: .value) { (eventSnapShot) in
       if let eventValue = eventSnapShot.value as? [String:String] {
