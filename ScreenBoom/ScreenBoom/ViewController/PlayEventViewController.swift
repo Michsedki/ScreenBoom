@@ -177,7 +177,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   func addEventToUserEvents() {
     if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
       firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).setValue(
-        [firebaseNodeNames.eventNodeCodeChild: self.event.eventCode,
+        [firebaseNodeNames.eventNodeCodeChild: self.eventDetail.code,
          firebaseNodeNames.isOwnerChild: self.event.userID == userID ?  firebaseNodeNames.isOwnerYesValue : firebaseNodeNames.isOwnerNoValue], withCompletionBlock: { (error, _) in
           if error != nil {
             print("Couldn't Add Event to User Log, Error: \(String(describing: error?.localizedDescription))")

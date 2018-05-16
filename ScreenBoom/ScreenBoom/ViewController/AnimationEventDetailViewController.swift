@@ -104,25 +104,26 @@ class AnimationEventDetailViewController: EventDetailViewController {
     
     eventViewModel.addEvent(event: self.event) { (result) in
       switch result {
+        
       case .Failure(let error):
-        self.infoView(message: error, color: Colors.smoothRed)
+        print(error)
+        self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
+        
       case .Success(let code):
-        //************* Should we remove the show spinner line it is already shown
-        self.event.eventCode = code
+        
+        self.eventDetail.code = code
+        
         self.eventDetailViewModel.addEventDetail(event: self.event, eventdetail: self.eventDetail, completion: { (result) in
           switch result {
+            
           case .Failure(let error):
-            self.eventViewModel.removeEvent(event: self.event, completion: { (result) in
-              switch result {
-              case .Failure( _):
-                print("fail in removing event after failed of adding eventDetail")
-              case .Success():
-                print("success in removing event after failed of adding eventDetail")
-              }
-            })
-            self.infoView(message: error, color: Colors.smoothRed)
-          case .Success(let eventCode):
-            self.infoView(message: "Event Created Successfully: EventName\(self.event.eventName), Code: \(eventCode) ", color: Colors.lightGreen)
+            print(error)
+            self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
+            
+          case .Success():
+            
+            self.infoView(message: "Event Created Successfully ", color: Colors.lightGreen)
+            
             self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
           }
         })
