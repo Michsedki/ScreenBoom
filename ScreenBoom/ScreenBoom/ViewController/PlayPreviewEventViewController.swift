@@ -11,11 +11,15 @@ import UIKit
 class PlayPreviewEventViewController: PlayEventViewController {
     
   override func viewDidLoad() {
-    super.viewDidLoad()
     
-    // setup observation.
-    self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
-    self.playEventViewModelSource?.addObserver(observer: self)
+    setupViews()
+  
+    self.configureWithPreviewPlayViewModel(playViewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+    
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    self.playEventViewModelSource?.removeObserver(observer: self)
   }
   
   override func viewWillAppear(_ animated: Bool) {

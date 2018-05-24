@@ -46,6 +46,7 @@ class JoinEventViewController: BaseViewController {
   }
   
   override func viewWillAppear(_ animated: Bool) {
+    self.navigationController?.isNavigationBarHidden = false
     setupJoinLastEventView()
   }
   
@@ -96,6 +97,7 @@ class JoinEventViewController: BaseViewController {
         case "photo" :
           event.eventType = .Photo
         default:
+          event.eventType = .Unknown
           break
         }
         // we need to update our captures reference to the event

@@ -93,6 +93,9 @@ class PlayEventViewModelSource {
       self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
   }
   
+  func configureWithPlayPreviewEvent() {
+    self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+  }
   
   // Configure with Device will TransiChange Oriantation
   func configureWithViewWillTransition() {

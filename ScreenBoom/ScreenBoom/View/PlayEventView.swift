@@ -33,11 +33,9 @@ class PlayEventView: UIView {
     return view
   }()
  
-  
   func configure(viewModel: PlayEventViewModel) {
     
     let event = viewModel.event
-    
     
     self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
     
@@ -46,9 +44,8 @@ class PlayEventView: UIView {
       showPendingAndDefaultEventView(message: "Pending Event")
       return
     }
-    
   }
-  
+    
   // Show Pending Event View
   func showPendingAndDefaultEventView(message: String) {
     backgroundColor = UIColor.gray
@@ -72,8 +69,7 @@ class PlayEventView: UIView {
                                      trailing: pendingLabelAnimationView.trailingAnchor,
                                      padding: .zero)
     pendingLabelAnimationView.startCanvasAnimation()
-  }
-  
+  }  
 }
 
 

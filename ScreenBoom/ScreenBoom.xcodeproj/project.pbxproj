@@ -15,6 +15,7 @@
 		3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */; };
 		3758DE26205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */; };
 		3758DE2820609440004C55A2 /* EditEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758DE2720609440004C55A2 /* EditEventDetailViewController.swift */; };
+		3758E0532079393700192C28 /* CircularTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758E0522079393700192C28 /* CircularTransition.swift */; };
 		37776645204DB260006699DD /* DropDownListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776644204DB25F006699DD /* DropDownListButton.swift */; };
 		37776649204E0B27006699DD /* PlayPreviewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */; };
 		3777664B204E0D14006699DD /* DropDownSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */; };
@@ -42,6 +43,7 @@
 		378AB0B12065B9930074E4B7 /* TextPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */; };
 		378AB0B32065B9AA0074E4B7 /* PhotoPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */; };
 		378AB0B52065B9BD0074E4B7 /* AnimationPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */; };
+		378AB0B7206702CB0074E4B7 /* SideMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B6206702CB0074E4B7 /* SideMenuDelegate.swift */; };
 		37C2C5C62039F46000032927 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C52039F46000032927 /* EventDetail.swift */; };
 		37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */; };
 		37D011B1204755B000739B62 /* Canvas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D011B2204755B000739B62 /* Canvas.framework */; };
@@ -75,6 +77,7 @@
 		3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Anchors.swift"; sourceTree = "<group>"; };
 		3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoEventDetailDelegate.swift; sourceTree = "<group>"; };
 		3758DE2720609440004C55A2 /* EditEventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventDetailViewController.swift; sourceTree = "<group>"; };
+		3758E0522079393700192C28 /* CircularTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularTransition.swift; sourceTree = "<group>"; };
 		37776644204DB25F006699DD /* DropDownListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownListButton.swift; sourceTree = "<group>"; };
 		37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPreviewEventViewController.swift; sourceTree = "<group>"; };
 		3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownSelectionDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPlayEventView.swift; sourceTree = "<group>"; };
 		378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPlayEventView.swift; sourceTree = "<group>"; };
 		378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationPlayEventView.swift; sourceTree = "<group>"; };
+		378AB0B6206702CB0074E4B7 /* SideMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuDelegate.swift; sourceTree = "<group>"; };
 		37C2C5C52039F46000032927 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
 		37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewModel.swift; sourceTree = "<group>"; };
 		37D011B2204755B000739B62 /* Canvas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Canvas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +156,7 @@
 				3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */,
 				3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */,
 				3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */,
+				378AB0B6206702CB0074E4B7 /* SideMenuDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -200,6 +205,7 @@
 		377B6E9E202C026200AFD85C /* ScreenBoom */ = {
 			isa = PBXGroup;
 			children = (
+				3758E0522079393700192C28 /* CircularTransition.swift */,
 				37E8D4032050D433008D83B1 /* AnimationImages */,
 				37D011B3204891B600739B62 /* ScreenBoom.entitlements */,
 				3747C8B02045F84F00171FCF /* View */,
@@ -450,6 +456,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				378AB0A72064B6730074E4B7 /* PhotoEventDetailViewController.swift in Sources */,
+				3758E0532079393700192C28 /* CircularTransition.swift in Sources */,
 				3758DE2820609440004C55A2 /* EditEventDetailViewController.swift in Sources */,
 				377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */,
 				378AB0A92064B68A0074E4B7 /* AnimationEventDetailViewController.swift in Sources */,
@@ -464,6 +471,7 @@
 				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
 				378AB09F2064B1FE0074E4B7 /* PhotoEventDetail.swift in Sources */,
 				37E8D42B2054A99F008D83B1 /* RightMenuView.swift in Sources */,
+				378AB0B7206702CB0074E4B7 /* SideMenuDelegate.swift in Sources */,
 				3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */,
 				3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */,
 				378AB0A32064B3700074E4B7 /* TextEventDetail.swift in Sources */,

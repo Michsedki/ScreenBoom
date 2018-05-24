@@ -24,7 +24,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var rightMenuView: RightMenuView?
   var playEventViewModelSource: PlayEventViewModelSource?
   var isShowEventNameAndCodeLabel = false
-
   
   // init
   init (event:Event, eventDetail: EventDetail) {
@@ -40,16 +39,17 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   override func viewDidLoad() {
     super.viewDidLoad()
-        
+    
     // setup observation.
     self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
     self.playEventViewModelSource?.addObserver(observer: self)
     self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
     self.playEventViewModelSource?.configureWithFirebaseUpdateEventDetail()
-      
+    
     saveUserDefaultOldEventAndUserID()
     
     setupViews()
+    
   }
   
   //AddSwipeGesture
@@ -76,6 +76,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         }
         print("Swiped right")
       case UISwipeGestureRecognizerDirection.down:
+        self.navigationController?.isNavigationBarHidden = false
         print("Swiped down")
       case UISwipeGestureRecognizerDirection.left:
         if !isShowEventNameAndCodeLabel {
@@ -84,6 +85,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         }
         print("Swiped left")
       case UISwipeGestureRecognizerDirection.up:
+        self.navigationController?.isNavigationBarHidden = true
         print("Swiped up")
       default:
         break
@@ -96,7 +98,9 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    setupSideMenu()
+    
+    self.navigationController?.isNavigationBarHidden = false
+   
     addSwipGuestureRecognizers()
     
     // add user to list of viewer
@@ -108,6 +112,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     // Now that the view has been loaded we can safely setup our
     // constraints
     setupConstraints()
+    
+    setupSideMenu()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -121,18 +127,18 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     var playView: PlayEventView?
     
     switch (self.event.eventType) {
-      case .Text:
-        playView = TextPlayEventView()
-        break
-      case .Photo:
-        playView = PhotoPlayEventView()
-        break
-      case .Animation:
-        playView = AnimationPlayEventView()
-        break
-      case .Unknown:
-        playView = nil
-        break
+    case .Text:
+      playView = TextPlayEventView()
+      break
+    case .Photo:
+      playView = PhotoPlayEventView()
+      break
+    case .Animation:
+      playView = AnimationPlayEventView()
+      break
+    case .Unknown:
+      playView = nil
+      break
     }
     
     guard let finalPlayView = playView else { return }
@@ -147,30 +153,26 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
                               width: self.view.bounds.width,
                               height: self.view.bounds.height)
     }
+    
   }
   
   func setupSideMenu() {
-    // create rightMenuView to show options
-    let rightMenuView = RightMenuView(frame: CGRect(x: self.view.frame.maxX - 10,
-                                                    y: 0,
-                                                    width: 80,
-                                                    height: self.view.frame.height))
-    self.view.addSubview(rightMenuView)
-    rightMenuView.configureWith(eventName: self.event.eventName, eventCode: self.event.eventCode)
-    rightMenuView.eventNameAndCodeButtonLabel.setTitle("Title: \(self.event.eventName) \n Code: \(self.event.eventCode)", for: .normal)
-    rightMenuView.shareImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGuestureOnShareImage)))
-    rightMenuView.pauseImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureOnPauseImage)))
-    rightMenuView.playImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnPlayImage)))
-    rightMenuView.deleteImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGestureRecognizerOnDeleteImage)))
-    rightMenuView.editButton.addTarget(self, action: #selector(handleEditButtonPressed(_:)), for: .touchUpInside)
-    // show this options for event owner only (Edit, play, pause and delete)
-    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
-      userID == self.event.userID {
-      print("isOwner")
-      [rightMenuView.editButton, rightMenuView.deleteImage, rightMenuView.pauseImage, rightMenuView.playImage].forEach{$0.isHidden = false}
-    }
-    self.view.bringSubview(toFront: rightMenuView)
-    self.rightMenuView = rightMenuView
+    
+    let rightMenu = RightMenuView()
+    
+    self.view.addSubview(rightMenu)
+    rightMenu.frame = CGRect(x: self.view.frame.maxX - 10,
+                             y: 0,
+                             width: 80,
+                             height: self.view.frame.height)
+    
+    rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
+   
+    self.view.bringSubview(toFront: rightMenu)
+    self.rightMenuView = rightMenu
+    
+    // Delegates
+    self.rightMenuView?.sideMenuDelegate = self
   }
   
   
@@ -219,15 +221,51 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
   }
   
-  
-  // handle Edit button pressed
-  @objc func handleEditButtonPressed(_ sender: UIButton) {
-    
+  func saveUserDefaultOldEventAndUserID(){
+    UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
+    UserDefaults.standard.set(self.event.eventCode, forKey: userDefaultKeyNames.eventCodeKey)
   }
   
-  // handle tap gesture recognizer on delete image
-  @objc func handleTapGestureRecognizerOnDeleteImage() {
+  
+}
+
+extension PlayEventViewController: SideMenuDelegate {
+  func sideMenuEditButtonPressed() {
+    // Here we need to implement update feature
+  }
+  
+  func sideMenuShareButtonPressed() {
+    
+    // Here it should present the Activity View Controller to send the event Deep link URL
+    // useing Email or SMS
+    let deepLinkURL = "sbdl://screenBoomEvent/joinDL/\(self.event.eventName)/\(self.event.eventCode)"
+    let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
+    
+    present(activityController, animated: true, completion: nil)
+  }
+  
+  func sideMenuPlayButtonPressed() {
+    for view in (self.playEventView?.subviews)! {
+      view.removeFromSuperview()
+    }
     ShowSpinner()
+    
+    eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in
+      switch result {
+      case .Failure(let error):
+        self.infoView(message: error, color: Colors.smoothRed)
+      case .Success():
+        self.infoView(message: "Play", color: Colors.lightGreen)
+      }
+    }
+    
+    HideSpinner()
+  }
+  
+  func sideMenuDeleteButtonPressed() {
+    
+    ShowSpinner()
+    
     eventDetailViewModel.removeEventDetailWithEventAndEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
       switch result {
       case .Failure(let error):
@@ -240,35 +278,17 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         break
       }
     }
+    
     HideSpinner()
     
   }
   
-  // handle tap gesture recognizer on the Play image
-  @objc func handleTapGestureRecognizerOnPlayImage() {
-    rightMenuView?.pauseImage.image = UIImage(named: imageNames.pauseEnable)
-    rightMenuView?.playImage.image = UIImage(named: imageNames.playNotEnable)
-    rightMenuView?.pauseImage.isUserInteractionEnabled = true
-    rightMenuView?.playImage.isUserInteractionEnabled = false
-    ShowSpinner()
-    eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in
-      switch result {
-      case .Failure(let error):
-        self.infoView(message: error, color: Colors.smoothRed)
-      case .Success():
-        self.infoView(message: "Play", color: Colors.lightGreen)
-      }
+  func sideMenuPauseButtonPressed() {
+    for view in (self.playEventView?.subviews)! {
+      view.removeFromSuperview()
     }
-    HideSpinner()
-  }
-  
-  // handle tap gesture recognizer on the Pause image
-  @objc func handleTapGestureOnPauseImage() {
-    rightMenuView?.pauseImage.image = UIImage(named: imageNames.pauseNotEnable)
-    rightMenuView?.playImage.image = UIImage(named: imageNames.playEnable)
-    rightMenuView?.pauseImage.isUserInteractionEnabled = false
-    rightMenuView?.playImage.isUserInteractionEnabled = true
     ShowSpinner()
+    
     eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLivePauseValue) { (result) in
       switch result {
       case .Failure(let error):
@@ -277,23 +297,12 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         self.infoView(message: "Pause", color: Colors.lightGreen)
       }
     }
+    
     HideSpinner()
   }
-  // handle tap gesture recognizer on the share image
-  @objc func handleTapGuestureOnShareImage() {
-    let deepLinkURL = "sbdl://screenBoomEvent/joinDL/\(self.event.eventName)/\(self.event.eventCode)"
-    let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
-    present(activityController, animated: true, completion: nil)
-  }
-  func saveUserDefaultOldEventAndUserID(){
-    UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
-    UserDefaults.standard.set(self.eventDetail.code, forKey: userDefaultKeyNames.eventCodeKey)
-  }
-
+  
   
 }
-
-
 
 
 

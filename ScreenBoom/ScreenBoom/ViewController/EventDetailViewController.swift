@@ -34,6 +34,9 @@ class EventDetailViewController: BaseViewController  {
     self.view.backgroundColor = UIColor.lightGray
     self.navigationItem.title = self.event.eventName
   }
+  override func viewWillAppear(_ animated: Bool) {
+    self.navigationController?.isNavigationBarHidden = false
+  }
   
   override func viewWillDisappear(_ animated: Bool) {
     playPreviewEventViewController?.willMove(toParentViewController: nil)

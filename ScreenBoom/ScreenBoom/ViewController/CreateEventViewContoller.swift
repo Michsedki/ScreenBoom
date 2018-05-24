@@ -1,5 +1,5 @@
 //
-//  CreateEventViewContoller.swift
+//  CreateEventViewController.swift
 //  ScreenBoom
 //
 //  Created by Michael Tanious on 2/7/18.
@@ -32,6 +32,9 @@ class CreateEventViewController: BaseViewController, UIPickerViewDelegate, UIPic
     eventNameTextfield.delegate = self
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    self.navigationController?.isNavigationBarHidden = false
+  }
   // PickerView Protocol
   
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
