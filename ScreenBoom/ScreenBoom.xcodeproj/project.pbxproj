@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1842375C20BE0F57001147BA /* FireBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842375B20BE0F57001147BA /* FireBaseManager.swift */; };
+		1842375E20BE6B04001147BA /* CreatedEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */; };
 		3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */; };
 		3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */; };
 		3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */; };
 		3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A5203EA0E600171FCF /* PlayEventView.swift */; };
 		3747C8A82044724D00171FCF /* ConstantStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A72044724D00171FCF /* ConstantStrings.swift */; };
-		3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */; };
+		3747C8AF2045C1A800171FCF /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView.swift */; };
 		3758DE26205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */; };
 		3758DE2820609440004C55A2 /* EditEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758DE2720609440004C55A2 /* EditEventDetailViewController.swift */; };
 		3758E0532079393700192C28 /* CircularTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758E0522079393700192C28 /* CircularTransition.swift */; };
@@ -32,7 +34,7 @@
 		377B6F02202FF11B00AFD85C /* String+random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F01202FF11B00AFD85C /* String+random.swift */; };
 		377B6F04202FF57800AFD85C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F03202FF57800AFD85C /* Colors.swift */; };
 		377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F052030027D00AFD85C /* EventDetailViewController.swift */; };
-		377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F08203009B900AFD85C /* EventViewModel.swift */; };
+		377B6F09203009B900AFD85C /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F08203009B900AFD85C /* EventManager.swift */; };
 		377B6F0C20300E1C00AFD85C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B6F0B20300E1C00AFD85C /* Event.swift */; };
 		378AB09F2064B1FE0074E4B7 /* PhotoEventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB09E2064B1FE0074E4B7 /* PhotoEventDetail.swift */; };
 		378AB0A12064B3630074E4B7 /* AnimationEventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0A02064B3630074E4B7 /* AnimationEventDetail.swift */; };
@@ -69,12 +71,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1842375B20BE0F57001147BA /* FireBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseManager.swift; sourceTree = "<group>"; };
+		1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedEventsTableViewCell.swift; sourceTree = "<group>"; };
 		3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSourceObserver.swift; sourceTree = "<group>"; };
 		3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSource.swift; sourceTree = "<group>"; };
 		3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModel.swift; sourceTree = "<group>"; };
 		3747C8A5203EA0E600171FCF /* PlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventView.swift; sourceTree = "<group>"; };
 		3747C8A72044724D00171FCF /* ConstantStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantStrings.swift; sourceTree = "<group>"; };
-		3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Anchors.swift"; sourceTree = "<group>"; };
+		3747C8AE2045C1A800171FCF /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoEventDetailDelegate.swift; sourceTree = "<group>"; };
 		3758DE2720609440004C55A2 /* EditEventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventDetailViewController.swift; sourceTree = "<group>"; };
 		3758E0522079393700192C28 /* CircularTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularTransition.swift; sourceTree = "<group>"; };
@@ -96,7 +100,7 @@
 		377B6F01202FF11B00AFD85C /* String+random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+random.swift"; sourceTree = "<group>"; };
 		377B6F03202FF57800AFD85C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		377B6F052030027D00AFD85C /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
-		377B6F08203009B900AFD85C /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
+		377B6F08203009B900AFD85C /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		377B6F0B20300E1C00AFD85C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		378AB09E2064B1FE0074E4B7 /* PhotoEventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEventDetail.swift; sourceTree = "<group>"; };
 		378AB0A02064B3630074E4B7 /* AnimationEventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationEventDetail.swift; sourceTree = "<group>"; };
@@ -165,7 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				377B6F01202FF11B00AFD85C /* String+random.swift */,
-				3747C8AE2045C1A800171FCF /* UIView+Anchors.swift */,
+				3747C8AE2045C1A800171FCF /* UIView.swift */,
 				37E8D4062051BAF3008D83B1 /* Swift+GIF.swift */,
 			);
 			path = Extensions;
@@ -247,12 +251,13 @@
 		377B6F072030098400AFD85C /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				377B6F08203009B900AFD85C /* EventViewModel.swift */,
+				377B6F08203009B900AFD85C /* EventManager.swift */,
 				37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */,
 				3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */,
 				3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */,
 				37D011B620489F2700739B62 /* UserDefaultICloudViewModel.swift */,
 				37E8D3FC204F34FF008D83B1 /* ImageUploadManager.swift */,
+				1842375B20BE0F57001147BA /* FireBaseManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 				378AB09E2064B1FE0074E4B7 /* PhotoEventDetail.swift */,
 				378AB0A02064B3630074E4B7 /* AnimationEventDetail.swift */,
 				378AB0A22064B3700074E4B7 /* TextEventDetail.swift */,
+				1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -459,6 +465,7 @@
 				3758E0532079393700192C28 /* CircularTransition.swift in Sources */,
 				3758DE2820609440004C55A2 /* EditEventDetailViewController.swift in Sources */,
 				377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */,
+				1842375C20BE0F57001147BA /* FireBaseManager.swift in Sources */,
 				378AB0A92064B68A0074E4B7 /* AnimationEventDetailViewController.swift in Sources */,
 				37C2C5C62039F46000032927 /* EventDetail.swift in Sources */,
 				3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */,
@@ -479,8 +486,9 @@
 				378AB0B32065B9AA0074E4B7 /* PhotoPlayEventView.swift in Sources */,
 				378AB0A52064B65F0074E4B7 /* TextEventDetailViewController.swift in Sources */,
 				377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */,
-				377B6F09203009B900AFD85C /* EventViewModel.swift in Sources */,
+				377B6F09203009B900AFD85C /* EventManager.swift in Sources */,
 				37E8D4072051BAF4008D83B1 /* Swift+GIF.swift in Sources */,
+				1842375E20BE6B04001147BA /* CreatedEventsTableViewCell.swift in Sources */,
 				37D011B720489F2700739B62 /* UserDefaultICloudViewModel.swift in Sources */,
 				377B6F062030027D00AFD85C /* EventDetailViewController.swift in Sources */,
 				377B6F02202FF11B00AFD85C /* String+random.swift in Sources */,
@@ -490,7 +498,7 @@
 				3777664B204E0D14006699DD /* DropDownSelectionDelegate.swift in Sources */,
 				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
 				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,
-				3747C8AF2045C1A800171FCF /* UIView+Anchors.swift in Sources */,
+				3747C8AF2045C1A800171FCF /* UIView.swift in Sources */,
 				377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */,
 				377B6F00202FE5A500AFD85C /* BaseViewController.swift in Sources */,
 				37776645204DB260006699DD /* DropDownListButton.swift in Sources */,

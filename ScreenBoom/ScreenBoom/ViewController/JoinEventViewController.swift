@@ -14,7 +14,7 @@ class JoinEventViewController: BaseViewController {
   // variables
   let userDefaultICloudViewModel = UserDefaultICloudViewModel()
   var event: Event?
-  var eventViewModel = EventViewModel()
+  var eventViewModel = EventManager()
   var eventDetailViewModel = EventDetailViewModel()
     
   // Outlets

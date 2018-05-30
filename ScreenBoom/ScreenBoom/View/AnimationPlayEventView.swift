@@ -21,10 +21,15 @@ class AnimationPlayEventView : PlayEventView {
   
   override func configure(viewModel: PlayEventViewModel) {
     super.configure(viewModel: viewModel)
+
+    // Check if the Event not is live, set playView with Label Event pending
+    guard viewModel.event.eventIsLive != firebaseNodeNames.eventNodeIsLivePauseValue else {
+        
+        self.showPendingAndDefaultEventView(message: "Pending Event")
+        return
+    }
     
-    let eventDetail = viewModel.eventDetail
-    
-    guard let animationEventDetail = eventDetail as? AnimationEventDetail else { return }
+    guard let animationEventDetail = viewModel.eventDetail as? AnimationEventDetail else { return }
   
   if let animationStringURL = animationEventDetail.animationStringURL {
     photoEventImageView.loadGif(name: animationStringURL)

@@ -15,7 +15,7 @@ import FirebaseDatabase
 class HomeViewController: BaseViewController, UIViewControllerTransitioningDelegate {
   
   let userDefaultICloudViewModel = UserDefaultICloudViewModel()
-  let eventViewModel = EventViewModel()
+  let eventViewModel = EventManager()
   let transition = CircularTransition()
   
 //  var isDeepLinking = false
@@ -34,6 +34,8 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     view.setTitle("JOIN EVENT", for: .normal)
     view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
     view.backgroundColor = .green
+    view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
+    view.roundIt()
     return view
   }()
   
@@ -44,6 +46,8 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     view.setTitle("CREATE EVENT", for: .normal)
     view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
     view.backgroundColor = .blue
+    view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
+    view.roundIt()
     return view
   }()
   
@@ -122,6 +126,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
       logoImageView.widthAnchor.constraint(equalTo: logoImageView.heightAnchor, multiplier: 4/3)
       ])
     
+    
     bottunStackView.addArrangedSubview(createEventBottun)
     bottunStackView.addArrangedSubview(joinEventBottun)
     bottunStackView.anchor(top: topImageContainerView.bottomAnchor,
@@ -135,7 +140,6 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
                               leading: bottunStackView.leadingAnchor,
                               bottom: view.safeAreaLayoutGuide.bottomAnchor,
                               trailing: bottunStackView.trailingAnchor)
-    
     
     addButtonsAction()
     

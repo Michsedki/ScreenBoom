@@ -9,6 +9,15 @@
 import Foundation
 import UIKit
 
+// this extension to round the UIButtons
+extension UIView {
+    func roundIt() {
+        self.layer.cornerRadius = self.frame.height/2
+    }
+}
+
+
+// this extention to set
 extension UIView {
   
   // fill the whole superiew with this view

@@ -30,9 +30,15 @@ class TextPlayEventView : PlayEventView {
   
   override func configure(viewModel: PlayEventViewModel) {
     super.configure(viewModel: viewModel)
-    let eventDetail = viewModel.eventDetail
     
-    guard let textEventDetail = eventDetail as? TextEventDetail else  { return }
+    // Check if the Event not is live, set playView with Label Event pending
+    guard viewModel.event.eventIsLive != firebaseNodeNames.eventNodeIsLivePauseValue else {
+        
+        self.showPendingAndDefaultEventView(message: "Pending Event")
+        return
+    }
+    
+    guard let textEventDetail = viewModel.eventDetail as? TextEventDetail else  { return }
     
     // set PlayView background color
     backgroundColor = textEventDetail.backgroundcolor?.stringToUIColor()

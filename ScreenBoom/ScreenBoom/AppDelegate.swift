@@ -13,6 +13,16 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
+    
+    // this variable allow rotation for the app when it is true and when it is false disable rotation
+    var enableAllOrientation = true
+    // Control rotation in viewControllers
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if (enableAllOrientation == true){
+            return UIInterfaceOrientationMask.allButUpsideDown
+        }
+        return UIInterfaceOrientationMask.portrait
+    }
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.

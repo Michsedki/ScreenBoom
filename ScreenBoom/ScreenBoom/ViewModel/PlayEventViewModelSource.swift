@@ -15,6 +15,7 @@ class PlayEventViewModelSource {
   private var event: Event
   private var eventDetail: EventDetail
   let firebaseNodeNames = FirebaseNodeNames()
+  let eventDetailViewModel = EventDetailViewModel()
   
   
   init(event: Event,
@@ -71,15 +72,31 @@ class PlayEventViewModelSource {
     firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(event.eventName).observe(.value) { (eventDetailSnapShot) in
       if eventDetailSnapShot.exists() {
         guard let eventDetailSnapshotValue = eventDetailSnapShot.value as? [String: Any] else { return }
-        do {
-          let jsonData = try JSONSerialization.data(withJSONObject: eventDetailSnapshotValue, options: [])
-          let eventDetailFirebase = try JSONDecoder().decode(EventDetail.self, from: jsonData)
-          self.eventDetail = eventDetailFirebase
-          self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
-          print("Event Detail Updated successfully")
-        } catch {
-          print("Couldn't pdate Event Detail cause of jsonserialization")
-        }
+        
+        self.eventDetailViewModel.checkIfEventDetailExist(event: self.event, completion: { (result) in
+            switch result {
+            case .Failure(let error):
+                print(error)
+                break
+            case .Success(let eventDetailFinal):
+                self.eventDetail = eventDetailFinal
+                self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+                print("Event Detail Updated successfully")
+                break
+            
+            }
+        })
+        
+        
+//        do {
+//          let jsonData = try JSONSerialization.data(withJSONObject: eventDetailSnapshotValue, options: [])
+//          let eventDetailFirebase = try JSONDecoder().decode(EventDetail.self, from: jsonData)
+//          self.eventDetail = eventDetailFirebase
+//          self.updateObservers(viewModel: PlayEventViewModel(event: self.event, eventDetail: self.eventDetail))
+//          print("Event Detail Updated successfully")
+//        } catch {
+//          print("Couldn't pdate Event Detail cause of jsonserialization")
+//        }
       } else {
         print("Event Detail Updated Failed")
       }

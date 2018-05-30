@@ -13,12 +13,12 @@ class EventDetailViewController: BaseViewController  {
   // Variables
   var event:Event
   var oldEventDetail: EventDetail?
-  let eventViewModel = EventViewModel()
+  let eventViewModel = EventManager()
   let eventDetailViewModel = EventDetailViewModel()
   var playEventPreviewContainerView = UIView()
   
   var playPreviewEventViewController: PlayPreviewEventViewController?
-  let constantNames = ConstantNames()
+  let constantNames = ConstantNames.sharedInstance
 
   init(event:Event) {
     self.event = event
@@ -49,4 +49,14 @@ class EventDetailViewController: BaseViewController  {
     let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail)
     self.navigationController?.pushViewController(PlayViewController, animated: true)
   }
+    
+    // here after we create the event successfully we can do all extra work
+    // like add the event to uuid-Events node under created node
+    func completeCreateEvent(event :Event) {
+        FireBaseManager.sharedInstance.addEventToUserCreatedEvents(event: event)
+    }
 }
+
+
+
+

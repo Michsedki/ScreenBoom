@@ -11,7 +11,7 @@ import FirebaseCore
 import FirebaseDatabase
 
 
-let firebaseNodeNames = FirebaseNodeNames()
+let firebaseNodeNames = FirebaseNodeNames.sharedInstance
 enum Result<T> {
   case Success(T)
   case Failure(String)
@@ -19,7 +19,7 @@ enum Result<T> {
 
 typealias ConfigureWithEventCompletionHandler = (_:Result<Void>) -> Void
 
-class EventViewModel: NSObject {
+class EventManager: NSObject {
   
   let firebaseNodeNames = FirebaseNodeNames()
   var event: Event?

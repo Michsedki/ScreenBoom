@@ -234,25 +234,30 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   }
   
   @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
-    saveEvent()
+    checkAllFields()
   }
   
+    // check that all fields are filled properlly then call saveEvent to complete creating the event
+    func checkAllFields() {
+        guard let eventText = eventTextField.text,
+            !eventText.trimmingCharacters(in: .whitespaces).isEmpty else {
+                self.infoView(message: "No event text!", color: Colors.smoothRed)
+                return
+        }
+        guard let _ = textColorDropDownButton.currentTitle?.stringToUIColor() else {
+            self.infoView(message: "No event text Color!", color: Colors.smoothRed)
+            return
+        }
+        guard let _ = backgroundColorDropDownButton.currentTitle?.stringToUIColor() else {
+            self.infoView(message: "No event background Color!", color: Colors.smoothRed)
+            return
+        }
+        
+        saveEvent()
+    }
+    
   // Text Event
   func saveEvent() {
-    // check if textfields is empty
-    guard let eventText = eventTextField.text,
-      !eventText.trimmingCharacters(in: .whitespaces).isEmpty else {
-        self.infoView(message: "No event text!", color: Colors.smoothRed)
-        return
-    }
-    guard let _ = textColorDropDownButton.currentTitle?.stringToUIColor() else {
-      self.infoView(message: "No event text Color!", color: Colors.smoothRed)
-      return
-    }
-    guard let _ = backgroundColorDropDownButton.currentTitle?.stringToUIColor() else {
-      self.infoView(message: "No event background Color!", color: Colors.smoothRed)
-      return
-    }
     
     self.ShowSpinner()
     
@@ -266,6 +271,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
       case .Success(let code):
         
         self.eventDetail.code = code
+        self.event.eventCode = code
         
         self.eventDetailViewModel.addEventDetail(event: self.event, eventdetail: self.eventDetail, completion: { (result) in
           switch result {
@@ -273,11 +279,12 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
           case .Failure(let error):
             print(error)
             self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
+            // ***** we should go back and remove the event if we can
             
           case .Success():
             
             self.infoView(message: "Event Created Successfully ", color: Colors.lightGreen)
-            
+            self.completeCreateEvent(event: self.event)
             self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
           }
         })

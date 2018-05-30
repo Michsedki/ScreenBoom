@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 struct FirebaseNodeNames {
+    static let sharedInstance = FirebaseNodeNames()
+
   // Event Node
   let eventNode = "Event"
     let eventNodeCodeChild = "code"
@@ -60,6 +62,7 @@ struct ImageNames {
 }
 
 struct ConstantNames {
+    static let sharedInstance = ConstantNames()
   
   let colorsNamesList = ["Blue", "Green", "Magenta", "White", "Black", "Purple"]
   let animationNamesArray = ["Shake", "Zoom", "pop"]

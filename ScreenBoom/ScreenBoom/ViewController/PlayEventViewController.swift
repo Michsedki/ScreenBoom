@@ -18,7 +18,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   // variables
   var event: Event
   var eventDetail: EventDetail
-  var eventViewModel = EventViewModel()
+  var eventViewModel = EventManager()
   var eventDetailViewModel = EventDetailViewModel()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
@@ -28,6 +28,11 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   // init
   init (event:Event, eventDetail: EventDetail) {
     self.event = event
+//    var tempEventDetail : EventDetail?
+//    if let texteventDetail = eventDetail as? TextEventDetail {
+//        print(texteventDetail.text)
+//        tempEventDetail = texteventDetail
+//    }
     self.eventDetail = eventDetail
     
     super.init(nibName: nil, bundle: nil)
@@ -41,6 +46,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     super.viewDidLoad()
     
     // setup observation.
+    
     self.playEventViewModelSource = PlayEventViewModelSource(event: self.event, eventDetail: eventDetail)
     self.playEventViewModelSource?.addObserver(observer: self)
     self.playEventViewModelSource?.configureWithFirebaseUpdatedEvent()
@@ -107,7 +113,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     addToViewList()
     
     // add Event To User Log
-    addEventToUserEvents()
+//    addEventToUserEvents()
     
     // Now that the view has been loaded we can safely setup our
     // constraints
@@ -176,26 +182,26 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   }
   
   
-  func addEventToUserEvents() {
-    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
-      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).setValue(
-        [firebaseNodeNames.eventNodeCodeChild: self.eventDetail.code,
-         firebaseNodeNames.isOwnerChild: self.event.userID == userID ?  firebaseNodeNames.isOwnerYesValue : firebaseNodeNames.isOwnerNoValue], withCompletionBlock: { (error, _) in
-          if error != nil {
-            print("Couldn't Add Event to User Log, Error: \(String(describing: error?.localizedDescription))")
-          }
-      })
-    }
-  }
-  func removeFromUserEvents() {
-    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
-      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).removeValue(completionBlock: { (error, _) in
-        if error != nil {
-          print("Couldn't remove Event From User Log, Error: \(String(describing: error?.localizedDescription))")
-        }
-      })
-    }
-  }
+//  func addEventToUserEvents() {
+//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
+//      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).setValue(
+//        [firebaseNodeNames.eventNodeCodeChild: self.eventDetail.code,
+//         firebaseNodeNames.isOwnerChild: self.event.userID == userID ?  firebaseNodeNames.isOwnerYesValue : firebaseNodeNames.isOwnerNoValue], withCompletionBlock: { (error, _) in
+//          if error != nil {
+//            print("Couldn't Add Event to User Log, Error: \(String(describing: error?.localizedDescription))")
+//          }
+//      })
+//    }
+//  }
+//  func removeFromUserEvents() {
+//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
+//      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).removeValue(completionBlock: { (error, _) in
+//        if error != nil {
+//          print("Couldn't remove Event From User Log, Error: \(String(describing: error?.localizedDescription))")
+//        }
+//      })
+//    }
+//  }
   
   // add user to list of viewer
   func addToViewList() {
@@ -245,9 +251,9 @@ extension PlayEventViewController: SideMenuDelegate {
   }
   
   func sideMenuPlayButtonPressed() {
-    for view in (self.playEventView?.subviews)! {
-      view.removeFromSuperview()
-    }
+//    for view in (self.playEventView?.subviews)! {
+//      view.removeFromSuperview()
+//    }
     ShowSpinner()
     
     eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in
@@ -284,9 +290,9 @@ extension PlayEventViewController: SideMenuDelegate {
   }
   
   func sideMenuPauseButtonPressed() {
-    for view in (self.playEventView?.subviews)! {
-      view.removeFromSuperview()
-    }
+//    for view in (self.playEventView?.subviews)! {
+//      view.removeFromSuperview()
+//    }
     ShowSpinner()
     
     eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLivePauseValue) { (result) in

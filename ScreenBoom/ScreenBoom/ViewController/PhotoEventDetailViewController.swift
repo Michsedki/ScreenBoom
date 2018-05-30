@@ -203,6 +203,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
         
       case .Success(let code):
         
+        self.event.eventCode = code
         self.eventDetail.code = code
         
         self.eventDetailViewModel.addEventDetail(event: self.event, eventdetail: self.eventDetail, completion: { (result) in
@@ -215,7 +216,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
           case .Success():
             
             self.infoView(message: "Event Created Successfully ", color: Colors.lightGreen)
-            
+            self.completeCreateEvent(event: self.event)
             self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
           }
         })

@@ -11,6 +11,7 @@ import Foundation
 class AnimationEventDetailViewController: EventDetailViewController {
   
   var animationCollectionViewData = [String]()
+    
   var animationCollectionView : UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -111,6 +112,7 @@ class AnimationEventDetailViewController: EventDetailViewController {
         
       case .Success(let code):
         
+        self.event.eventCode = code
         self.eventDetail.code = code
         
         self.eventDetailViewModel.addEventDetail(event: self.event, eventdetail: self.eventDetail, completion: { (result) in
@@ -123,7 +125,7 @@ class AnimationEventDetailViewController: EventDetailViewController {
           case .Success():
             
             self.infoView(message: "Event Created Successfully ", color: Colors.lightGreen)
-            
+            self.completeCreateEvent(event: self.event)
             self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
           }
         })
