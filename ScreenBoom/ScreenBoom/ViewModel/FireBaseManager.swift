@@ -66,11 +66,15 @@ class FireBaseManager {
         })
     }
     
-    func removeFromUserCreatedEvents(event: Event) {
+    func removeFromUserCreatedEvents(event: Event, completion: @escaping (Bool) -> Void) {
         REF_UUID_Events_Current_User_Created?.child(event.eventName).removeValue(completionBlock: { (error, _) in
             if error != nil {
                 print("Couldn't remove Event from User Events, Error: \(String(describing: error?.localizedDescription))")
+                completion(false)
+            } else {
+                completion(true)
             }
+            
         })
     }
     

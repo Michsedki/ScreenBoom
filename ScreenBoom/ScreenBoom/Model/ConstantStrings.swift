@@ -91,6 +91,7 @@ struct ConstantNames {
 
 
 struct UserDefaultKeyNames {
+    static let sharedInstance = UserDefaultKeyNames()
   let userIDKey = "userID"
   let eventNameKey = "eventName"
   let eventCodeKey = "eventCode"

@@ -73,33 +73,21 @@ class JoinEventViewController: BaseViewController {
     // start spinner
     self.ShowSpinner()
     guard let event = self.event else { return }
-    eventViewModel.checkIfEventExists(event: event) { [unowned self] (result,snapshot)  in
-      guard result else {
+    eventViewModel.checkIfEventExists(newEvent: event) { [unowned self] (isExist,eventObj)  in
+      guard isExist else {
         self.infoView(message: "event is not Exist", color: Colors.smoothRed)
         return
       }
-      guard let eventCodeFirebase = snapshot?.childSnapshot(forPath: "code").value as? String,
-            let eventTypeFirebase = snapshot?.childSnapshot(forPath: "type").value as? String,
-            let eventIsLiveFirebase = snapshot?.childSnapshot(forPath: "islive").value as? String,
-            let eventUserIDFirebase = snapshot?.childSnapshot(forPath: "userid").value as? String
-        else {
-          self.infoView(message: "Couldn't retrive event", color: Colors.smoothRed)
-          return
-      }
-      if eventCodeFirebase == eventCode {
-        event.eventIsLive = eventIsLiveFirebase
-        event.userID = eventUserIDFirebase
-        switch eventTypeFirebase {
-        case "text":
-          event.eventType = .Text
-        case "animation":
-          event.eventType = .Animation
-        case "photo" :
-          event.eventType = .Photo
-        default:
-          event.eventType = .Unknown
-          break
+        guard let eventFound = eventObj else {
+            self.infoView(message: "Couldn't retrive event", color: Colors.smoothRed)
+            return
         }
+        
+      if eventFound.eventCode == eventCode {
+        event.eventIsLive = eventFound.eventIsLive
+        event.userID = eventFound.userID
+        event.eventType = eventFound.eventType
+        
         // we need to update our captures reference to the event
         self.event = event
         // we also need to get an event detail before showing the play view controller

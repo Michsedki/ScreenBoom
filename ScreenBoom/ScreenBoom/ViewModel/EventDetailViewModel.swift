@@ -211,12 +211,13 @@ class EventDetailViewModel: NSObject {
         }
       })
     }
-    Database.database().reference().child(firebaseNodeNames.eventDetailNode).child(event.eventName).removeValue { (error, _) in
+    FireBaseManager.sharedInstance.REF_EventDetails.child(event.eventName).removeValue { (error, _) in
       if error != nil {
         completion(Result.Failure((error?.localizedDescription)!))
       } else {
-        Database.database().reference().child(self.firebaseNodeNames.eventNode).child(event.eventName).removeValue(completionBlock: { (error, _) in
+        FireBaseManager.sharedInstance.REF_Event.child(event.eventName).removeValue(completionBlock: { (error, _) in
           if error != nil {
+            // ***** we need to put "Blocked" in islive and deal with it later on the play view
             self.updateEvenIsLive(event: event, isLive: self.firebaseNodeNames.eventNodeIsLiveNoValue, completion: { (result) in
               switch result {
               case .Failure(let error):
@@ -228,7 +229,14 @@ class EventDetailViewModel: NSObject {
               }
             })
           } else {
-            completion(Result.Success(()))
+            FireBaseManager.sharedInstance.removeFromUserCreatedEvents(event: event, completion: { (result) in
+                if result {
+                    completion(Result.Success(()))
+                } else {
+                    completion(Result.Failure("Couldn't remove event from user created events"))
+                }
+            })
+            
           }
         })
       }

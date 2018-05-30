@@ -47,7 +47,7 @@ class CreateEventViewController: BaseViewController {
         // disaple Rotation for this view controller
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.enableAllOrientation = false
-
+        
         
         // we will check number of created events by current user if equal to 10 we will
         // disable the createEventButton untill the user delete some events
@@ -93,53 +93,55 @@ class CreateEventViewController: BaseViewController {
             self.infoView(message: "No event name!", color: Colors.smoothRed)
             return
         }
-        
-        let currentEvent = Event(eventName: eventName, eventIsLive: "no", eventType: self.currentEventType, eventCode: "")
+        // create current event with current userID
+        let currentEvent = Event(eventName: eventName,
+                                 eventIsLive: "no",
+                                 eventType: self.currentEventType,
+                                 eventCode: "")
         
         ShowSpinner()
-        eventViewModel.checkIfEventExists(event: currentEvent) { (isExist, eventSnapShot) in
+        eventViewModel.checkIfEventExists(newEvent: currentEvent) { (isExist, eventObj) in
             if !isExist {
                 self.showDetailViewController(event : currentEvent, eventDetail: nil)
             } else {
-                guard let eventCodeFirebase = eventSnapShot?.childSnapshot(forPath: "code").value as? String,
-                    let eventTypeFirebase = eventSnapShot?.childSnapshot(forPath: "type").value as? String,
-                    let eventIsLiveFirebase = eventSnapShot?.childSnapshot(forPath: "islive").value as? String,
-                    let eventuserIDFirebase = eventSnapShot?.childSnapshot(forPath: "userid").value as? String,
-                    let userID = UserDefaults.standard.object(forKey: self.userDefaultKeyNames.userIDKey) as? String,
-                    eventuserIDFirebase == userID else {
-                        // if event name is exist and the user is not the owner of the event
-                        self.infoView(message: "Event name is Already Exist", color: Colors.smoothRed)
-                        return
+                guard let eventFound = eventObj else {
+                    // couldn't retrive the event data from firebase snapshot
+                    self.infoView(message: "Event name is Already Exist", color: Colors.smoothRed)
+                    return
                 }
-                // set current event with firebase old event information
-                currentEvent.eventIsLive = eventIsLiveFirebase
-                currentEvent.eventCode = eventCodeFirebase
-                currentEvent.userID = eventuserIDFirebase
-                if eventTypeFirebase == currentEvent.eventType.rawValue {
+                
+                guard eventFound.userID == currentEvent.userID else {
+                    // user is not the owner of the event, so he can't change it
+                    self.infoView(message: "Event name is Already Exist", color: Colors.smoothRed)
+                    return
+                }
+                
+                if eventFound.eventType == currentEvent.eventType {
                     // same type
-                    self.eventDetailViewModel.checkIfEventDetailExist(event: currentEvent, completion: { (result) in
+                    // tell the showDetailViewController that is old event to drow it
+                    //  **** no need to get the eventDetail here as long as we will get it
+                    // in the next view controller
+                    self.eventDetailViewModel.checkIfEventDetailExist(event: eventFound, completion: { (result) in
                         switch result {
                         case .Failure( _):
-                            self.showDetailViewController(event : currentEvent, eventDetail: nil)
+                            self.showDetailViewController(event : eventFound, eventDetail: nil)
                             break
                         case .Success(let eventDetail):
-                            self.showDetailViewController(event : currentEvent, eventDetail: eventDetail)
+                            self.showDetailViewController(event : eventFound, eventDetail: eventDetail)
                             break
                         }
                     })
-                    //tell the showDetailViewController that is old event to drow it
+                    
                 } else {
                     // deferent type
                     // remove the old one before you show the event detail view controller
-                    currentEvent.eventType = EventType(rawValue: eventTypeFirebase)!
                     self.ShowSpinner()
-                    self.eventDetailViewModel.removeEventAndEventDetail(event: currentEvent, eventDetail: nil, completion: { (result) in
+                    self.eventDetailViewModel.removeEventAndEventDetail(event: eventFound, eventDetail: nil, completion: { (result) in
                         switch result {
                         case .Failure( _):
                             self.infoView(message: "Event name is Already Exist", color: Colors.smoothRed)
                             break
                         case .Success(()):
-                            currentEvent.eventType = self.currentEventType
                             self.showDetailViewController(event : currentEvent, eventDetail: nil)
                             break
                         }
@@ -158,37 +160,47 @@ class CreateEventViewController: BaseViewController {
         
         switch event.eventType {
         case .Text:
-            eventDetailItem = TextEventDetail(
-                animationName: constantNames.animationNamesArray[0],
-                backgroundcolor: constantNames.colorsNamesList[3],
-                textcolor: constantNames.colorsNamesList[0],
-                speed: 0,
-                text: "Your Text",
-                font: constantNames.fontNames[0],
-                fontsize: 25,
-                code: "")
+            if let oldTextEventDetail = eventDetail {
+                eventDetailItem = oldTextEventDetail
+            } else {
+                eventDetailItem = TextEventDetail(
+                    animationName: constantNames.animationNamesArray[0],
+                    backgroundcolor: constantNames.colorsNamesList[3],
+                    textcolor: constantNames.colorsNamesList[0],
+                    speed: 0,
+                    text: "Your Text",
+                    font: constantNames.fontNames[0],
+                    fontsize: 25,
+                    code: "")
+            }
             guard let textEventDetail = eventDetailItem as? TextEventDetail else { return }
             eventDetailVC = TextEventDetailViewController(event: event, eventDetail: textEventDetail)
-            
             break
-        case .Photo:
-            eventDetailItem = PhotoEventDetail(
-                photoname: imageNames.placeHolder,
-                code: "")
             
+        case .Photo:
+            if let oldPhotoEventDetail = eventDetail {
+                eventDetailItem = oldPhotoEventDetail
+            } else {
+                eventDetailItem = PhotoEventDetail(
+                    photoname: imageNames.placeHolder,
+                    code: "")
+            }
             guard let photoEventDetail = eventDetailItem as? PhotoEventDetail else { return }
             eventDetailVC = PhotoEventDetailViewController(event: event, eventDetail: photoEventDetail)
-            
             break
-        case .Animation:
-            eventDetailItem = AnimationEventDetail(
-                animationStringURL: constantNames.gifAnimationNamesArray[0],
-                code: "")
             
+        case .Animation:
+            if let oldAnimationEventDetail = eventDetail {
+                eventDetailItem = oldAnimationEventDetail
+            } else {
+                eventDetailItem = AnimationEventDetail(
+                    animationStringURL: constantNames.gifAnimationNamesArray[0],
+                    code: "")
+            }
             guard let animationEventDetail = eventDetailItem as? AnimationEventDetail else { return }
             eventDetailVC = AnimationEventDetailViewController(event: event, eventDetail: animationEventDetail)
-            
             break
+            
         case .Unknown:
             
             eventDetailVC = nil

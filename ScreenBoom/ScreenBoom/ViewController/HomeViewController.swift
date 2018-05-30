@@ -172,9 +172,10 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
         if let oldEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
           let oldEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() {
           let oldEvent = Event(eventName: oldEventName, eventIsLive: "no", eventType: .Unknown, eventCode: oldEventCode)
-          self.eventViewModel.checkIfEventExists(event: oldEvent, completion: { (isExist, eventSnapShot) in
-            if isExist, let eventuserIDFirebase = eventSnapShot?.childSnapshot(forPath: self.firebaseNodeNames.eventUserIDChild).value as? String {
-              if eventuserIDFirebase == userID {
+            self.eventViewModel.checkIfEventExists(newEvent: oldEvent, completion: { (isExist, eventObj) in
+            if isExist,
+                let eventFound = eventObj {
+              if eventFound.userID == userID {
                 self.showJoinOldEventAlert(eventName: oldEventName, eventCode: oldEventCode)
               }
             }

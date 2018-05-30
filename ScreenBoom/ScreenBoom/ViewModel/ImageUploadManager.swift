@@ -21,7 +21,7 @@ class ImageUploadManager: NSObject {
   func uploadImage(event: Event,_ image: UIImage, progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
         // storage/UserID/_eventName.jpg
         let imageName = "\(event.eventName).jpg"
-        let imagesReference = storageReference.child(firebaseNodeNames.eventImagesFolderName).child(event.userID).child(imageName)
+    let imagesReference = storageReference.child(firebaseNodeNames.eventImagesFolderName).child(event.userID!).child(imageName)
         if let imageData = UIImageJPEGRepresentation(image, 0.8) {
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"

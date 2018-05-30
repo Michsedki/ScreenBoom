@@ -25,7 +25,7 @@ class EventManager: NSObject {
   var event: Event?
   
   func configureWithEvent(event:Event, completion:ConfigureWithEventCompletionHandler? = nil) {
-    checkIfEventExists(event: event, completion: { eventExists, snapshot  in
+    checkIfEventExists(newEvent: event, completion: { eventExists, snapshot  in
       if !eventExists {
         // if the event is not exists set the value
         self.event = event
@@ -39,10 +39,26 @@ class EventManager: NSObject {
   }
   
   // check if event is already exist
-  func checkIfEventExists (event: Event, completion:(@escaping (Bool, DataSnapshot?) -> Void)) {
-    Database.database().reference().child("Event").child(event.eventName).observeSingleEvent(of: .value, with: { (snapshot) in
+  func checkIfEventExists (newEvent: Event, completion:(@escaping (Bool, Event?) -> Void)) {
+    FireBaseManager.sharedInstance.REF_Event.child(newEvent.eventName).observeSingleEvent(of: .value, with: { (snapshot) in
       if snapshot.exists() {
-        completion(true,snapshot )
+        guard let eventCodeFirebase = snapshot.childSnapshot(forPath: "code").value as? String,
+            let eventTypeFirebase = snapshot.childSnapshot(forPath: "type").value as? String,
+            let eventIsLiveFirebase = snapshot.childSnapshot(forPath: "islive").value as? String,
+            let eventuserIDFirebase = snapshot.childSnapshot(forPath: "userid").value as? String
+            else {
+                // if event name is exist and we couldn't retrive the data
+                 completion(true,nil )
+                return
+        }
+        
+        let event = Event(eventName: newEvent.eventName,
+                          eventIsLive: eventIsLiveFirebase,
+                          eventType: EventType(rawValue: eventTypeFirebase)!,
+                          eventCode: eventCodeFirebase,
+                          userID: eventuserIDFirebase)
+        
+        completion(true,event)
       } else {
         completion(false,nil )
       }
