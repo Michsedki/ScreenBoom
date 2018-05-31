@@ -72,8 +72,18 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    // disaple Rotation for this view controller
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    appDelegate.enableAllOrientation = false
+    
     setupViews()
   }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // allow rotation for other viewControllers
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.enableAllOrientation = true
+    }
   
   func setupViews() {
     // create Navigation bar right buttom (Send)

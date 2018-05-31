@@ -10,6 +10,7 @@
 		1842375C20BE0F57001147BA /* FireBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842375B20BE0F57001147BA /* FireBaseManager.swift */; };
 		1842375E20BE6B04001147BA /* CreatedEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */; };
 		1842376420BF5F2D001147BA /* EventDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376320BF5F2D001147BA /* EventDetailManager.swift */; };
+		1842376620BFB664001147BA /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376520BFB664001147BA /* DeepLinkManager.swift */; };
 		3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */; };
 		3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */; };
 		3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */; };
@@ -74,6 +75,7 @@
 		1842375B20BE0F57001147BA /* FireBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseManager.swift; sourceTree = "<group>"; };
 		1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedEventsTableViewCell.swift; sourceTree = "<group>"; };
 		1842376320BF5F2D001147BA /* EventDetailManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailManager.swift; sourceTree = "<group>"; };
+		1842376520BFB664001147BA /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSourceObserver.swift; sourceTree = "<group>"; };
 		3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSource.swift; sourceTree = "<group>"; };
 		3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModel.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				37E8D3FC204F34FF008D83B1 /* ImageUploadManager.swift */,
 				377B6F03202FF57800AFD85C /* Colors.swift */,
 				1842375B20BE0F57001147BA /* FireBaseManager.swift */,
+				1842376520BFB664001147BA /* DeepLinkManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				377B6F0C20300E1C00AFD85C /* Event.swift in Sources */,
 				378AB0B52065B9BD0074E4B7 /* AnimationPlayEventView.swift in Sources */,
 				378AB0B12065B9930074E4B7 /* TextPlayEventView.swift in Sources */,
+				1842376620BFB664001147BA /* DeepLinkManager.swift in Sources */,
 				37E8D3FD204F34FF008D83B1 /* ImageUploadManager.swift in Sources */,
 				3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */,
 				37776649204E0B27006699DD /* PlayPreviewEventViewController.swift in Sources */,

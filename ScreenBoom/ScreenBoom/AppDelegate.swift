@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
     
+    
     // this variable allow rotation for the app when it is true and when it is false disable rotation
     var enableAllOrientation = true
     // Control rotation in viewControllers
@@ -54,8 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
   
-  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    
+  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    // com.WMWIOS.ScreenBoom
     print("url \(url)")
     print("url host :\(url.host!)")
     print("url path :\(url.path)")

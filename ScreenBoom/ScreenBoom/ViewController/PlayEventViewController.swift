@@ -18,8 +18,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   // variables
   var event: Event
   var eventDetail: EventDetail
-  var eventViewModel = EventManager()
-  var eventDetailViewModel = EventDetailManager()
+  var eventManager = EventManager()
+  var eventDetailManager = EventDetailManager()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
   var playEventViewModelSource: PlayEventViewModelSource?
@@ -100,7 +100,23 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   }
   
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    playEventViewModelSource?.configureWithViewWillTransition()
+    if let playView = playEventView {
+        self.view.addSubview(playView)
+        playView.frame = CGRect(x: 0,
+                                y: 0,
+                                width: size.width,
+                                height: size.height)
+    }
+    
+    if let rightMenu = rightMenuView {
+        rightMenu.frame = CGRect(x: size.width - 10,
+                                 y: 0,
+                                 width: 80,
+                                 height: size.height)
+        self.view.bringSubview(toFront: rightMenu)
+    }
+    
+   
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -243,8 +259,8 @@ extension PlayEventViewController: SideMenuDelegate {
   func sideMenuShareButtonPressed() {
     
     // Here it should present the Activity View Controller to send the event Deep link URL
-    // useing Email or SMS
-    let deepLinkURL = "sbdl://screenBoomEvent/joinDL/\(self.event.eventName)/\(self.event.eventCode)"
+    // useing Email or SMS    
+   let deepLinkURL =  DeepLinkManager.sharedInstance.shareMyDeepLinkURL(eventName: self.event.eventName, eventCode: self.event.eventCode)
     let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
     
     present(activityController, animated: true, completion: nil)
@@ -256,7 +272,7 @@ extension PlayEventViewController: SideMenuDelegate {
 //    }
     ShowSpinner()
     
-    eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in
+    eventManager.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in
       switch result {
       case .Failure(let error):
         self.infoView(message: error, color: Colors.smoothRed)
@@ -272,7 +288,7 @@ extension PlayEventViewController: SideMenuDelegate {
     
     ShowSpinner()
     
-    eventDetailViewModel.removeEventDetailWithEventAndEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
+    eventDetailManager.removeEventDetailWithEventAndEventDetail(event: self.event, eventDetail: self.eventDetail) { (result) in
       switch result {
       case .Failure(let error):
         self.infoView(message: error, color: Colors.smoothRed)
@@ -295,7 +311,7 @@ extension PlayEventViewController: SideMenuDelegate {
 //    }
     ShowSpinner()
     
-    eventViewModel.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLivePauseValue) { (result) in
+    eventManager.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLivePauseValue) { (result) in
       switch result {
       case .Failure(let error):
         self.infoView(message: error, color: Colors.smoothRed)

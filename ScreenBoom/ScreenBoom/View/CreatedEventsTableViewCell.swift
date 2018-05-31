@@ -43,9 +43,7 @@ class CreatedEventsTableViewCell: UITableViewCell {
     
    
     
-    func configureCell (eventName: String, eventCodeAndType : String) {
-        
-        let (eventCode, eventType) = separateEventCodeAndType(eventCodeAndType: eventCodeAndType)
+    func configureCell (eventName: String, eventCode : String, eventType: String) {
         
         eventNameLabel.text = eventName
         eventCodeLabel.text = eventCode
@@ -88,21 +86,7 @@ class CreatedEventsTableViewCell: UITableViewCell {
                               padding: .init(top: 5, left: 20, bottom: 15, right: 10),
                               size: .init(width: 0, height: 30))
         
-        
-        
-        
-        
     }
-    
-    func separateEventCodeAndType(eventCodeAndType: String) -> ( String, String) {
-        let dic = eventCodeAndType.components(separatedBy: "_")
-        print(dic[0])
-        print(dic[1])
-        return (dic[0], dic[1])
-    }
-   
-    
     
 
- 
 }

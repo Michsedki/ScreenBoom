@@ -86,7 +86,10 @@ class FireBaseManager {
         REF_UUID_Events_Current_User_Created?.observeSingleEvent(of: .value, with: { (createdEventsSnapShot) in
             if let createdEventDic = createdEventsSnapShot.value as? [String:String] {
                 for item in createdEventDic {
-                    createdEvents.append(["eventName" : item.key ,"eventCode" : item.value])
+                    let (eventCode, eventType) = self.separateEventCodeAndType(eventCodeAndType: item.value)
+                    createdEvents.append(["eventName" : item.key ,
+                                          "eventCode" : eventCode,
+                                          "eventType" : eventType])
                 }
                 let sortedcreatedEvents : [[String:String]] =
                     createdEvents.sorted(by: { $0["eventName"]! < $1["eventName"]! })
@@ -98,6 +101,12 @@ class FireBaseManager {
         })
     }
     
+    func separateEventCodeAndType(eventCodeAndType: String) -> ( String, String) {
+        let dic = eventCodeAndType.components(separatedBy: "_")
+        print(dic[0])
+        print(dic[1])
+        return (dic[0], dic[1])
+    }
     
     // for join event
     func addEventToUserJoinedEvents(event: Event) {

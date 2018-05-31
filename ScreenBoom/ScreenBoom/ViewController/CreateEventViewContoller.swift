@@ -44,7 +44,7 @@ class CreateEventViewController: BaseViewController {
     }
     
     override func viewWillLayoutSubviews() {
-       self.setUpEventTypePickerview()
+        self.setUpEventTypePickerview()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +56,7 @@ class CreateEventViewController: BaseViewController {
         appDelegate.enableAllOrientation = false
         
         
-
+        
         // we will check number of created events by current user if equal to 10 we will
         // disable the createEventButton untill the user delete some events
         checkUserCreatedEventsCount()
@@ -274,73 +274,83 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
         createdEventsTableView.backgroundColor = .clear
         createdEventsTableView.separatorStyle = .none
         
-        
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.createdEvents.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let joinEventViewController = storyboard?.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController,
+            let eventName = self.createdEvents[indexPath.row]["eventName"],
+            let eventCode = self.createdEvents[indexPath.row]["eventCode"] {
+            
+            joinEventViewController.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
+            self.navigationController?.pushViewController(joinEventViewController, animated: true)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.createdEventsTableView.dequeueReusableCell(withIdentifier: "CreatedEventsTableViewCell", for: indexPath) as? CreatedEventsTableViewCell {
             if let eventName = self.createdEvents[indexPath.row]["eventName"],
-                let eventCode = self.createdEvents[indexPath.row]["eventCode"] {
-                cell.configureCell(eventName: eventName, eventCodeAndType: eventCode)
+                let eventCode = self.createdEvents[indexPath.row]["eventCode"],
+                let eventType = self.createdEvents[indexPath.row]["eventType"] {
+                cell.configureCell(eventName: eventName, eventCode: eventCode, eventType: eventType)
+                cell.eventShareButton.tag = indexPath.row
+                cell.eventShareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
                 return cell
             }
         }
         return UITableViewCell()
     }
     
+    @objc func shareButtonPressed(_ sender: UIButton) {
+        let index = IndexPath(row: sender.tag, section: 0)
+        
+        // Here it should present the Activity View Controller to send the event Deep link URL
+        // useing Email or SMS
+        let deepLinkURL =  DeepLinkManager.sharedInstance.shareMyDeepLinkURL(eventName: self.createdEvents[index.row]["eventName"]!, eventCode: self.createdEvents[index.row]["eventCode"]!)
+        
+        let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
+        
+        present(activityController, animated: true, completion: nil)
+        print("\(sender.tag) : \(deepLinkURL)")
+    }
     
-    
+    // here we add an extra separator gray line between cells
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let additionalSeparatorThickness = CGFloat(5)
         let additionalSeparator = UIView.init(frame: CGRect(x: 0,
                                                             y: cell.frame.size.height - additionalSeparatorThickness,
                                                             width: cell.frame.size.width,
                                                             height: additionalSeparatorThickness))
-
+        
         additionalSeparator.backgroundColor = UIColor.lightGray
         cell.addSubview(additionalSeparator)
     }
     
-    
-    
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
+            let deleteEvent = Event(eventName: self.createdEvents[indexPath.row]["eventName"]!,
+                                    eventIsLive: "no",
+                                    eventType: EventType(rawValue: self.createdEvents[indexPath.row]["eventType"]!)!,
+                                    eventCode: self.createdEvents[indexPath.row]["eventCode"]!)
             
-            if let cell = createdEventsTableView.cellForRow(at: indexPath) as? CreatedEventsTableViewCell {
-                let (eventCode, eventType) = cell.separateEventCodeAndType(eventCodeAndType: self.createdEvents[indexPath.row]["eventCode"]!)
-                guard !eventCode.isEmpty,
-                      !eventType.isEmpty else {
-                        return
+            self.ShowSpinner()
+            self.eventDetailManager.removeEventAndEventDetail(event: deleteEvent, eventDetail: nil, completion: { (result) in
+                switch result {
+                case .Failure( _):
+                    self.infoView(message: "Event not deleted", color: Colors.smoothRed)
+                    break
+                case .Success(()):
+                    self.createdEvents.remove(at: indexPath.row)
+                    self.createdEventsTableView.reloadData()
+                    self.infoView(message: "Event deleted", color: Colors.lightGreen)
+                    break
                 }
-                
-                let deleteEvent = Event(eventName: self.createdEvents[indexPath.row]["eventName"]!,
-                                        eventIsLive: "no",
-                                        eventType: EventType(rawValue: eventType)!,
-                                        eventCode: eventCode)
-                
-                self.ShowSpinner()
-                self.eventDetailManager.removeEventAndEventDetail(event: deleteEvent, eventDetail: nil, completion: { (result) in
-                    switch result {
-                    case .Failure( _):
-                        self.infoView(message: "Event not deleted", color: Colors.smoothRed)
-                        break
-                    case .Success(()):
-                        self.createdEvents.remove(at: indexPath.row)
-                        self.createdEventsTableView.reloadData()
-                        self.infoView(message: "Event deleted", color: Colors.lightGreen)
-                        break
-                    }
-                })
-                self.HideSpinner()
-            }
-      
+            })
+            self.HideSpinner()
         }
     }
     
