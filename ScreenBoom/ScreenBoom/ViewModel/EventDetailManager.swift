@@ -10,7 +10,7 @@ import Foundation
 import FirebaseDatabase
 
 
-class EventDetailViewModel: NSObject {
+class EventDetailManager: NSObject {
   
   var eventDetail: EventDetail?
   let firebaseNodeNames = FirebaseNodeNames()

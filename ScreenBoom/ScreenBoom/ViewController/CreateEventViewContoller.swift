@@ -11,25 +11,26 @@ import FirebaseDatabase
 
 class CreateEventViewController: BaseViewController {
     
-    /// Mark:- Constants
-    let constantNames = ConstantNames.sharedInstance
-    
-    /// Mark:- Varibales
-    let eventViewModel = EventManager()
-    let eventDetailViewModel = EventDetailViewModel()
-    let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
-    var currentEventType:EventType = .Text
-    var createdEvents = [[String:String]]()
-    
     /// Mark:- Outlets
     @IBOutlet weak var eventNameTextfield: UITextField!
     @IBOutlet weak var eventTypePickerview: UIPickerView!
     @IBOutlet weak var max10EventsLabel: UILabel!
     @IBOutlet weak var createdEventsTableView: UITableView!
     
+    /// Mark:- Constants
+    let constantNames = ConstantNames.sharedInstance
+    
+    /// Mark:- Varibales
+    let eventViewModel = EventManager()
+    let eventDetailManager = EventDetailManager()
+    let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
+    var currentEventType:EventType = .Text
+    var createdEvents = [[String:String]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = .white
         
         /// Mark:- Delegate
         eventTypePickerview.delegate = self
@@ -38,6 +39,12 @@ class CreateEventViewController: BaseViewController {
         createdEventsTableView.delegate = self
         createdEventsTableView.dataSource = self
         
+        setUpTableView()
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+       self.setUpEventTypePickerview()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +56,7 @@ class CreateEventViewController: BaseViewController {
         appDelegate.enableAllOrientation = false
         
         
+
         // we will check number of created events by current user if equal to 10 we will
         // disable the createEventButton untill the user delete some events
         checkUserCreatedEventsCount()
@@ -121,7 +129,7 @@ class CreateEventViewController: BaseViewController {
                     // tell the showDetailViewController that is old event to drow it
                     //  **** no need to get the eventDetail here as long as we will get it
                     // in the next view controller
-                    self.eventDetailViewModel.checkIfEventDetailExist(event: eventFound, completion: { (result) in
+                    self.eventDetailManager.checkIfEventDetailExist(event: eventFound, completion: { (result) in
                         switch result {
                         case .Failure( _):
                             self.showDetailViewController(event : eventFound, eventDetail: nil)
@@ -136,7 +144,7 @@ class CreateEventViewController: BaseViewController {
                     // deferent type
                     // remove the old one before you show the event detail view controller
                     self.ShowSpinner()
-                    self.eventDetailViewModel.removeEventAndEventDetail(event: eventFound, eventDetail: nil, completion: { (result) in
+                    self.eventDetailManager.removeEventAndEventDetail(event: eventFound, eventDetail: nil, completion: { (result) in
                         switch result {
                         case .Failure( _):
                             self.infoView(message: "Event name is Already Exist", color: Colors.smoothRed)
@@ -212,12 +220,16 @@ class CreateEventViewController: BaseViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    
 }
 
 // Extension to handle the PickerView Protocol
 extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func setUpEventTypePickerview() {
+        eventTypePickerview.backgroundColor = .white
+        eventTypePickerview.subviews[1].isHidden = true
+        eventTypePickerview.subviews[2].isHidden = true
+    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -245,11 +257,27 @@ extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSour
         }
         self.currentEventType = eventType
     }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let attributedString = NSAttributedString(string: eventTypePickerviewDataSource[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.blue])
+        return attributedString
+    }
 }
 
 // Extension to handle the createdEvents TableView Protocol
 
 extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func setUpTableView() {
+        createdEventsTableView.rowHeight = UITableViewAutomaticDimension
+        createdEventsTableView.estimatedRowHeight = 140
+        createdEventsTableView.backgroundColor = .clear
+        createdEventsTableView.separatorStyle = .none
+        
+        
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.createdEvents.count
     }
@@ -258,13 +286,63 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
         if let cell = self.createdEventsTableView.dequeueReusableCell(withIdentifier: "CreatedEventsTableViewCell", for: indexPath) as? CreatedEventsTableViewCell {
             if let eventName = self.createdEvents[indexPath.row]["eventName"],
                 let eventCode = self.createdEvents[indexPath.row]["eventCode"] {
-                cell.label.text = "Event: \(eventName) \nCode: \(eventCode)"
+                cell.configureCell(eventName: eventName, eventCodeAndType: eventCode)
                 return cell
             }
         }
         return UITableViewCell()
     }
     
+    
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let additionalSeparatorThickness = CGFloat(5)
+        let additionalSeparator = UIView.init(frame: CGRect(x: 0,
+                                                            y: cell.frame.size.height - additionalSeparatorThickness,
+                                                            width: cell.frame.size.width,
+                                                            height: additionalSeparatorThickness))
+
+        additionalSeparator.backgroundColor = UIColor.lightGray
+        cell.addSubview(additionalSeparator)
+    }
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            
+            if let cell = createdEventsTableView.cellForRow(at: indexPath) as? CreatedEventsTableViewCell {
+                let (eventCode, eventType) = cell.separateEventCodeAndType(eventCodeAndType: self.createdEvents[indexPath.row]["eventCode"]!)
+                guard !eventCode.isEmpty,
+                      !eventType.isEmpty else {
+                        return
+                }
+                
+                let deleteEvent = Event(eventName: self.createdEvents[indexPath.row]["eventName"]!,
+                                        eventIsLive: "no",
+                                        eventType: EventType(rawValue: eventType)!,
+                                        eventCode: eventCode)
+                
+                self.ShowSpinner()
+                self.eventDetailManager.removeEventAndEventDetail(event: deleteEvent, eventDetail: nil, completion: { (result) in
+                    switch result {
+                    case .Failure( _):
+                        self.infoView(message: "Event not deleted", color: Colors.smoothRed)
+                        break
+                    case .Success(()):
+                        self.createdEvents.remove(at: indexPath.row)
+                        self.createdEventsTableView.reloadData()
+                        self.infoView(message: "Event deleted", color: Colors.lightGreen)
+                        break
+                    }
+                })
+                self.HideSpinner()
+            }
+      
+        }
+    }
     
     
     

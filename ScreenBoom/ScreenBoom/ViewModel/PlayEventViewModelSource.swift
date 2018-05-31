@@ -15,7 +15,7 @@ class PlayEventViewModelSource {
   private var event: Event
   private var eventDetail: EventDetail
   let firebaseNodeNames = FirebaseNodeNames()
-  let eventDetailViewModel = EventDetailViewModel()
+  let eventDetailViewModel = EventDetailManager()
   
   
   init(event: Event,

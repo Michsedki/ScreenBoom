@@ -45,12 +45,12 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="sjB-a8-xEZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.95435437817258884" green="0.71909043691909469" blue="0.083589371652277172" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UQj-Vq-okx">
                                 <rect key="frame" x="20" y="109" width="335" height="30"/>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5zp-xd-7E0"/>
                                 </constraints>
@@ -60,7 +60,7 @@
                             </textField>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mG2-hf-JGq">
                                 <rect key="frame" x="20" y="184" width="335" height="100"/>
-                                <color key="backgroundColor" red="0.95435437820000002" green="0.71909043689999996" blue="0.083589371649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="YKh-bJ-t4j"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="oyx-gq-5HV"/>
@@ -72,40 +72,20 @@
                                     <constraint firstAttribute="height" constant="30" id="tWn-Xm-g4x"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.95435437820000002" green="0.71909043689999996" blue="0.083589371649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4aY-DJ-G8L">
                                 <rect key="frame" x="20" y="340" width="335" height="327"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreatedEventsTableViewCell" rowHeight="79" id="qCi-J1-PIS" customClass="CreatedEventsTableViewCell" customModule="ScreenBoom" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="335" height="79"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreatedEventsTableViewCell" id="qCi-J1-PIS" customClass="CreatedEventsTableViewCell" customModule="ScreenBoom" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="335" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qCi-J1-PIS" id="Yer-iU-Tku">
-                                            <rect key="frame" x="0.0" y="0.0" width="335" height="78.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hM1-w1-N1V">
-                                                    <rect key="frame" x="15" y="11" width="130" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LNF-SZ-pC4">
-                                                    <rect key="frame" x="267" y="11" width="53" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Share"/>
-                                                    <connections>
-                                                        <action selector="shareButton:" destination="qCi-J1-PIS" eventType="touchUpInside" id="CzY-xb-pkK"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="label" destination="hM1-w1-N1V" id="krw-1l-jdG"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -115,11 +95,11 @@
                                     <constraint firstAttribute="height" constant="40" id="J8E-Sw-SZL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="gJx-XE-tdj" firstAttribute="leading" secondItem="mG2-hf-JGq" secondAttribute="leading" id="1x2-VO-h1E"/>
                             <constraint firstItem="4aY-DJ-G8L" firstAttribute="bottom" secondItem="FxG-cC-rDH" secondAttribute="bottom" id="3Ar-lB-fgL"/>
@@ -198,19 +178,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kP4-qG-x6X">
-                                <rect key="frame" x="20" y="244" width="335" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="juB-bi-IeS"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <state key="normal" title="Join ">
-                                    <color key="titleColor" red="0.0" green="0.6588235294" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="goButtonPressed:" destination="uXc-ri-Kzf" eventType="touchUpInside" id="Cgu-hD-a0h"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="okM-n0-ERn">
                                 <rect key="frame" x="20" y="74" width="335" height="30"/>
                                 <constraints>
@@ -229,23 +196,25 @@
                             <constraint firstItem="yCz-n4-bMJ" firstAttribute="leading" secondItem="U2J-x3-7g6" secondAttribute="leading" constant="20" id="G3m-ap-C1k"/>
                             <constraint firstItem="ivA-C4-9ij" firstAttribute="leading" secondItem="U2J-x3-7g6" secondAttribute="leading" constant="20" id="KUU-nu-lf3"/>
                             <constraint firstItem="okM-n0-ERn" firstAttribute="leading" secondItem="U2J-x3-7g6" secondAttribute="leading" constant="20" id="Nkk-Gn-CUR"/>
-                            <constraint firstItem="kP4-qG-x6X" firstAttribute="leading" secondItem="U2J-x3-7g6" secondAttribute="leading" constant="20" id="TSR-Us-MjF"/>
                             <constraint firstItem="U2J-x3-7g6" firstAttribute="trailing" secondItem="ivA-C4-9ij" secondAttribute="trailing" constant="20" id="Tl9-9v-B70"/>
-                            <constraint firstItem="kP4-qG-x6X" firstAttribute="top" secondItem="Cvu-FV-0FU" secondAttribute="bottom" constant="30" id="VYd-qO-K9o"/>
                             <constraint firstItem="okM-n0-ERn" firstAttribute="top" secondItem="U2J-x3-7g6" secondAttribute="top" constant="10" id="qWj-hj-krr"/>
                             <constraint firstItem="Cvu-FV-0FU" firstAttribute="top" secondItem="ivA-C4-9ij" secondAttribute="bottom" constant="5" id="s0B-Xu-0Kk"/>
                             <constraint firstItem="ivA-C4-9ij" firstAttribute="top" secondItem="yCz-n4-bMJ" secondAttribute="bottom" constant="10" id="veh-2y-IZd"/>
                             <constraint firstItem="U2J-x3-7g6" firstAttribute="trailing" secondItem="Cvu-FV-0FU" secondAttribute="trailing" constant="20" id="vye-1d-GNj"/>
                             <constraint firstItem="U2J-x3-7g6" firstAttribute="trailing" secondItem="yCz-n4-bMJ" secondAttribute="trailing" constant="20" id="wJL-4d-iQs"/>
-                            <constraint firstItem="U2J-x3-7g6" firstAttribute="trailing" secondItem="kP4-qG-x6X" secondAttribute="trailing" constant="20" id="xRE-Ny-RBd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="U2J-x3-7g6"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Join Event" id="2t9-tH-xE1"/>
+                    <navigationItem key="navigationItem" title="Join Event" id="2t9-tH-xE1">
+                        <barButtonItem key="rightBarButtonItem" title="Join" id="8X2-eE-DDF">
+                            <connections>
+                                <action selector="joinBarButtonPressed:" destination="uXc-ri-Kzf" id="S6W-pC-ptJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="codeTextField" destination="Cvu-FV-0FU" id="Vuq-Ng-t5O"/>
                         <outlet property="eventNameTextField" destination="yCz-n4-bMJ" id="flJ-is-YPY"/>
-                        <outlet property="joinButton" destination="kP4-qG-x6X" id="UuR-wy-5jn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ZS-Yc-vOP" userLabel="First Responder" sceneMemberID="firstResponder"/>

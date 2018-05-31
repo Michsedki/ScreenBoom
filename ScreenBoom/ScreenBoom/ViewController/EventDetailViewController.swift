@@ -14,7 +14,7 @@ class EventDetailViewController: BaseViewController  {
   var event:Event
   var oldEventDetail: EventDetail?
   let eventViewModel = EventManager()
-  let eventDetailViewModel = EventDetailViewModel()
+  let eventDetailViewModel = EventDetailManager()
   var playEventPreviewContainerView = UIView()
   
   var playPreviewEventViewController: PlayPreviewEventViewController?

@@ -59,7 +59,10 @@ class FireBaseManager {
     
     // for created event
     func addEventToUserCreatedEvents(event: Event) {
-        REF_UUID_Events_Current_User_Created?.updateChildValues([event.eventName: event.eventCode], withCompletionBlock: { (error, _) in
+        // we need to keep track of the type so we retrive the type when we build the created tableview
+        // that is why we concatenate the type of the event with the code and separate them by _
+        let eventCode_Type = "\(event.eventCode)_\(event.eventType.rawValue)"
+        REF_UUID_Events_Current_User_Created?.updateChildValues([event.eventName: eventCode_Type], withCompletionBlock: { (error, _) in
             if error != nil {
                  print("Couldn't Add Event to User Events, Error: \(String(describing: error?.localizedDescription))")
             }

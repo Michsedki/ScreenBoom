@@ -32,8 +32,8 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     view.translatesAutoresizingMaskIntoConstraints = false
     view.titleLabel?.textColor = UIColor.white
     view.setTitle("JOIN EVENT", for: .normal)
-    view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-    view.backgroundColor = .green
+    view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+    view.backgroundColor = .blue
     view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
     view.roundIt()
     return view
@@ -44,7 +44,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     view.translatesAutoresizingMaskIntoConstraints = false
     view.titleLabel?.textColor = UIColor.white
     view.setTitle("CREATE EVENT", for: .normal)
-    view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+    view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
     view.backgroundColor = .blue
     view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
     view.roundIt()

@@ -26,7 +26,6 @@ class dropDownBtn: UIButton, dropDownProtocol {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor.blue
     self.sizeToFit()
     self.titleLabel?.adjustsFontSizeToFitWidth = true
     self.titleLabel?.numberOfLines = 0
@@ -110,6 +109,8 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     tableView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
     tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
     tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+    tableView.backgroundColor = .clear
+    tableView.separatorStyle = .none
   }
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -124,7 +125,10 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     let cell = UITableViewCell()
     cell.textLabel?.text = dropDownOptions[indexPath.row]
     cell.textLabel?.textAlignment = .center
-    cell.backgroundColor = UIColor.white
+    cell.textLabel?.textColor = .white
+    cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+    cell.backgroundColor = UIColor.clear
+    cell.selectionStyle = .none
     return cell
   }
   

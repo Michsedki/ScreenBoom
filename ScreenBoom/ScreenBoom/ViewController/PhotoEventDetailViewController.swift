@@ -9,10 +9,39 @@
 import Foundation
 
 class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  
+    
+    let selectImageFromGallaryButton : UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.textColor = UIColor.white
+        view.setTitle("Photos", for: .normal)
+        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        view.backgroundColor = .blue
+        view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
+        view.roundIt()
+        return view
+    }()
+    
+    let selectImageFromCameraButton : UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.textColor = UIColor.white
+        view.setTitle("Camera", for: .normal)
+        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        view.backgroundColor = .blue
+        view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
+        view.roundIt()
+        return view
+    }()
+    
+    let bottunStackView : UIStackView = {
+        let view = UIStackView()
+        view.distribution = .fillEqually
+        view.spacing = 20
+        return view
+    } ()
+    
   // photo event
-  var selectImageFromGallaryButton: UIButton = UIButton()
-  var selectImageFromCameraButton :UIButton = UIButton()
   let imagePicker = UIImagePickerController()
   var imageUploadManager: ImageUploadManager?
   var eventDetail: PhotoEventDetail
@@ -73,27 +102,18 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
                                                 trailing: playEventPreviewContainerView.trailingAnchor,
                                                 padding: .zero)
     
-    selectImageFromGallaryButton.setTitle("Photos", for: .normal)
-    selectImageFromGallaryButton.backgroundColor = UIColor.blue
-    selectImageFromCameraButton.setTitle("Camera", for: .normal)
-    selectImageFromCameraButton.backgroundColor = UIColor.blue
-    
     // add views
-    self.view.addSubview(selectImageFromGallaryButton)
-    self.view.addSubview(selectImageFromCameraButton)
-    
-    selectImageFromGallaryButton.anchor(top: playEventPreviewContainerView.bottomAnchor,
+    view.addSubview(bottunStackView)
+    bottunStackView.addArrangedSubview(selectImageFromGallaryButton)
+    bottunStackView.addArrangedSubview(selectImageFromCameraButton)
+        
+    bottunStackView.anchor(top: playEventPreviewContainerView.bottomAnchor,
                                         leading: self.view.leadingAnchor,
                                         bottom: nil,
                                         trailing: self.view.trailingAnchor,
                                         padding: .init(top: 30, left: 20, bottom: 0, right: 20),
-                                        size: .init(width: 0, height: 40))
-    selectImageFromCameraButton.anchor(top: selectImageFromGallaryButton.bottomAnchor,
-                                       leading: self.view.leadingAnchor,
-                                       bottom: nil,
-                                       trailing: self.view.trailingAnchor,
-                                       padding: .init(top: 30, left: 20, bottom: 0, right: 20),
-                                       size: .init(width: 0, height: 40))
+                                        size: .init(width: 0 , height: 50))
+    
     
     selectImageFromGallaryButton.addTarget(self, action: #selector(SelectImage(_:)), for: .touchUpInside)
     selectImageFromCameraButton.addTarget(self, action: #selector(SelectImage(_:)), for: .touchUpInside)

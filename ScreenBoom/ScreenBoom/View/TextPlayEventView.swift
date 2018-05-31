@@ -40,12 +40,12 @@ class TextPlayEventView : PlayEventView {
     
     guard let textEventDetail = viewModel.eventDetail as? TextEventDetail else  { return }
     
-    // set PlayView background color
     backgroundColor = textEventDetail.backgroundcolor?.stringToUIColor()
-    // Set textLabel with text and textColor
     textLabel.text = textEventDetail.text
     textLabel.textColor = textEventDetail.textcolor?.stringToUIColor()
-    textLabel.font = UIFont(name: textEventDetail.font!+"-Bold", size: CGFloat(Int(textEventDetail.fontsize!)))
+    textLabel.font = UIFont.systemFont(ofSize: CGFloat(textEventDetail.fontsize!))
+    
+    
     // Add Canvas Animation to the pendingLabelAnimationView
     textLabelAnimationView.type = textEventDetail.animationName
     textLabelAnimationView.duration = 10

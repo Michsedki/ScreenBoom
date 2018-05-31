@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1842375C20BE0F57001147BA /* FireBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842375B20BE0F57001147BA /* FireBaseManager.swift */; };
 		1842375E20BE6B04001147BA /* CreatedEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */; };
+		1842376420BF5F2D001147BA /* EventDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376320BF5F2D001147BA /* EventDetailManager.swift */; };
 		3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */; };
 		3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */; };
 		3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */; };
@@ -47,7 +48,6 @@
 		378AB0B52065B9BD0074E4B7 /* AnimationPlayEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */; };
 		378AB0B7206702CB0074E4B7 /* SideMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378AB0B6206702CB0074E4B7 /* SideMenuDelegate.swift */; };
 		37C2C5C62039F46000032927 /* EventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C52039F46000032927 /* EventDetail.swift */; };
-		37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */; };
 		37D011B1204755B000739B62 /* Canvas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D011B2204755B000739B62 /* Canvas.framework */; };
 		37D011B5204891BB00739B62 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D011B4204891BB00739B62 /* CloudKit.framework */; };
 		37D011B720489F2700739B62 /* UserDefaultICloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D011B620489F2700739B62 /* UserDefaultICloudViewModel.swift */; };
@@ -73,6 +73,7 @@
 /* Begin PBXFileReference section */
 		1842375B20BE0F57001147BA /* FireBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseManager.swift; sourceTree = "<group>"; };
 		1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedEventsTableViewCell.swift; sourceTree = "<group>"; };
+		1842376320BF5F2D001147BA /* EventDetailManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailManager.swift; sourceTree = "<group>"; };
 		3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSourceObserver.swift; sourceTree = "<group>"; };
 		3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSource.swift; sourceTree = "<group>"; };
 		3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModel.swift; sourceTree = "<group>"; };
@@ -113,7 +114,6 @@
 		378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationPlayEventView.swift; sourceTree = "<group>"; };
 		378AB0B6206702CB0074E4B7 /* SideMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuDelegate.swift; sourceTree = "<group>"; };
 		37C2C5C52039F46000032927 /* EventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetail.swift; sourceTree = "<group>"; };
-		37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewModel.swift; sourceTree = "<group>"; };
 		37D011B2204755B000739B62 /* Canvas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Canvas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37D011B3204891B600739B62 /* ScreenBoom.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScreenBoom.entitlements; sourceTree = "<group>"; };
 		37D011B4204891BB00739B62 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -184,6 +184,7 @@
 				378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */,
 				378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */,
 				378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */,
+				1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -237,7 +238,6 @@
 				377B6EB8202C1A2A00AFD85C /* JoinEventViewController.swift */,
 				377B6EBA202CEC6200AFD85C /* PlayEventViewController.swift */,
 				377B6EFF202FE5A500AFD85C /* BaseViewController.swift */,
-				377B6F03202FF57800AFD85C /* Colors.swift */,
 				377B6F052030027D00AFD85C /* EventDetailViewController.swift */,
 				37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */,
 				3758DE2720609440004C55A2 /* EditEventDetailViewController.swift */,
@@ -252,11 +252,12 @@
 			isa = PBXGroup;
 			children = (
 				377B6F08203009B900AFD85C /* EventManager.swift */,
-				37C2C5C72039F5AD00032927 /* EventDetailViewModel.swift */,
+				1842376320BF5F2D001147BA /* EventDetailManager.swift */,
 				3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */,
 				3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */,
 				37D011B620489F2700739B62 /* UserDefaultICloudViewModel.swift */,
 				37E8D3FC204F34FF008D83B1 /* ImageUploadManager.swift */,
+				377B6F03202FF57800AFD85C /* Colors.swift */,
 				1842375B20BE0F57001147BA /* FireBaseManager.swift */,
 			);
 			path = ViewModel;
@@ -271,7 +272,6 @@
 				378AB09E2064B1FE0074E4B7 /* PhotoEventDetail.swift */,
 				378AB0A02064B3630074E4B7 /* AnimationEventDetail.swift */,
 				378AB0A22064B3700074E4B7 /* TextEventDetail.swift */,
-				1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -482,7 +482,7 @@
 				3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */,
 				3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */,
 				378AB0A32064B3700074E4B7 /* TextEventDetail.swift in Sources */,
-				37C2C5C82039F5AD00032927 /* EventDetailViewModel.swift in Sources */,
+				1842376420BF5F2D001147BA /* EventDetailManager.swift in Sources */,
 				378AB0B32065B9AA0074E4B7 /* PhotoPlayEventView.swift in Sources */,
 				378AB0A52064B65F0074E4B7 /* TextEventDetailViewController.swift in Sources */,
 				377B6EB9202C1A2A00AFD85C /* JoinEventViewController.swift in Sources */,

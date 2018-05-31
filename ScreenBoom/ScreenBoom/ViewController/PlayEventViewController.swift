@@ -19,7 +19,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var event: Event
   var eventDetail: EventDetail
   var eventViewModel = EventManager()
-  var eventDetailViewModel = EventDetailViewModel()
+  var eventDetailViewModel = EventDetailManager()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
   var playEventViewModelSource: PlayEventViewModelSource?

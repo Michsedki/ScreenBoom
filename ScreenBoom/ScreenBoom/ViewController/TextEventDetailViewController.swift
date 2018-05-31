@@ -10,56 +10,41 @@ import Foundation
 
 class TextEventDetailViewController: EventDetailViewController, DropDownSelectionDelegate {
   
-  var eventDetail: TextEventDetail
-  // maxFontSize is the max array value of the fontsizeDropDownButton
-  let maxFontSize = 50
-  
+    var eventDetail: TextEventDetail
+    
+    var eventTextField: UITextField = UITextField()
+    var textColorDropDownButton: dropDownBtn = dropDownBtn()
+    var backgroundColorDropDownButton: dropDownBtn = dropDownBtn()
+    
+    let increaseFontSizeButton : UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        view.setImage(UIImage(named: "increaseFontSize"), for: .normal)
+        view.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        view.roundIt()
+        return view
+    }()
+    
+    let decreaseFontSizeButton : UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        view.tag = 1
+        view.setImage(UIImage(named: "decreaseFontSize"), for: .normal)
+        view.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        view.roundIt()
+        return view
+    }()
+    
+    //Delegate
+    var dropDownSelectionDelegate:DropDownSelectionDelegate!
+
   func updatePreviewEventViewController () {
     let playEventViewModel = PlayEventViewModel(event: self.event, eventDetail: self.eventDetail)
     if let playEventVC = self.playPreviewEventViewController {
       playEventVC.configureWithPreviewPlayViewModel(playViewModel: playEventViewModel)
     }
   }
-  
-  // text event
-  var eventTextField: UITextField = UITextField() {
-    didSet {
-      // if we have text from the event detail object
-      // we want the default text to be set to that
-      eventTextField.text = self.eventDetail.text
-    }
-  }
-  
-  var textColorDropDownButton: dropDownBtn = dropDownBtn() {
-    didSet {
-      textColorDropDownButton.setTitle(self.eventDetail.textcolor, for: .normal)
-    }
-  }
-  
-  var backgroundColorDropDownButton: dropDownBtn = dropDownBtn() {
-    didSet {
-      backgroundColorDropDownButton.setTitle(self.eventDetail.backgroundcolor, for: .normal)
-    }
-  }
-  var animationNameDropDownButton: dropDownBtn = dropDownBtn() {
-    didSet {
-      animationNameDropDownButton.setTitle(self.eventDetail.animationName, for: .normal)
-    }
-  }
-  var fontNameDropDownButton: dropDownBtn = dropDownBtn() {
-    didSet {
-      fontNameDropDownButton.setTitle(self.eventDetail.font, for: .normal)
-    }
-  }
-  var fontsizeDropDownButton: dropDownBtn = dropDownBtn() {
-    didSet {
-      fontsizeDropDownButton.setTitle(String(describing: self.eventDetail.fontsize), for: .normal)
-    }
-  }
-  
-  //Delegate
-  var dropDownSelectionDelegate:DropDownSelectionDelegate!
-  
+    
   init(event:Event, eventDetail: TextEventDetail) {
     self.eventDetail = eventDetail
     
@@ -78,21 +63,57 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    
+    // disaple Rotation for this view controller
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    appDelegate.enableAllOrientation = false
+    
     setupViews()
+    loadData()
 
   }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // allow rotation for other viewControllers
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.enableAllOrientation = true
+    }
   
   @objc func textFieldDidChanged(_ textField : UITextField) {
     self.eventDetail.text = textField.text
     
     updatePreviewEventViewController()
   }
+    
+    @objc func fontResizeButtonPressed(_ sender: UIButton) {
+        switch sender.tag {
+        case 0 :
+            self.eventDetail.fontsize = self.eventDetail.fontsize! * 1.1
+            updatePreviewEventViewController()
+            break
+        case 1:
+             self.eventDetail.fontsize = self.eventDetail.fontsize! * 0.9
+             updatePreviewEventViewController()
+            break
+        default:
+            break
+        }
+    }
   
-  // Text
+  // load old eventDetail data
+    func loadData() {
+        eventTextField.text = self.eventDetail.text
+        textColorDropDownButton.setTitle(self.eventDetail.textcolor, for: .normal)
+        backgroundColorDropDownButton.setTitle(self.eventDetail.backgroundcolor, for: .normal)
+    }
+    
   func setupViews() {
-    // create Navigation bar right buttom (Send)
-    let sendRightBarButton = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(TextEventDetailViewController.rightBarButtonPressed(_:)))
-    navigationItem.rightBarButtonItem = sendRightBarButton
+    
+    self.view.backgroundColor = .black
+    
+    // create Navigation bar right buttom "Create"
+    let createRightBarButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(TextEventDetailViewController.rightBarButtonPressed(_:)))
+    navigationItem.rightBarButtonItem = createRightBarButton
     
     // create container view to hold the play event preview
     self.view.addSubview(playEventPreviewContainerView)
@@ -117,6 +138,29 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
                                                 bottom: playEventPreviewContainerView.bottomAnchor,
                                                 trailing: playEventPreviewContainerView.trailingAnchor,
                                                 padding: .zero)
+    playEventPreviewContainerView.addSubview(increaseFontSizeButton)
+    playEventPreviewContainerView.addSubview(decreaseFontSizeButton)
+    playEventPreviewContainerView.bringSubview(toFront: increaseFontSizeButton)
+    playEventPreviewContainerView.bringSubview(toFront: decreaseFontSizeButton)
+    
+    increaseFontSizeButton.anchor(top: playEventPreviewContainerView.topAnchor,
+                                  leading: nil,
+                                  bottom: nil,
+                                  trailing: playEventPreviewContainerView.trailingAnchor,
+                                  padding: .init(top: 20, left: 0, bottom: 0, right: 10),
+                                  size: .init(width: 20, height: 20))
+    
+    decreaseFontSizeButton.anchor(top: increaseFontSizeButton.bottomAnchor,
+                                  leading: increaseFontSizeButton.leadingAnchor,
+                                  bottom: nil,
+                                  trailing: increaseFontSizeButton.trailingAnchor,
+                                  padding: .init(top: 20, left: 0, bottom: 0, right: 0),
+                                  size: .init(width: 20, height: 20))
+    
+    increaseFontSizeButton.addTarget(self, action: #selector(fontResizeButtonPressed(_:)), for: .touchUpInside)
+    decreaseFontSizeButton.addTarget(self, action: #selector(fontResizeButtonPressed(_:)), for: .touchUpInside)
+    
+    
     
     // add text input field
     self.view.addSubview(eventTextField)
@@ -126,7 +170,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
                           trailing: self.view.trailingAnchor,
                           padding: .init(top: 10, left: 10, bottom: 0, right: 10),
                           size: .init(width: 0, height: 40))
-    eventTextField.backgroundColor = UIColor.blue
+    eventTextField.backgroundColor = UIColor.white
     eventTextField.addTarget(self, action: #selector(TextEventDetailViewController.textFieldDidChanged(_:)), for: .editingChanged)
     //add textColorDropDown
     //Configure the button
@@ -134,18 +178,10 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     textColorDropDownButton.setTitle(constantNames.textColorButtonTitle, for: .normal)
     backgroundColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     backgroundColorDropDownButton.setTitle(constantNames.backgroungButtonTitle, for: .normal)
-    animationNameDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    animationNameDropDownButton.setTitle(constantNames.animationButtonTitle, for: .normal)
-    fontNameDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    fontNameDropDownButton.setTitle(constantNames.fontButtonTitle, for: .normal)
-    fontsizeDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    fontsizeDropDownButton.setTitle(constantNames.fontSizeButtonTitle, for: .normal)
+    
     //Add Button to the View Controller
-    self.view.addSubview(fontNameDropDownButton)
-    self.view.addSubview(fontsizeDropDownButton)
     self.view.addSubview(textColorDropDownButton)
     self.view.addSubview(backgroundColorDropDownButton)
-    self.view.addSubview(animationNameDropDownButton)
     
     //button Constraints
     textColorDropDownButton.anchor(top: eventTextField.bottomAnchor,
@@ -153,53 +189,28 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
                                    bottom: nil,
                                    trailing: backgroundColorDropDownButton.leadingAnchor,
                                    padding: .init(top: 10, left: 10, bottom: 0, right: 5),
-                                   size: .init(width: (self.view.frame.width - 30) / 3, height: 40))
+                                   size: .init(width: (self.view.frame.width - 30) / 2, height: 40))
     backgroundColorDropDownButton.anchor(top: eventTextField.bottomAnchor,
                                          leading: textColorDropDownButton.trailingAnchor,
                                          bottom: nil,
-                                         trailing: animationNameDropDownButton.leadingAnchor,
+                                         trailing: self.view.trailingAnchor,
                                          padding: .init(top: 10, left: 5, bottom: 0, right: 5),
-                                         size: .init(width: (self.view.frame.width - 30) / 3, height: 40))
-    animationNameDropDownButton.anchor(top: eventTextField.bottomAnchor,
-                                       leading: backgroundColorDropDownButton.trailingAnchor,
-                                       bottom: nil,
-                                       trailing: self.view.trailingAnchor,
-                                       padding: .init(top: 10, left: 5, bottom: 0, right: 10),
-                                       size: .init(width: (self.view.frame.width - 30) / 3, height: 40))
-    fontNameDropDownButton.anchor(top: textColorDropDownButton.bottomAnchor,
-                                  leading: textColorDropDownButton.leadingAnchor,
-                                  bottom: nil,
-                                  trailing: textColorDropDownButton.trailingAnchor,
-                                  padding: .init(top: 10, left: 0, bottom: 0, right: 0),
-                                  size: .init(width: 0, height: 40))
-    fontsizeDropDownButton.anchor(top: backgroundColorDropDownButton.bottomAnchor,
-                                  leading: backgroundColorDropDownButton.leadingAnchor,
-                                  bottom: nil,
-                                  trailing: backgroundColorDropDownButton.trailingAnchor,
-                                  padding: .init(top: 10, left: 0, bottom: 0, right: 0),
-                                  size: .init(width: 0, height: 40))
+                                         size: .init(width: (self.view.frame.width - 30) / 2, height: 40))
+    
     
     //Set the drop down menu's options
     textColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
     backgroundColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
-    animationNameDropDownButton.dropView.dropDownOptions = constantNames.animationNamesArray
-    fontNameDropDownButton.dropView.dropDownOptions = constantNames.fontNames
-    fontsizeDropDownButton.dropView.dropDownOptions = Array(0...maxFontSize).map({String($0)})
     
     // set dropDownButtonTitle in the dropDown
     textColorDropDownButton.dropView.dropDownButtonTitle = constantNames.textColorButtonTitle
     backgroundColorDropDownButton.dropView.dropDownButtonTitle = constantNames.backgroungButtonTitle
-    animationNameDropDownButton.dropView.dropDownButtonTitle = constantNames.animationButtonTitle
-    fontNameDropDownButton.dropView.dropDownButtonTitle = constantNames.fontButtonTitle
-    fontsizeDropDownButton.dropView.dropDownButtonTitle = constantNames.fontSizeButtonTitle
     
     
     
     let dropDownButtons = [textColorDropDownButton,
-                           backgroundColorDropDownButton,
-                           animationNameDropDownButton,
-                           fontNameDropDownButton,
-                           fontsizeDropDownButton]
+                           backgroundColorDropDownButton
+                           ]
     dropDownButtons.forEach{$0.layer.borderWidth = 2}
     dropDownButtons.forEach{$0.layer.cornerRadius = 5}
     dropDownButtons.forEach{$0.layer.borderColor = UIColor.orange.cgColor}
@@ -209,9 +220,6 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     // set the dropdown delegation for all buttons
     self.textColorDropDownButton.dropView.dropDownSelectionDelegate = self
     self.backgroundColorDropDownButton.dropView.dropDownSelectionDelegate = self
-    self.animationNameDropDownButton.dropView.dropDownSelectionDelegate = self
-    self.fontNameDropDownButton.dropView.dropDownSelectionDelegate = self
-    self.fontsizeDropDownButton.dropView.dropDownSelectionDelegate = self
   }
   
   
@@ -221,12 +229,6 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
       self.eventDetail.textcolor = itemName
     case constantNames.backgroungButtonTitle:
       self.eventDetail.backgroundcolor = itemName
-    case constantNames.animationButtonTitle:
-      self.eventDetail.animationName = itemName
-    case constantNames.fontButtonTitle:
-      self.eventDetail.font = itemName
-    case constantNames.fontSizeButtonTitle:
-      self.eventDetail.fontsize = Double(itemName)
     default:
       break
     }
