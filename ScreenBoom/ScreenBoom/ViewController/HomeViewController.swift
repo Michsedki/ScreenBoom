@@ -33,7 +33,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     view.titleLabel?.textColor = UIColor.white
     view.setTitle("JOIN EVENT", for: .normal)
     view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-    view.backgroundColor = .blue
+    view.backgroundColor = Colors.lightBlue
     view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
     view.roundIt()
     return view
@@ -45,7 +45,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     view.titleLabel?.textColor = UIColor.white
     view.setTitle("CREATE EVENT", for: .normal)
     view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-    view.backgroundColor = .blue
+    view.backgroundColor = Colors.lightBlue
     view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
     view.roundIt()
     return view

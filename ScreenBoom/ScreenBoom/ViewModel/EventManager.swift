@@ -148,9 +148,11 @@ class EventManager: NSObject {
           return }
         let event = Event(eventName: eventName, eventIsLive: eventIsLive, eventType: EventType(rawValue: eventType) ?? .Unknown, eventCode: eventCode)
         completion(Result.Success(event))
-      }
+      } else {
+        completion(Result.Failure("Event Not Found"))
+        }
     }
-    completion(Result.Failure("Event Not Found"))
+    
   }
 }
 

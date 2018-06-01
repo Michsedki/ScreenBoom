@@ -89,6 +89,7 @@ class JoinEventViewController: BaseViewController {
             case .Failure(let errorString):
                 print(errorString)
             case .Success(let eventDetail):
+                FireBaseManager.sharedInstance.addEventToUserJoinedEvents(event: event)
                 self.showPlayEventViewController(event: event, eventDetail: eventDetail)
         }
     })

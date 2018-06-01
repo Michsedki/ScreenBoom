@@ -15,7 +15,7 @@ class RightMenuView: UIView {
   // the rightMenuView
   let imageNames = ImageNames()
   var sideMenuDelegate : SideMenuDelegate?
-  
+    
   let blurEffectView : UIVisualEffectView = {
     let view = UIVisualEffectView()
     view.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
@@ -60,8 +60,16 @@ class RightMenuView: UIView {
     view.setImage(UIImage(named: "share"), for: .normal)
     return view
   }()
+    
+    let actionButtonStack : UIStackView = {
+       let view = UIStackView()
+        view.backgroundColor = .blue
+        
+        return view
+    }()
   
-  func configureWith(event: Event, eventCode: String) {
+    
+    func configureWith(event: Event, eventCode: String) {
     
     backgroundColor = UIColor.clear
     
@@ -75,6 +83,7 @@ class RightMenuView: UIView {
     if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
       userID == event.userID {
       print("isOwner")
+        
       addSubview(editButton)
       addSubview(playButton)
       addSubview(pauseButton)

@@ -259,7 +259,7 @@ extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: eventTypePickerviewDataSource[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.blue])
+        let attributedString = NSAttributedString(string: eventTypePickerviewDataSource[row], attributes: [NSAttributedStringKey.foregroundColor : Colors.lightBlue])
         return attributedString
     }
 }
@@ -273,7 +273,6 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
         createdEventsTableView.estimatedRowHeight = 140
         createdEventsTableView.backgroundColor = .clear
         createdEventsTableView.separatorStyle = .none
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

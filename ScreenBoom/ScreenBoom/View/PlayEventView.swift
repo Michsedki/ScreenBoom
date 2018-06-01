@@ -43,16 +43,6 @@ class PlayEventView: UIView {
         view.removeFromSuperview()
     }
     
-    // Check if the Event not is live, set playView with Label Event pending
-//    guard event.eventIsLive != firebaseNodeNames.eventNodeIsLivePauseValue else {
-//        for view in self.subviews {
-//            view.removeFromSuperview()
-//        }
-//      showPendingAndDefaultEventView(message: "Pending Event")
-//      return
-//    }
-//    // remove views
-//    pendingLabelAnimationView.removeFromSuperview()
   }
     
   // Show Pending Event View

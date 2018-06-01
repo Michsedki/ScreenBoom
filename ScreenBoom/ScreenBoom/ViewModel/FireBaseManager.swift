@@ -110,7 +110,8 @@ class FireBaseManager {
     
     // for join event
     func addEventToUserJoinedEvents(event: Event) {
-        REF_UUID_Events_Current_User_Joined?.updateChildValues([event.eventName: event.eventCode], withCompletionBlock: { (error, _) in
+        let eventCode_Type = "\(event.eventCode)_\(event.eventType.rawValue)"
+        REF_UUID_Events_Current_User_Joined?.updateChildValues([event.eventName: eventCode_Type], withCompletionBlock: { (error, _) in
             if error != nil {
                 print("Couldn't Add Event to User Events, Error: \(String(describing: error?.localizedDescription))")
             }

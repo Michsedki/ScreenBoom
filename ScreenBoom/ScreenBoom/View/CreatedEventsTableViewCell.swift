@@ -20,18 +20,18 @@ class CreatedEventsTableViewCell: UITableViewCell {
         view.textAlignment = .center
         view.font = UIFont.boldSystemFont(ofSize: 35)
         view.roundIt()
-        view.backgroundColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        view.backgroundColor = Colors.lightBlue
         return view
     }()
     let eventNameLabel : UILabel = {
     let view = UILabel()
-        view.textColor = .blue
+        view.textColor = Colors.lightBlue
         view.font = UIFont.boldSystemFont(ofSize: 18)
         return view
     }()
     let eventCodeLabel : UILabel = {
         let view = UILabel()
-        view.textColor = .blue
+        view.textColor = Colors.lightBlue
         view.font = UIFont.boldSystemFont(ofSize: 18)
         return view
     }()

@@ -155,7 +155,7 @@
                                     <constraint firstAttribute="height" constant="30" id="Ltz-HD-ObL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.95435437820000002" green="0.71909043689999996" blue="0.083589371649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yCz-n4-bMJ">
@@ -184,11 +184,11 @@
                                     <constraint firstAttribute="height" constant="30" id="7nA-B7-0KX"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.95435437820000002" green="0.71909043689999996" blue="0.083589371649999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="yCz-n4-bMJ" firstAttribute="top" secondItem="okM-n0-ERn" secondAttribute="bottom" constant="5" id="Amh-hN-UOh"/>
                             <constraint firstItem="Cvu-FV-0FU" firstAttribute="leading" secondItem="U2J-x3-7g6" secondAttribute="leading" constant="20" id="CB2-lD-6Hx"/>

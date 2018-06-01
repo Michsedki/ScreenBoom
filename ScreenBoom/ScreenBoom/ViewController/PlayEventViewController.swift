@@ -22,6 +22,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var eventDetailManager = EventDetailManager()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
+  var ownerOptionButtonstView : OwnerOptionButtonstView?
   var playEventViewModelSource: PlayEventViewModelSource?
   var isShowEventNameAndCodeLabel = false
   
@@ -54,9 +55,43 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
     saveUserDefaultOldEventAndUserID()
     
+   
+    
     setupViews()
     
+    
+    
   }
+    // here we need to show buttons for options
+    
+    func prepareForEventOwner() {
+        setupOptionView()
+
+        
+    }
+    
+    
+    // here we need to add this user to event viewers
+    // and add this event to user joined events
+    func prepareForEventViewer() {
+        
+    }
+    
+    func setupOptionView() {
+        let ownerOptionButtons = OwnerOptionButtonstView()
+        self.view.addSubview(ownerOptionButtons)
+        ownerOptionButtons.frame = CGRect(x: self.view.frame.minX + 20,
+                                           y: self.view.frame.maxY - 50,
+                                           width: self.view.frame.width - 40,
+                                           height: 40)
+        ownerOptionButtons.configureWith(event: self.event)
+//
+        self.view.bringSubview(toFront: ownerOptionButtons)
+        self.ownerOptionButtonstView = ownerOptionButtons
+        
+    }
+    
+    
   
   //AddSwipeGesture
   func addSwipGuestureRecognizers() {
@@ -114,6 +149,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
                                  width: 80,
                                  height: size.height)
         self.view.bringSubview(toFront: rightMenu)
+        rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
     }
     
    
@@ -126,7 +162,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     addSwipGuestureRecognizers()
     
     // add user to list of viewer
-    addToViewList()
+//    addToViewList()
     
     // add Event To User Log
 //    addEventToUserEvents()
@@ -135,11 +171,18 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     // constraints
     setupConstraints()
     
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+        userID == event.userID {
+        prepareForEventOwner()
+    } else {
+        prepareForEventViewer()
+    }
+    
     setupSideMenu()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
-    removeFromViewList()
+//    removeFromViewList()
     self.playEventViewModelSource?.removeObserver(observer: self)
   }
   
@@ -177,6 +220,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     }
     
   }
+    
+    
   
   func setupSideMenu() {
     
@@ -197,58 +242,34 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     self.rightMenuView?.sideMenuDelegate = self
   }
   
-  
-//  func addEventToUserEvents() {
-//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
-//      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).setValue(
-//        [firebaseNodeNames.eventNodeCodeChild: self.eventDetail.code,
-//         firebaseNodeNames.isOwnerChild: self.event.userID == userID ?  firebaseNodeNames.isOwnerYesValue : firebaseNodeNames.isOwnerNoValue], withCompletionBlock: { (error, _) in
-//          if error != nil {
-//            print("Couldn't Add Event to User Log, Error: \(String(describing: error?.localizedDescription))")
-//          }
-//      })
-//    }
-//  }
-//  func removeFromUserEvents() {
-//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
-//      firebaseDatabaseReference.child(firebaseNodeNames.eventUsersNodeChild).child(userID).child(self.event.eventName).removeValue(completionBlock: { (error, _) in
+  // add user to list of viewer
+//  func addToViewList() {
+//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+//      userID != self.event.userID {
+//      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).setValue("", withCompletionBlock: { (error, _) in
 //        if error != nil {
-//          print("Couldn't remove Event From User Log, Error: \(String(describing: error?.localizedDescription))")
+//          print("Couldn't add user to views, Error: \(String(describing: error?.localizedDescription))")
 //        }
 //      })
 //    }
 //  }
-  
-  // add user to list of viewer
-  func addToViewList() {
-    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
-      userID != self.event.userID {
-      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).setValue("", withCompletionBlock: { (error, _) in
-        if error != nil {
-          print("Couldn't add user to views, Error: \(String(describing: error?.localizedDescription))")
-        }
-      })
-    }
-  }
-  // remove user from list of viewer
-  func removeFromViewList() {
-    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
-      userID != self.event.userID {
-      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).removeValue(completionBlock: { (error, _) in
-        if error != nil {
-          print("Couldn't remove user from views, Error: \(String(describing: error?.localizedDescription))")
-        }
-      })
-    }
-    
-  }
+//  // remove user from list of viewer
+//  func removeFromViewList() {
+//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+//      userID != self.event.userID {
+//      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).removeValue(completionBlock: { (error, _) in
+//        if error != nil {
+//          print("Couldn't remove user from views, Error: \(String(describing: error?.localizedDescription))")
+//        }
+//      })
+//    }
+//    
+//  }
   
   func saveUserDefaultOldEventAndUserID(){
     UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
     UserDefaults.standard.set(self.event.eventCode, forKey: userDefaultKeyNames.eventCodeKey)
   }
-  
-  
 }
 
 extension PlayEventViewController: SideMenuDelegate {
@@ -267,9 +288,7 @@ extension PlayEventViewController: SideMenuDelegate {
   }
   
   func sideMenuPlayButtonPressed() {
-//    for view in (self.playEventView?.subviews)! {
-//      view.removeFromSuperview()
-//    }
+
     ShowSpinner()
     
     eventManager.updateEvenIsLive(event: self.event, isLive: firebaseNodeNames.eventNodeIsLiveYesValue) { (result) in

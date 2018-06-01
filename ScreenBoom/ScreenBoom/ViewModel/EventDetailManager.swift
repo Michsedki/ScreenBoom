@@ -18,7 +18,7 @@ class EventDetailManager: NSObject {
   // Check if event detail is exist and return the eventDetail if success or error string if failure
   func checkIfEventDetailExist (event: Event, completion: (@escaping(Result<EventDetail>) -> Void) ) {
     Database.database().reference().child("EventDetails").child(event.eventName).observeSingleEvent(of: .value, with: {  (eventDetailSnapshot) in
-      
+      // ****** it will not work when we have viewers in our eventdetail node 
         guard let eventDetailSnapshotValue = eventDetailSnapshot.value as? [String: String] else {
           completion(Result.Failure("Event Not Found"))
           return }
