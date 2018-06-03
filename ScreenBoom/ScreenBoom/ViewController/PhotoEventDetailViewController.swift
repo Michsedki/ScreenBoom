@@ -65,7 +65,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    setupViews()
     self.imagePicker.delegate = self
   }
   
@@ -76,7 +76,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     appDelegate.enableAllOrientation = false
     
-    setupViews()
+    
   }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -75,20 +75,6 @@
                                 <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4aY-DJ-G8L">
-                                <rect key="frame" x="20" y="340" width="335" height="327"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreatedEventsTableViewCell" id="qCi-J1-PIS" customClass="CreatedEventsTableViewCell" customModule="ScreenBoom" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="335" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qCi-J1-PIS" id="Yer-iU-Tku">
-                                            <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max 10 Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJx-XE-tdj">
                                 <rect key="frame" x="20" y="292" width="335" height="40"/>
                                 <constraints>
@@ -102,12 +88,9 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="gJx-XE-tdj" firstAttribute="leading" secondItem="mG2-hf-JGq" secondAttribute="leading" id="1x2-VO-h1E"/>
-                            <constraint firstItem="4aY-DJ-G8L" firstAttribute="bottom" secondItem="FxG-cC-rDH" secondAttribute="bottom" id="3Ar-lB-fgL"/>
                             <constraint firstItem="FxG-cC-rDH" firstAttribute="trailing" secondItem="mG2-hf-JGq" secondAttribute="trailing" constant="20" id="4Pu-Hz-H7s"/>
                             <constraint firstItem="FxG-cC-rDH" firstAttribute="trailing" secondItem="G6c-fa-ram" secondAttribute="trailing" constant="20" id="5yp-pc-8X0"/>
-                            <constraint firstItem="4aY-DJ-G8L" firstAttribute="trailing" secondItem="mG2-hf-JGq" secondAttribute="trailing" id="6h5-oE-6Lg"/>
                             <constraint firstItem="UQj-Vq-okx" firstAttribute="leading" secondItem="FxG-cC-rDH" secondAttribute="leading" constant="20" id="7xo-Ym-MKV"/>
-                            <constraint firstItem="4aY-DJ-G8L" firstAttribute="top" secondItem="gJx-XE-tdj" secondAttribute="bottom" constant="8" id="9m3-ZR-SGy"/>
                             <constraint firstItem="2au-ad-vXX" firstAttribute="leading" secondItem="FxG-cC-rDH" secondAttribute="leading" constant="20" id="E9V-S7-VwK"/>
                             <constraint firstItem="gJx-XE-tdj" firstAttribute="trailing" secondItem="mG2-hf-JGq" secondAttribute="trailing" id="Niu-LK-29l"/>
                             <constraint firstItem="mG2-hf-JGq" firstAttribute="top" secondItem="2au-ad-vXX" secondAttribute="bottom" constant="5" id="T80-Xv-qsC"/>
@@ -119,7 +102,6 @@
                             <constraint firstItem="FxG-cC-rDH" firstAttribute="trailing" secondItem="UQj-Vq-okx" secondAttribute="trailing" constant="20" id="hqy-Bn-xji"/>
                             <constraint firstItem="2au-ad-vXX" firstAttribute="top" secondItem="UQj-Vq-okx" secondAttribute="bottom" constant="10" id="lS6-cv-yW1"/>
                             <constraint firstItem="G6c-fa-ram" firstAttribute="top" secondItem="FxG-cC-rDH" secondAttribute="top" constant="10" id="tbj-yS-AZH"/>
-                            <constraint firstItem="4aY-DJ-G8L" firstAttribute="leading" secondItem="mG2-hf-JGq" secondAttribute="leading" id="uaN-Ia-wRI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FxG-cC-rDH"/>
                     </view>
@@ -131,7 +113,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="createdEventsTableView" destination="4aY-DJ-G8L" id="SYE-Oh-z75"/>
                         <outlet property="eventNameTextfield" destination="UQj-Vq-okx" id="Te4-ug-i5s"/>
                         <outlet property="eventTypePickerview" destination="mG2-hf-JGq" id="enW-aI-Mwd"/>
                         <outlet property="max10EventsLabel" destination="gJx-XE-tdj" id="acy-qs-zMl"/>

@@ -103,37 +103,100 @@ class FireBaseManager {
     
     func separateEventCodeAndType(eventCodeAndType: String) -> ( String, String) {
         let dic = eventCodeAndType.components(separatedBy: "_")
-        print(dic[0])
-        print(dic[1])
+//        print(dic[0])
+//        print(dic[1])
         return (dic[0], dic[1])
     }
     
     // for join event
     func addEventToUserJoinedEvents(event: Event) {
         let eventCode_Type = "\(event.eventCode)_\(event.eventType.rawValue)"
-        REF_UUID_Events_Current_User_Joined?.updateChildValues([event.eventName: eventCode_Type], withCompletionBlock: { (error, _) in
+        REF_UUID_Events_Current_User_Joined?.childByAutoId().updateChildValues([event.eventName: eventCode_Type], withCompletionBlock: { (error, _) in
             if error != nil {
-                print("Couldn't Add Event to User Events, Error: \(String(describing: error?.localizedDescription))")
+                print("Couldn't Add Event to User Joined Events, Error: \(String(describing: error?.localizedDescription))")
             }
         })
     }
     
-    func removeFromUserJoinedEvents(event: Event) {
-        REF_UUID_Events_Current_User_Joined?.child(event.eventName).removeValue(completionBlock: { (error, _) in
+    func removeFromUserJoinedEvents(joinedEventID: String, completion: @escaping (Bool) -> Void) {
+        REF_UUID_Events_Current_User_Joined?.child(joinedEventID).removeValue(completionBlock: { (error, _) in
             if error != nil {
-                print("Couldn't remove Event from User Events, Error: \(String(describing: error?.localizedDescription))")
+                print("Couldn't remove Event from User Joined Events, Error: \(String(describing: error?.localizedDescription))")
+                completion(false)
+            } else {
+                completion(true)
+
             }
         })
     }
-    
-    func getUserJoinedEvents(completion: (@escaping(Result<[String:String]>) -> Void)) {
+    // here we need to get all history of joined events for that user
+    // then sort them by date and limit them to 10 events, and remove the rest
+    // so we use autChild when we add the events and the use it again to order them
+    func getUserJoinedEvents(completion: (@escaping(Result<[[String:String]]>) -> Void)) {
+        var finalJoinedEvents = [[String:String]]()
+        var joinedEvents = [[String:String]]()
         REF_UUID_Events_Current_User_Joined?.observeSingleEvent(of: .value, with: { (joinedEventsSnapShot) in
-            if let joinedEventDic = joinedEventsSnapShot.value as? [String:String] {
-                print(joinedEventDic)
-                completion(Result.Success(joinedEventDic))
+            
+            if let joinedEventsSnapShotValue = joinedEventsSnapShot.value as? [String:[String:String]] {
+                for(key, value) in joinedEventsSnapShotValue {
+                    
+                        for item in value {
+                            let (eventCode, eventType) = self.separateEventCodeAndType(eventCodeAndType: item.value)
+                            joinedEvents.append(["Key" : key,
+                                                 "eventName" : item.key ,
+                                                  "eventCode" : eventCode,
+                                                  "eventType" : eventType])
+                        }
+                }
+                
+                let sortedjoinedEvents : [[String:String]] =
+                    joinedEvents.sorted(by: { $0["Key"]! > $1["Key"]! })
+                
+                var count = 1
+                
+                for Obj in sortedjoinedEvents {
+                    print(count)
+                    if count <= 10 {
+                  finalJoinedEvents.append(Obj)
+                    } else {
+                        // remove the next object
+                        self.REF_UUID_Events_Current_User_Joined?.child(Obj["Key"]!).removeValue()
+                    }
+                    count = count + 1
+                }
+//                print(finalJoinedEvents)
+                completion(Result.Success(finalJoinedEvents))
+                
+            } else {
+                completion(Result.Failure("No Joined Events"))
             }
-            completion(Result.Failure("No Created Events"))
         })
+    }
+    
+    
+    // event viewer list
+    
+    // add user to list of viewer
+    func addToViewList(event: Event) {
+        if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
+        REF_EventDetails.child(event.eventName).child("views").child(userID).setValue("", withCompletionBlock: { (error, _) in
+                if error != nil {
+                    print("Couldn't add user to views, Error: \(String(describing: error?.localizedDescription))")
+                }
+            })
+        }
+    }
+    // remove user from list of viewer
+    func removeFromViewList(event: Event) {
+        if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String
+             {
+            REF_EventDetails.child(event.eventName).child("views").child(userID).removeValue(completionBlock: { (error, _) in
+                if error != nil {
+                    print("Couldn't remove user from views, Error: \(String(describing: error?.localizedDescription))")
+                }
+            })
+        }
+        
     }
     
     

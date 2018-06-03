@@ -11,58 +11,61 @@ import UIKit
 
 
 class PhotoPlayEventView : PlayEventView {
-  
-  let photoEventImageView : UIImageView = {
-    let view = UIImageView()
     
-    view.contentMode = .scaleAspectFit // OR .scaleAspectFill
-    view.clipsToBounds = true
-    return view
-  }()
-  
-  
-  override func configure(viewModel: PlayEventViewModel) {
-    super.configure(viewModel: viewModel)
-    
-    
-    // Check if the Event not is live, set playView with Label Event pending
-    guard viewModel.event.eventIsLive != firebaseNodeNames.eventNodeIsLivePauseValue else {
+    let photoEventImageView : UIImageView = {
+        let view = UIImageView()
         
-        self.showPendingAndDefaultEventView(message: "Pending Event")
-        return
+        view.contentMode = .scaleAspectFit // OR .scaleAspectFill
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    
+    override func configure(viewModel: PlayEventViewModel) {
+        super.configure(viewModel: viewModel)
+        
+        
+        // Check if the Event not is live, set playView with Label Event pending
+        guard viewModel.event.eventIsLive != firebaseNodeNames.eventNodeIsLivePauseValue else {
+            
+            self.showPendingAndDefaultEventView(message: "Pending Event")
+            return
+        }
+        
+        guard let photoEventDetail = viewModel.eventDetail as? PhotoEventDetail else { return}
+       
+        if let photoName = photoEventDetail.photoname,
+            let url = URL(string : photoName) {
+            photoEventImageView.sd_setShowActivityIndicatorView(true)
+            photoEventImageView.sd_setIndicatorStyle(.gray)
+            photoEventImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "placeHolder"), options: [.continueInBackground, .progressiveDownload])
+        } else {
+            photoEventImageView.image = UIImage(named: "placeHolder")
+        }
+        
+//        
+//        
+//        if photoEventDetail.photoname == "placeHolder" {
+//            
+//            //Place Holder
+//            photoEventImageView.image = UIImage(named: "placeHolder")
+//        }
+        
+       
+        
+        if let image = photoEventDetail.photo {
+            photoEventImageView.image = image
+        }
+        
+        addSubview(photoEventImageView)
+        photoEventImageView.anchor(top: self.topAnchor,
+                                   leading: self.leadingAnchor,
+                                   bottom: self.bottomAnchor,
+                                   trailing: self.trailingAnchor,
+                                   padding: .zero)
+        if let viewerCount = photoEventDetail.viewerCount {
+            updateViewerLabel(viewerCount : viewerCount)
+        }
+        
     }
-    
-    guard let photoEventDetail = viewModel.eventDetail as? PhotoEventDetail else { return}
-    
-    
-    if photoEventDetail.photoname == "placeHolder" {
-      
-      //Place Holder
-      photoEventImageView.image = UIImage(named: "placeHolder")
-    }
-    
-//    else {
-////      if let photoName = eventDetail.photoname, let url = URL(string : photoName) {
-////        photoEventImageView.sd_setShowActivityIndicatorView(true)
-////        photoEventImageView.sd_setIndicatorStyle(.gray)
-////        photoEventImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "placeHolder"), options: [.continueInBackground, .progressiveDownload])
-////
-////      } else {
-////        //Place Holder
-////        photoEventImageView.image = UIImage(named: "placeHolder")
-////      }
-//    }
-    
-    if let image = photoEventDetail.photo {
-      photoEventImageView.image = image
-    }
-    
-    addSubview(photoEventImageView)
-    photoEventImageView.anchor(top: self.topAnchor,
-                               leading: self.leadingAnchor,
-                               bottom: self.bottomAnchor,
-                               trailing: self.trailingAnchor,
-                               padding: .zero)
-    
-  }
 }

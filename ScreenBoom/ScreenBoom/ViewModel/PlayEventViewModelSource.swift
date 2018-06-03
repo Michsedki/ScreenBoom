@@ -71,6 +71,7 @@ class PlayEventViewModelSource {
   func configureWithFirebaseUpdateEventDetail() {
     firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(event.eventName).observe(.value) { (eventDetailSnapShot) in
       if eventDetailSnapShot.exists() {
+        // ***** we need to fix this, why getting the event details twice
         guard let eventDetailSnapshotValue = eventDetailSnapShot.value as? [String: Any] else { return }
         
         self.eventDetailViewModel.checkIfEventDetailExist(event: self.event, completion: { (result) in

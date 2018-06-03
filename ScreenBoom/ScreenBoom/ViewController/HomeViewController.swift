@@ -61,7 +61,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
   let desceptionTextView : UITextView = {
     let view = UITextView()
     let attributedText = NSMutableAttributedString(string: "WELCOME TO SCREENBOOM SHARING SCREEN APP.", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18)])
-    attributedText.append(NSMutableAttributedString(string: "\n\n\n SCREENBOOM allows you to create Event and share it with others, no need to big screens or projectors, so easy and simple", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13),
+    attributedText.append(NSMutableAttributedString(string: "\n\n\n SCREENBOOM allows you to create Event and share it with others, no need for big screens or projectors, so easy and simple", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13),
                      NSAttributedStringKey.foregroundColor: UIColor.gray]))
     view.attributedText = attributedText
     view.translatesAutoresizingMaskIntoConstraints = false

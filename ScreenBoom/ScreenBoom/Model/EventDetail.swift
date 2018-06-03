@@ -12,6 +12,7 @@ import Foundation
 class EventDetail: Decodable {
   
   var code: String?
+    var viewerCount : Int?
   
   init(code: String?){
     self.code = code

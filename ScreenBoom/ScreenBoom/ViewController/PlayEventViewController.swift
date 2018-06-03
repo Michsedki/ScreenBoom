@@ -22,9 +22,37 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   var eventDetailManager = EventDetailManager()
   var playEventView: PlayEventView?
   var rightMenuView: RightMenuView?
-  var ownerOptionButtonstView : OwnerOptionButtonstView?
   var playEventViewModelSource: PlayEventViewModelSource?
   var isShowEventNameAndCodeLabel = false
+    
+    // **** we need to move this code into a viewModel
+    let blurEffectView : UIVisualEffectView = {
+        let view = UIVisualEffectView()
+        view.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        return view
+    }()
+    let shareView : UIView = {
+       let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+   
+    let eventNameAndCodeButtonLabel : UIButton = {
+        let view = UIButton()
+        view.sizeToFit()
+        view.titleLabel?.adjustsFontSizeToFitWidth = true
+        view.titleLabel?.numberOfLines = 0
+        view.titleLabel?.textAlignment = .left
+        view.backgroundColor = UIColor.clear
+//        view.titleLabel?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        view.isEnabled = false
+        return view
+    }()
+    let shareButton : UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(named: "share"), for: .normal)
+        return view
+    }()
   
   // init
   init (event:Event, eventDetail: EventDetail) {
@@ -55,44 +83,10 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
     saveUserDefaultOldEventAndUserID()
     
-   
-    
     setupViews()
-    
-    
-    
-  }
-    // here we need to show buttons for options
-    
-    func prepareForEventOwner() {
-        setupOptionView()
 
-        
-    }
-    
-    
-    // here we need to add this user to event viewers
-    // and add this event to user joined events
-    func prepareForEventViewer() {
-        
-    }
-    
-    func setupOptionView() {
-        let ownerOptionButtons = OwnerOptionButtonstView()
-        self.view.addSubview(ownerOptionButtons)
-        ownerOptionButtons.frame = CGRect(x: self.view.frame.minX + 20,
-                                           y: self.view.frame.maxY - 50,
-                                           width: self.view.frame.width - 40,
-                                           height: 40)
-        ownerOptionButtons.configureWith(event: self.event)
-//
-        self.view.bringSubview(toFront: ownerOptionButtons)
-        self.ownerOptionButtonstView = ownerOptionButtons
-        
-    }
-    
-    
-  
+  }
+
   //AddSwipeGesture
   func addSwipGuestureRecognizers() {
     [UISwipeGestureRecognizerDirection.right,
@@ -147,12 +141,15 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         rightMenu.frame = CGRect(x: size.width - 10,
                                  y: 0,
                                  width: 80,
-                                 height: size.height)
+                                 height: size.height - 50)
         self.view.bringSubview(toFront: rightMenu)
         rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
     }
-    
-   
+    self.shareView.frame = CGRect(x: 0,
+                                  y: size.height - 50,
+                                  width: size.width,
+                                  height: size.height - 50)
+    self.view.bringSubview(toFront: shareView)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -161,8 +158,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
    
     addSwipGuestureRecognizers()
     
-    // add user to list of viewer
-//    addToViewList()
+    
     
     // add Event To User Log
 //    addEventToUserEvents()
@@ -171,18 +167,35 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     // constraints
     setupConstraints()
     
+     setupShareView()
+    
     if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
         userID == event.userID {
         prepareForEventOwner()
     } else {
+        
+        // add this user to event viewers
         prepareForEventViewer()
     }
     
-    setupSideMenu()
+   
   }
+    
+    func prepareForEventOwner() {
+        setupSideMenu()
+    }
+    
+    func prepareForEventViewer() {
+        // here we add the current user to the view list of this event
+        FireBaseManager.sharedInstance.addToViewList(event: self.event)
+        
+    }
   
   override func viewWillDisappear(_ animated: Bool) {
-//    removeFromViewList()
+    // here we remove the current user from the view list of this event
+    if !eventManager.isEventOwner(eventUserID: self.event.userID!) {
+        FireBaseManager.sharedInstance.removeFromViewList(event: self.event)
+    }
     self.playEventViewModelSource?.removeObserver(observer: self)
   }
   
@@ -208,6 +221,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
     guard let finalPlayView = playView else { return }
     self.playEventView = finalPlayView
+  
   }
   
   func setupConstraints() {
@@ -221,7 +235,46 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
   }
     
-    
+    func setupShareView() {
+        self.view.addSubview(shareView)
+        shareView.addSubview(blurEffectView)
+        shareView.addSubview(eventNameAndCodeButtonLabel)
+        shareView.addSubview(shareButton)
+        
+        blurEffectView.anchor(top: shareView.topAnchor,
+                              leading: shareView.leadingAnchor,
+                              bottom: shareView.bottomAnchor,
+                              trailing: shareView.trailingAnchor,
+                              padding: .init(top: 0, left: 0, bottom: 0, right: 0))
+        
+        shareView.anchor(top: nil,
+                         leading: self.view.leadingAnchor,
+                         bottom: self.view.bottomAnchor,
+                         trailing: self.view.trailingAnchor,
+                         padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                         size: .init(width: 0, height: 50))
+      
+        eventNameAndCodeButtonLabel.anchor(top: shareView.topAnchor,
+                                           leading: shareView.leadingAnchor,
+                                           bottom: shareView.bottomAnchor,
+                                           trailing: shareButton.leadingAnchor,
+                                           padding: .init(top: 10, left: 5, bottom: 10, right: 0),
+                                           size: .init(width: 0, height: 0))
+
+        shareButton.anchor(top: shareView.topAnchor,
+                           leading: eventNameAndCodeButtonLabel.trailingAnchor,
+                           bottom: shareView.bottomAnchor,
+                           trailing: shareView.trailingAnchor,
+                           padding: .init(top: 10, left: 5, bottom: 10, right: 80),
+                           size: .init(width: 30, height: 0))
+       
+        
+        eventNameAndCodeButtonLabel.setTitle("Title: \(self.event.eventName) \n Code: \(self.event.eventCode)", for: .normal)
+        shareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
+        
+        
+        self.view.bringSubview(toFront: shareView)
+    }
   
   func setupSideMenu() {
     
@@ -231,7 +284,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     rightMenu.frame = CGRect(x: self.view.frame.maxX - 10,
                              y: 0,
                              width: 80,
-                             height: self.view.frame.height)
+                             height: self.view.frame.height - 50)
     
     rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
    
@@ -240,31 +293,31 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
     // Delegates
     self.rightMenuView?.sideMenuDelegate = self
+    
+    
   }
   
-  // add user to list of viewer
-//  func addToViewList() {
-//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
-//      userID != self.event.userID {
-//      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).setValue("", withCompletionBlock: { (error, _) in
-//        if error != nil {
-//          print("Couldn't add user to views, Error: \(String(describing: error?.localizedDescription))")
-//        }
-//      })
-//    }
-//  }
-//  // remove user from list of viewer
-//  func removeFromViewList() {
-//    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
-//      userID != self.event.userID {
-//      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).removeValue(completionBlock: { (error, _) in
-//        if error != nil {
-//          print("Couldn't remove user from views, Error: \(String(describing: error?.localizedDescription))")
-//        }
-//      })
-//    }
-//    
-//  }
+      @objc func shareButtonPressed(_ sender: UIButton) {
+        // Here it should present the Activity View Controller to send the event Deep link URL
+        // useing Email or SMS
+        let deepLinkURL =  DeepLinkManager.sharedInstance.shareMyDeepLinkURL(eventName: self.event.eventName, eventCode: self.event.eventCode)
+        let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
+        
+        present(activityController, animated: true, completion: nil)
+      }
+
+  // remove user from list of viewer
+  func removeFromViewList() {
+    if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+      userID != self.event.userID {
+      firebaseDatabaseReference.child(firebaseNodeNames.eventDetailNode).child(self.event.eventName).child("views").child(userID).removeValue(completionBlock: { (error, _) in
+        if error != nil {
+          print("Couldn't remove user from views, Error: \(String(describing: error?.localizedDescription))")
+        }
+      })
+    }
+    
+  }
   
   func saveUserDefaultOldEventAndUserID(){
     UserDefaults.standard.set(self.event.eventName, forKey: userDefaultKeyNames.eventNameKey)
@@ -276,17 +329,7 @@ extension PlayEventViewController: SideMenuDelegate {
   func sideMenuEditButtonPressed() {
     // Here we need to implement update feature
   }
-  
-  func sideMenuShareButtonPressed() {
-    
-    // Here it should present the Activity View Controller to send the event Deep link URL
-    // useing Email or SMS    
-   let deepLinkURL =  DeepLinkManager.sharedInstance.shareMyDeepLinkURL(eventName: self.event.eventName, eventCode: self.event.eventCode)
-    let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
-    
-    present(activityController, animated: true, completion: nil)
-  }
-  
+
   func sideMenuPlayButtonPressed() {
 
     ShowSpinner()

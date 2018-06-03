@@ -41,6 +41,8 @@ class AnimationEventDetailViewController: EventDetailViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    setupViews()
+    
     self.animationCollectionView.delegate = self
     self.animationCollectionView.dataSource = self
   }

@@ -41,6 +41,7 @@ class CreatedEventsTableViewCell: UITableViewCell {
         return view
     }()
     
+
    
     
     func configureCell (eventName: String, eventCode : String, eventType: String) {

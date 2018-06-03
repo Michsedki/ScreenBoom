@@ -154,6 +154,14 @@ class EventManager: NSObject {
     }
     
   }
+    
+    func isEventOwner(eventUserID: String) -> Bool {
+        if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
+            userID == eventUserID {
+            return true
+        }
+        return false
+    }
 }
 
 

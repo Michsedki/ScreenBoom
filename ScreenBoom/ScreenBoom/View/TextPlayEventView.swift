@@ -65,5 +65,11 @@ class TextPlayEventView : PlayEventView {
                      trailing: textLabelAnimationView.trailingAnchor,
                      padding: .zero)
     textLabelAnimationView.startCanvasAnimation()
+    if let viewerCount = textEventDetail.viewerCount {
+        updateViewerLabel(viewerCount : viewerCount)
+    }
+    
+    
+    
   }
 }

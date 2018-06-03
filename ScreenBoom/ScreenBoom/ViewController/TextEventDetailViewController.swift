@@ -58,6 +58,8 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   override func viewDidLoad() {
     super.viewDidLoad()
     
+     setupViews()
+    
     self.eventTextField.delegate = self
   }
   
@@ -68,7 +70,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     appDelegate.enableAllOrientation = false
     
-    setupViews()
+   
     loadData()
 
   }

@@ -38,6 +38,7 @@ struct FirebaseNodeNames {
     let eventDetailCodeChild = "code"
     let eventDetailFoneChild = "font"
     let eventDetailFontSizeChild = "fontsize"
+    let eventViewerCount = "views"
   
   
   // Event User Log

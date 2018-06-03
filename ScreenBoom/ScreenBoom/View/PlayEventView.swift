@@ -14,11 +14,27 @@ class PlayEventView: UIView {
   // Constants
   let firebaseNodeNames = FirebaseNodeNames()
   let userDefaultKeyNames = UserDefaultKeyNames()
+    
+    let viewerCountView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    let blurEffectView : UIVisualEffectView = {
+        let view = UIVisualEffectView()
+        view.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        return view
+    }()
+    let viewerCountLabel : UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .clear
+        view.textAlignment = .center
+        view.textColor = .white
+        view.numberOfLines = 0
+        view.sizeToFit()
+        return view
+    }()
 
-  
-  // create Canvas Animation View
-
- 
   let pendingLabelAnimationView: CSAnimationView = {
     let view = CSAnimationView()
     view.backgroundColor = UIColor.clear
@@ -39,10 +55,10 @@ class PlayEventView: UIView {
     
     self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
     
+    // take care that you remove all subviews here 
     for view in self.subviews {
         view.removeFromSuperview()
     }
-    
   }
     
   // Show Pending Event View
@@ -68,7 +84,38 @@ class PlayEventView: UIView {
                                      trailing: pendingLabelAnimationView.trailingAnchor,
                                      padding: .zero)
     pendingLabelAnimationView.startCanvasAnimation()
-  }  
+  }
+    
+    func updateViewerLabel(viewerCount : Int) {
+        
+        addSubview(viewerCountView)
+        viewerCountView.addSubview(blurEffectView)
+        viewerCountView.addSubview(viewerCountLabel)
+        
+        blurEffectView.anchor(top: viewerCountView.topAnchor,
+                              leading: viewerCountView.leadingAnchor,
+                              bottom: viewerCountView.bottomAnchor,
+                              trailing: viewerCountView.trailingAnchor,
+                              padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                              size: .init(width: 0, height: 0))
+        
+        viewerCountView.anchor(top: nil,
+                                leading: nil,
+                                bottom: self.bottomAnchor,
+                                trailing: self.trailingAnchor,
+                                padding: .init(top: 0, left: 0, bottom: 55, right: 0),
+                                size: .init(width: 80, height: 30))
+        viewerCountLabel.anchor(top: viewerCountView.topAnchor,
+                              leading: viewerCountView.leadingAnchor,
+                              bottom: viewerCountView.bottomAnchor,
+                              trailing: viewerCountView.trailingAnchor,
+                              padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                              size: .init(width: 0, height: 0))
+        
+        viewerCountLabel.text = "Views \(viewerCount)"
+
+        print(viewerCount)
+    }
 }
 
 

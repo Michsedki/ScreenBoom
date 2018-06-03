@@ -44,40 +44,12 @@ class RightMenuView: UIView {
     view.setImage(UIImage(named: "delete"), for: .normal)
     return view
   }()
-  let eventNameAndCodeButtonLabel : UIButton = {
-    let view = UIButton()
-    view.sizeToFit()
-    view.titleLabel?.adjustsFontSizeToFitWidth = true
-    view.titleLabel?.numberOfLines = 0
-    view.titleLabel?.textAlignment = .left
-    view.backgroundColor = UIColor.clear
-    view.titleLabel?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-    view.isEnabled = false
-    return view
-  }()
-  let shareButton : UIButton = {
-    let view = UIButton()
-    view.setImage(UIImage(named: "share"), for: .normal)
-    return view
-  }()
-    
-    let actionButtonStack : UIStackView = {
-       let view = UIStackView()
-        view.backgroundColor = .blue
-        
-        return view
-    }()
-  
-    
+
     func configureWith(event: Event, eventCode: String) {
     
     backgroundColor = UIColor.clear
-    
-    eventNameAndCodeButtonLabel.setTitle("Title: \(event.eventName) \n Code: \(eventCode)", for: .normal)
-    
+
     addSubview(blurEffectView)
-    addSubview(shareButton)
-    addSubview(eventNameAndCodeButtonLabel)
     
     // set the right Menu only if the owner is playing the event
     if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String,
@@ -119,28 +91,13 @@ class RightMenuView: UIView {
                        trailing: trailingAnchor,
                        padding: .init(top: 10, left: 20, bottom: 0, right: 20),
                        size: .init(width: 0, height: 40))
-    shareButton.anchor(top: deleteButton.bottomAnchor,
-                      leading: leadingAnchor,
-                      bottom: nil,
-                      trailing: trailingAnchor,
-                      padding: .init(top: 15, left: 20, bottom: 0, right: 20),
-                      size: .init(width: 0, height: 40))
-    eventNameAndCodeButtonLabel.anchor(top: shareButton.bottomAnchor,
-                                       leading: leadingAnchor,
-                                       bottom: bottomAnchor,
-                                       trailing: trailingAnchor,
-                                       padding: .init(top: 10, left: 20, bottom: 10, right: 20),
-                                       size: .init(width: 0, height: 0))
-    
     addButtonsAction()
     
     
   }
   
   func addButtonsAction() {
-    
-    shareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
-    
+
     pauseButton.addTarget(self, action:#selector(pauseButtonPressed(_:)), for: .touchUpInside)
     
     playButton.addTarget(self, action: #selector(playButtonPressed(_:)), for: .touchUpInside)
@@ -180,10 +137,4 @@ class RightMenuView: UIView {
     
     self.sideMenuDelegate?.sideMenuPauseButtonPressed()
   }
-  
-  @objc func shareButtonPressed(_ sender: UIButton) {
-    
-    self.sideMenuDelegate?.sideMenuShareButtonPressed()
-  }
-  
 }

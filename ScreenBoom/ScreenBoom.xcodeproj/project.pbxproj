@@ -12,7 +12,6 @@
 		1842376420BF5F2D001147BA /* EventDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376320BF5F2D001147BA /* EventDetailManager.swift */; };
 		1842376620BFB664001147BA /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376520BFB664001147BA /* DeepLinkManager.swift */; };
 		1842376820C0002C001147BA /* IntegrationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376720C0002B001147BA /* IntegrationInfo.swift */; };
-		1842376C20C1C455001147BA /* OwnerOptionButtonstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376B20C1C455001147BA /* OwnerOptionButtonstView.swift */; };
 		3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */; };
 		3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */; };
 		3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */; };
@@ -79,7 +78,6 @@
 		1842376320BF5F2D001147BA /* EventDetailManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailManager.swift; sourceTree = "<group>"; };
 		1842376520BFB664001147BA /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		1842376720C0002B001147BA /* IntegrationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationInfo.swift; sourceTree = "<group>"; };
-		1842376B20C1C455001147BA /* OwnerOptionButtonstView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwnerOptionButtonstView.swift; sourceTree = "<group>"; };
 		3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSourceObserver.swift; sourceTree = "<group>"; };
 		3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSource.swift; sourceTree = "<group>"; };
 		3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModel.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 				37E8D42A2054A99D008D83B1 /* RightMenuView.swift */,
 				378AB0B02065B9930074E4B7 /* TextPlayEventView.swift */,
 				378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */,
-				1842376B20C1C455001147BA /* OwnerOptionButtonstView.swift */,
 				378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */,
 				1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */,
 			);
@@ -489,7 +486,6 @@
 				378AB09F2064B1FE0074E4B7 /* PhotoEventDetail.swift in Sources */,
 				37E8D42B2054A99F008D83B1 /* RightMenuView.swift in Sources */,
 				378AB0B7206702CB0074E4B7 /* SideMenuDelegate.swift in Sources */,
-				1842376C20C1C455001147BA /* OwnerOptionButtonstView.swift in Sources */,
 				3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */,
 				1842376820C0002C001147BA /* IntegrationInfo.swift in Sources */,
 				3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */,

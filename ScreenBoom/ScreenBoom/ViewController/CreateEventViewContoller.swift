@@ -15,7 +15,11 @@ class CreateEventViewController: BaseViewController {
     @IBOutlet weak var eventNameTextfield: UITextField!
     @IBOutlet weak var eventTypePickerview: UIPickerView!
     @IBOutlet weak var max10EventsLabel: UILabel!
-    @IBOutlet weak var createdEventsTableView: UITableView!
+    
+    var createdEventsTableView : UITableView = {
+        let view = UITableView()
+        return view
+    }()
     
     /// Mark:- Constants
     let constantNames = ConstantNames.sharedInstance
@@ -33,11 +37,11 @@ class CreateEventViewController: BaseViewController {
         self.view.backgroundColor = .white
         
         /// Mark:- Delegate
-        eventTypePickerview.delegate = self
-        eventTypePickerview.dataSource = self
         eventNameTextfield.delegate = self
-        createdEventsTableView.delegate = self
-        createdEventsTableView.dataSource = self
+        
+        pickerViewDelegateAndDataSourceAndCellRegister()
+        
+        tableViewDelegateAndDataSourceAndCellRegister()
         
         setUpTableView()
         
@@ -59,7 +63,7 @@ class CreateEventViewController: BaseViewController {
         
         // we will check number of created events by current user if equal to 10 we will
         // disable the createEventButton untill the user delete some events
-        checkUserCreatedEventsCount()
+        getUserCreatedEvents()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,7 +73,7 @@ class CreateEventViewController: BaseViewController {
     }
     
     
-    func checkUserCreatedEventsCount() {
+    func getUserCreatedEvents() {
         FireBaseManager.sharedInstance.getUserCreatedEvents { (result) in
             switch result {
             case .Failure(let error):
@@ -225,6 +229,11 @@ class CreateEventViewController: BaseViewController {
 // Extension to handle the PickerView Protocol
 extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     
+    func pickerViewDelegateAndDataSourceAndCellRegister () {
+        eventTypePickerview.delegate = self
+        eventTypePickerview.dataSource = self
+    }
+    
     func setUpEventTypePickerview() {
         eventTypePickerview.backgroundColor = .white
         eventTypePickerview.subviews[1].isHidden = true
@@ -268,7 +277,20 @@ extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSour
 
 extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func tableViewDelegateAndDataSourceAndCellRegister() {
+        createdEventsTableView.delegate = self
+        createdEventsTableView.dataSource = self
+        createdEventsTableView.register(CreatedEventsTableViewCell.self, forCellReuseIdentifier: "CreatedEventsTableViewCell")
+    }
+    
     func setUpTableView() {
+        
+        self.view.addSubview(createdEventsTableView)
+        createdEventsTableView.anchor(top: max10EventsLabel.bottomAnchor,
+                                     leading: max10EventsLabel.leadingAnchor,
+                                     bottom: self.view.bottomAnchor,
+                                     trailing: max10EventsLabel.trailingAnchor,
+                                     padding: .init(top: 0, left: 0, bottom: 50, right: 0))
         createdEventsTableView.rowHeight = UITableViewAutomaticDimension
         createdEventsTableView.estimatedRowHeight = 140
         createdEventsTableView.backgroundColor = .clear

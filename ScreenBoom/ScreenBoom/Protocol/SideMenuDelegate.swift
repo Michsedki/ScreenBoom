@@ -10,7 +10,6 @@ import Foundation
 
 protocol SideMenuDelegate {
   func sideMenuEditButtonPressed()
-  func sideMenuShareButtonPressed()
   func sideMenuPauseButtonPressed()
   func sideMenuPlayButtonPressed()
   func sideMenuDeleteButtonPressed()
