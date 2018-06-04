@@ -57,11 +57,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   // init
   init (event:Event, eventDetail: EventDetail) {
     self.event = event
-//    var tempEventDetail : EventDetail?
-//    if let texteventDetail = eventDetail as? TextEventDetail {
-//        print(texteventDetail.text)
-//        tempEventDetail = texteventDetail
-//    }
+
     self.eventDetail = eventDetail
     
     super.init(nibName: nil, bundle: nil)
@@ -141,7 +137,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         rightMenu.frame = CGRect(x: size.width - 10,
                                  y: 0,
                                  width: 80,
-                                 height: size.height - 50)
+                                 height: size.height - 90)
         self.view.bringSubview(toFront: rightMenu)
         rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
     }
@@ -158,11 +154,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
    
     addSwipGuestureRecognizers()
     
-    
-    
-    // add Event To User Log
-//    addEventToUserEvents()
-    
+
     // Now that the view has been loaded we can safely setup our
     // constraints
     setupConstraints()
@@ -284,7 +276,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     rightMenu.frame = CGRect(x: self.view.frame.maxX - 10,
                              y: 0,
                              width: 80,
-                             height: self.view.frame.height - 50)
+                             height: self.view.frame.height - 90)
     
     rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
    

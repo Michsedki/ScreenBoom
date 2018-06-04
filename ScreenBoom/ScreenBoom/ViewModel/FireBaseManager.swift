@@ -199,5 +199,29 @@ class FireBaseManager {
         
     }
     
+    func getEventsCount(completion: (@escaping(Result<String>) -> Void))  {
+        REF_Event.observeSingleEvent(of: .value) { (eventSnapShot) in
+            if eventSnapShot.childrenCount > 0 {
+                completion(Result.Success(String(eventSnapShot.childrenCount)))
+            } else {
+                completion(Result.Failure("No Event count to show"))
+                
+            }
+        }
+        
+    }
+    
+    func getUserCount(completion: (@escaping(Result<String>) -> Void)) {
+        REF_UUID_Events.observeSingleEvent(of: .value) { (userSnapShot) in
+            if userSnapShot.childrenCount > 0 {
+                completion(Result.Success(String(userSnapShot.childrenCount)))
+            } else {
+                completion(Result.Failure("No User count to show"))
+                
+            }
+        }
+        
+    }
+    
     
 }
