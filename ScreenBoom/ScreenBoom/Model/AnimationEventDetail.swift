@@ -9,16 +9,22 @@
 import Foundation
 
 class AnimationEventDetail: EventDetail {
-  
-  var animationStringURL: String?
-  
-  init(animationStringURL: String?, code: String?){
     
-    super.init(code: code)
-    self.animationStringURL = animationStringURL
-  }
-  
-  required init(from decoder: Decoder) throws {
-    fatalError("init(from:) has not been implemented")
-  }
+    var animationStringURL: String?
+    var photo: UIImage?
+    
+    
+    init(animationStringURL: String?, code: String?, photo:UIImage? = nil){
+        
+        super.init(code: code)
+        self.animationStringURL = animationStringURL
+        self.photo = photo
+    }
+    
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    func configureWithPhoto(photo: UIImage) {
+        self.photo = photo
+    }
 }

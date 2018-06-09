@@ -52,8 +52,8 @@ class EventDetailViewController: BaseViewController  {
     
     // here after we create the event successfully we can do all extra work
     // like add the event to uuid-Events node under created node
-    func completeCreateEvent(event :Event) {
-        FireBaseManager.sharedInstance.addEventToUserCreatedEvents(event: event)
+    func completeCreateEvent(event :Event, eventDetail: EventDetail) {
+        FireBaseManager.sharedInstance.addEventToUserCreatedEvents(event: event, eventDetail: eventDetail)
     }
 }
 

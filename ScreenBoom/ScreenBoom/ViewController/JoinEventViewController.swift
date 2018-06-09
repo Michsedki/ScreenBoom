@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import GoogleMobileAds
 
 class JoinEventViewController: BaseViewController {
     
@@ -17,6 +18,7 @@ class JoinEventViewController: BaseViewController {
     var eventManager = EventManager()
     var eventDetailManager = EventDetailManager()
     var joinedEvents = [[String:String]]()
+    var bannerView: GADBannerView!
     
     var joinedEventsTableView : UITableView = {
         let view = UITableView()
@@ -32,7 +34,7 @@ class JoinEventViewController: BaseViewController {
         
         tableViewDelegateAndDataSourceAndCellRegister()
         
-        // Do any additional setup after loading the view.
+        GADDelegateAndSetup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +47,7 @@ class JoinEventViewController: BaseViewController {
     }
     
     func getUserJoinedEvents() {
+        self.ShowSpinner()
         FireBaseManager.sharedInstance.getUserJoinedEvents { (result) in
             switch result {
             case .Failure(let error):
@@ -54,10 +57,9 @@ class JoinEventViewController: BaseViewController {
             case .Success(let joinedEvents):
                 self.joinedEvents = joinedEvents
                 self.joinedEventsTableView.reloadData()
-                
-                //                print(joinedEvents)
                 break
             }
+            self.HideSpinner()
         }
     }
     
@@ -107,8 +109,8 @@ class JoinEventViewController: BaseViewController {
             } else {
                 self.infoView(message: "Code is not valid", color: Colors.smoothRed)
             }
+             self.HideSpinner()
         }
-        self.HideSpinner()
     }
     
     func getEventDetail() {
@@ -119,7 +121,7 @@ class JoinEventViewController: BaseViewController {
                 print(errorString)
             case .Success(let eventDetail):
     if !self.eventManager.isEventOwner(eventUserID: event.userID!) && !self.joinedEventsContains(eventName: event.eventName)  {
-                    FireBaseManager.sharedInstance.addEventToUserJoinedEvents(event: event)
+                    FireBaseManager.sharedInstance.addEventToUserJoinedEvents(event: event, eventDetail: eventDetail)
                 }
                 self.showPlayEventViewController(event: event, eventDetail: eventDetail)
             }
@@ -194,17 +196,13 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.joinedEventsTableView.dequeueReusableCell(withIdentifier: "CreatedEventsTableViewCell", for: indexPath) as? CreatedEventsTableViewCell {
-            if let eventName = self.joinedEvents[indexPath.row]["eventName"],
-                let eventCode = self.joinedEvents[indexPath.row]["eventCode"],
-                let eventType = self.joinedEvents[indexPath.row]["eventType"] {
-                cell.configureCell(eventName: eventName, eventCode: eventCode, eventType: eventType)
+            
+                cell.configureCell(eventInfoDic: self.joinedEvents[indexPath.row])
                 cell.eventShareButton.tag = indexPath.row
                 cell.eventShareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
                 
                 return cell
-            }
-            
-            
+        
         }
         return UITableViewCell()
     }
@@ -237,17 +235,76 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            ShowSpinner()
+            self.ShowSpinner()
             
-//            print(joinedEvents[indexPath.row]["Key"])
-            FireBaseManager.sharedInstance.removeFromUserJoinedEvents(joinedEventID:  joinedEvents[indexPath.row]["Key"]!) { (result) in
+            FireBaseManager.sharedInstance.removeFromUserJoinedEvents(joinedEventID:  joinedEvents[indexPath.row]["key"]!) { (result) in
                 if result {
                     self.joinedEvents.remove(at: indexPath.row)
                     self.joinedEventsTableView.reloadData()
                 }
+            self.HideSpinner()
             }
-            HideSpinner()
         }
+    }
+}
+
+extension JoinEventViewController : GADBannerViewDelegate {
+    
+    func GADDelegateAndSetup() {
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        
+        bannerView.delegate = self
+        bannerView.rootViewController = self
+        
+        // In this case, we instantiate the banner with desired ad size.
+        bannerView.adUnitID = GADAppToken.sharedInstance.token
+        bannerView.load(GADRequest())
+        
+    }
+    
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        bannerView.anchor(top: nil,
+                           leading: self.view.leadingAnchor,
+                           bottom: self.view.bottomAnchor,
+                           trailing: self.view.trailingAnchor,
+                           padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                           size: .init(width: 0, height: 50))
+
+    }
+    /// Tells the delegate an ad request loaded an ad.
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        addBannerViewToView(bannerView)
+        print("adViewDidReceiveAd")
+    }
+    
+    /// Tells the delegate an ad request failed.
+    func adView(_ bannerView: GADBannerView,
+                didFailToReceiveAdWithError error: GADRequestError) {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+    
+    /// Tells the delegate that a full-screen view will be presented in response
+    /// to the user clicking on an ad.
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("adViewWillPresentScreen")
+    }
+    
+    /// Tells the delegate that the full-screen view will be dismissed.
+    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewWillDismissScreen")
+    }
+    
+    /// Tells the delegate that the full-screen view has been dismissed.
+    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewDidDismissScreen")
+    }
+    
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        print("adViewWillLeaveApplication")
     }
     
 }

@@ -58,11 +58,26 @@ class FireBaseManager {
     
     
     // for created event
-    func addEventToUserCreatedEvents(event: Event) {
+    func addEventToUserCreatedEvents(event: Event, eventDetail: EventDetail) {
         // we need to keep track of the type so we retrive the type when we build the created tableview
-        // that is why we concatenate the type of the event with the code and separate them by _
-        let eventCode_Type = "\(event.eventCode)_\(event.eventType.rawValue)"
-        REF_UUID_Events_Current_User_Created?.updateChildValues([event.eventName: eventCode_Type], withCompletionBlock: { (error, _) in
+        // also we need to keep track for the photoURL or gifPhotoURL
+        // that is why we concatenate the type of the event with the code and separate them by "**"
+        var eventCode_Type_url = "\(event.eventCode)**\(event.eventType.rawValue)"
+        switch event.eventType {
+        case .Text, .Unknown:
+            break
+        case .Photo, .Animation:
+            if let photoEventDetail = eventDetail as? PhotoEventDetail,
+                let photoURL = photoEventDetail.photoname {
+                eventCode_Type_url = eventCode_Type_url + "**\(photoURL))"
+            } else if let animationEventDetail = eventDetail as? AnimationEventDetail,
+                let animationURL = animationEventDetail.animationStringURL {
+                eventCode_Type_url = eventCode_Type_url + "**\(animationURL)"
+            }
+            break
+        }
+        
+        REF_UUID_Events_Current_User_Created?.updateChildValues([event.eventName: eventCode_Type_url], withCompletionBlock: { (error, _) in
             if error != nil {
                  print("Couldn't Add Event to User Events, Error: \(String(describing: error?.localizedDescription))")
             }
@@ -86,10 +101,15 @@ class FireBaseManager {
         REF_UUID_Events_Current_User_Created?.observeSingleEvent(of: .value, with: { (createdEventsSnapShot) in
             if let createdEventDic = createdEventsSnapShot.value as? [String:String] {
                 for item in createdEventDic {
-                    let (eventCode, eventType) = self.separateEventCodeAndType(eventCodeAndType: item.value)
-                    createdEvents.append(["eventName" : item.key ,
-                                          "eventCode" : eventCode,
-                                          "eventType" : eventType])
+                    let eventInfoDic = self.separateEventCodeAndType(eventCodeAndType: item.value)
+                    var eventInfoObject = ["eventName" : item.key ,
+                                           "eventCode" : eventInfoDic[0],
+                                           "eventType" : eventInfoDic[1]]
+                    if eventInfoDic[1] == "photo" || eventInfoDic[1] == "animation" {
+                        eventInfoObject["eventPhotoURL"] = eventInfoDic[2]
+                    }
+                    
+                    createdEvents.append(eventInfoObject)
                 }
                 let sortedcreatedEvents : [[String:String]] =
                     createdEvents.sorted(by: { $0["eventName"]! < $1["eventName"]! })
@@ -101,17 +121,30 @@ class FireBaseManager {
         })
     }
     
-    func separateEventCodeAndType(eventCodeAndType: String) -> ( String, String) {
-        let dic = eventCodeAndType.components(separatedBy: "_")
-//        print(dic[0])
-//        print(dic[1])
-        return (dic[0], dic[1])
+    func separateEventCodeAndType(eventCodeAndType: String) -> ([String]) {
+        let dic = eventCodeAndType.components(separatedBy: "**")
+
+        return dic
     }
     
     // for join event
-    func addEventToUserJoinedEvents(event: Event) {
-        let eventCode_Type = "\(event.eventCode)_\(event.eventType.rawValue)"
-        REF_UUID_Events_Current_User_Joined?.childByAutoId().updateChildValues([event.eventName: eventCode_Type], withCompletionBlock: { (error, _) in
+    func addEventToUserJoinedEvents(event: Event, eventDetail: EventDetail) {
+        var eventCode_Type_url = "\(event.eventCode)**\(event.eventType.rawValue)"
+        switch event.eventType {
+        case .Text, .Unknown:
+            break
+        case .Photo, .Animation:
+            if let photoEventDetail = eventDetail as? PhotoEventDetail,
+                let photoURL = photoEventDetail.photoname {
+                eventCode_Type_url = eventCode_Type_url + "**\(photoURL))"
+            } else if let animationEventDetail = eventDetail as? AnimationEventDetail,
+                let animationURL = animationEventDetail.animationStringURL {
+                eventCode_Type_url = eventCode_Type_url + "**\(animationURL)"
+            }
+            break
+        }
+        
+        REF_UUID_Events_Current_User_Joined?.childByAutoId().updateChildValues([event.eventName: eventCode_Type_url], withCompletionBlock: { (error, _) in
             if error != nil {
                 print("Couldn't Add Event to User Joined Events, Error: \(String(describing: error?.localizedDescription))")
             }
@@ -141,16 +174,21 @@ class FireBaseManager {
                 for(key, value) in joinedEventsSnapShotValue {
                     
                         for item in value {
-                            let (eventCode, eventType) = self.separateEventCodeAndType(eventCodeAndType: item.value)
-                            joinedEvents.append(["Key" : key,
-                                                 "eventName" : item.key ,
-                                                  "eventCode" : eventCode,
-                                                  "eventType" : eventType])
+                            let eventInfoDic = self.separateEventCodeAndType(eventCodeAndType: item.value)
+                            var eventInfoObject = ["key" : key,
+                                                   "eventName" : item.key ,
+                                                   "eventCode" : eventInfoDic[0],
+                                                   "eventType" : eventInfoDic[1]]
+                            if eventInfoDic[1] == "photo" || eventInfoDic[1] == "animation" {
+                                eventInfoObject["eventPhotoURL"] = eventInfoDic[2]
+                            }
+                            
+                            joinedEvents.append(eventInfoObject)
                         }
                 }
                 
                 let sortedjoinedEvents : [[String:String]] =
-                    joinedEvents.sorted(by: { $0["Key"]! > $1["Key"]! })
+                    joinedEvents.sorted(by: { $0["key"]! > $1["key"]! })
                 
                 var count = 1
                 
@@ -160,7 +198,7 @@ class FireBaseManager {
                   finalJoinedEvents.append(Obj)
                     } else {
                         // remove the next object
-                        self.REF_UUID_Events_Current_User_Joined?.child(Obj["Key"]!).removeValue()
+                        self.REF_UUID_Events_Current_User_Joined?.child(Obj["key"]!).removeValue()
                     }
                     count = count + 1
                 }

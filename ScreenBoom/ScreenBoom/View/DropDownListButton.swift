@@ -25,7 +25,6 @@ class dropDownBtn: UIButton, dropDownProtocol {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
     self.sizeToFit()
     self.titleLabel?.adjustsFontSizeToFitWidth = true
     self.titleLabel?.numberOfLines = 0
@@ -125,7 +124,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     let cell = UITableViewCell()
     cell.textLabel?.text = dropDownOptions[indexPath.row]
     cell.textLabel?.textAlignment = .center
-    cell.textLabel?.textColor = .white
+    cell.textLabel?.textColor = Colors.lightBlue
     cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
     cell.backgroundColor = UIColor.clear
     cell.selectionStyle = .none

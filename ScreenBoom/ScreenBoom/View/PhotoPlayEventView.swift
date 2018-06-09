@@ -34,7 +34,9 @@ class PhotoPlayEventView : PlayEventView {
         
         guard let photoEventDetail = viewModel.eventDetail as? PhotoEventDetail else { return}
        
-        if let photoName = photoEventDetail.photoname,
+        if let image = photoEventDetail.photo {
+            photoEventImageView.image = image
+        } else if let photoName = photoEventDetail.photoname,
             let url = URL(string : photoName) {
             photoEventImageView.sd_setShowActivityIndicatorView(true)
             photoEventImageView.sd_setIndicatorStyle(.gray)
@@ -43,19 +45,6 @@ class PhotoPlayEventView : PlayEventView {
             photoEventImageView.image = UIImage(named: "placeHolder")
         }
         
-//        
-//        
-//        if photoEventDetail.photoname == "placeHolder" {
-//            
-//            //Place Holder
-//            photoEventImageView.image = UIImage(named: "placeHolder")
-//        }
-        
-       
-        
-        if let image = photoEventDetail.photo {
-            photoEventImageView.image = image
-        }
         
         addSubview(photoEventImageView)
         photoEventImageView.anchor(top: self.topAnchor,

@@ -52,6 +52,13 @@ struct FirebaseNodeNames {
   let eventImagesFolderName = "EventImages"
   
 }
+
+struct GADAppToken {
+    static let sharedInstance = GADAppToken()
+
+    let token = "ca-app-pub-3940256099942544/2934735716"
+}
+
 struct ImageNames {
   let delete = "delete"
   let share = "share"
@@ -64,8 +71,20 @@ struct ImageNames {
 
 struct ConstantNames {
     static let sharedInstance = ConstantNames()
-  
-  let colorsNamesList = ["Blue", "Green", "Magenta", "White", "Black", "Purple"]
+  let colorsNamesList = ["Black",
+                         "Blue",
+                         "Brown",
+                         "Cyan",
+                         "Dark Gray",
+                         "Gray",
+                         "Green",
+                         "Light Gray",
+                         "Magenta",
+                         "Orange",
+                         "Purple",
+                         "Red",
+                         "White",
+                         "Yellow"]
   let animationNamesArray = ["Shake", "Zoom", "pop"]
   var fontNames = [String]()
   var fontStyle = [String]()

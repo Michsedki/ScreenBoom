@@ -12,7 +12,17 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   
     var eventDetail: TextEventDetail
     
-    var eventTextField: UITextField = UITextField()
+    let eventTextField: UITextField = {
+       let view = UITextField()
+        view.backgroundColor = .lightGray
+        // Create a padding view for padding on left
+        view.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: view.frame.height))
+        view.leftViewMode = .always
+        view.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
+        view.roundIt()
+        return view
+    }()
+    
     var textColorDropDownButton: dropDownBtn = dropDownBtn()
     var backgroundColorDropDownButton: dropDownBtn = dropDownBtn()
     
@@ -66,6 +76,9 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    let value = UIInterfaceOrientation.portrait.rawValue
+    UIDevice.current.setValue(value, forKey: "orientation")
+    
     // disaple Rotation for this view controller
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     appDelegate.enableAllOrientation = false
@@ -111,7 +124,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     
   func setupViews() {
     
-    self.view.backgroundColor = .black
+    self.view.backgroundColor = .white
     
     // create Navigation bar right buttom "Create"
     let createRightBarButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(TextEventDetailViewController.rightBarButtonPressed(_:)))
@@ -162,30 +175,18 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     increaseFontSizeButton.addTarget(self, action: #selector(fontResizeButtonPressed(_:)), for: .touchUpInside)
     decreaseFontSizeButton.addTarget(self, action: #selector(fontResizeButtonPressed(_:)), for: .touchUpInside)
     
-    
-    
-    // add text input field
     self.view.addSubview(eventTextField)
+    self.view.addSubview(textColorDropDownButton)
+    self.view.addSubview(backgroundColorDropDownButton)
+    
     eventTextField.anchor(top: playEventPreviewContainerView.bottomAnchor,
                           leading: self.view.leadingAnchor,
                           bottom: nil,
                           trailing: self.view.trailingAnchor,
                           padding: .init(top: 10, left: 10, bottom: 0, right: 10),
                           size: .init(width: 0, height: 40))
-    eventTextField.backgroundColor = UIColor.white
     eventTextField.addTarget(self, action: #selector(TextEventDetailViewController.textFieldDidChanged(_:)), for: .editingChanged)
-    //add textColorDropDown
-    //Configure the button
-    textColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    textColorDropDownButton.setTitle(constantNames.textColorButtonTitle, for: .normal)
-    backgroundColorDropDownButton = dropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    backgroundColorDropDownButton.setTitle(constantNames.backgroungButtonTitle, for: .normal)
     
-    //Add Button to the View Controller
-    self.view.addSubview(textColorDropDownButton)
-    self.view.addSubview(backgroundColorDropDownButton)
-    
-    //button Constraints
     textColorDropDownButton.anchor(top: eventTextField.bottomAnchor,
                                    leading: self.view.leadingAnchor,
                                    bottom: nil,
@@ -199,25 +200,15 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
                                          padding: .init(top: 10, left: 5, bottom: 0, right: 5),
                                          size: .init(width: (self.view.frame.width - 30) / 2, height: 40))
     
-    
     //Set the drop down menu's options
     textColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
     backgroundColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
-    
-    // set dropDownButtonTitle in the dropDown
-    textColorDropDownButton.dropView.dropDownButtonTitle = constantNames.textColorButtonTitle
-    backgroundColorDropDownButton.dropView.dropDownButtonTitle = constantNames.backgroungButtonTitle
-    
-    
-    
+
     let dropDownButtons = [textColorDropDownButton,
-                           backgroundColorDropDownButton
-                           ]
-    dropDownButtons.forEach{$0.layer.borderWidth = 2}
-    dropDownButtons.forEach{$0.layer.cornerRadius = 5}
-    dropDownButtons.forEach{$0.layer.borderColor = UIColor.orange.cgColor}
-    dropDownButtons.forEach{$0.titleLabel?.textColor = UIColor.orange}
-    dropDownButtons.forEach{$0.backgroundColor = UIColor.clear}
+                           backgroundColorDropDownButton]
+    
+    dropDownButtons.forEach{$0.backgroundColor = Colors.lightBlue}
+    dropDownButtons.forEach{$0.roundIt()}
     
     // set the dropdown delegation for all buttons
     self.textColorDropDownButton.dropView.dropDownSelectionDelegate = self
@@ -288,7 +279,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
           case .Success():
             
             self.infoView(message: "Event Created Successfully ", color: Colors.lightGreen)
-            self.completeCreateEvent(event: self.event)
+            self.completeCreateEvent(event: self.event, eventDetail: self.eventDetail)
             self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
           }
         })

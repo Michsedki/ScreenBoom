@@ -72,6 +72,9 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    let value = UIInterfaceOrientation.portrait.rawValue
+    UIDevice.current.setValue(value, forKey: "orientation")
+    
     // disaple Rotation for this view controller
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     appDelegate.enableAllOrientation = false
@@ -246,7 +249,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
           case .Success():
             
             self.infoView(message: "Event Created Successfully ", color: Colors.lightGreen)
-            self.completeCreateEvent(event: self.event)
+            self.completeCreateEvent(event: self.event, eventDetail: self.eventDetail)
             self.showPlayEventViewController(event: self.event, eventDetail: self.eventDetail)
           }
         })

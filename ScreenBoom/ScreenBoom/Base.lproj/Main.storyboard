@@ -33,7 +33,7 @@
         <!--Create Event-->
         <scene sceneID="X5J-ic-XLM">
             <objects>
-                <viewController storyboardIdentifier="CreateEventViewController" modalTransitionStyle="partialCurl" id="vZa-a9-lVI" customClass="CreateEventViewController" customModule="ScreenBoom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateEventViewController" modalTransitionStyle="flipHorizontal" id="vZa-a9-lVI" customClass="CreateEventViewController" customModule="ScreenBoom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qq2-uO-bOU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import GoogleMobileAds
 
 class CreateEventViewController: BaseViewController {
     
@@ -30,6 +31,8 @@ class CreateEventViewController: BaseViewController {
     let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
     var currentEventType:EventType = .Text
     var createdEvents = [[String:String]]()
+    var bannerView: GADBannerView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +47,8 @@ class CreateEventViewController: BaseViewController {
         tableViewDelegateAndDataSourceAndCellRegister()
         
         setUpTableView()
+        
+        GADDelegateAndSetup()
         
     }
     
@@ -63,7 +68,9 @@ class CreateEventViewController: BaseViewController {
         
         // we will check number of created events by current user if equal to 10 we will
         // disable the createEventButton untill the user delete some events
+
         getUserCreatedEvents()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,6 +81,7 @@ class CreateEventViewController: BaseViewController {
     
     
     func getUserCreatedEvents() {
+        self.ShowSpinner()
         FireBaseManager.sharedInstance.getUserCreatedEvents { (result) in
             switch result {
             case .Failure(let error):
@@ -82,8 +90,11 @@ class CreateEventViewController: BaseViewController {
                 self.createdEvents = createdEvents
                 self.createdEventsTableView.reloadData()
                 print(createdEvents)
+                self.HideSpinner()
+
             }
         }
+
     }
     
     
@@ -101,7 +112,7 @@ class CreateEventViewController: BaseViewController {
             return
         }
         
-        guard let eventName = eventNameTextfield.text, !eventName.isEmpty else {
+        guard let eventName = eventNameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), !eventName.isEmpty else {
             self.infoView(message: "No event name!", color: Colors.smoothRed)
             return
         }
@@ -177,8 +188,8 @@ class CreateEventViewController: BaseViewController {
             } else {
                 eventDetailItem = TextEventDetail(
                     animationName: constantNames.animationNamesArray[0],
-                    backgroundcolor: constantNames.colorsNamesList[3],
-                    textcolor: constantNames.colorsNamesList[0],
+                    backgroundcolor: constantNames.colorsNamesList[1],
+                    textcolor: constantNames.colorsNamesList[12],
                     speed: 0,
                     text: "Your Text",
                     font: constantNames.fontNames[0],
@@ -313,14 +324,12 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.createdEventsTableView.dequeueReusableCell(withIdentifier: "CreatedEventsTableViewCell", for: indexPath) as? CreatedEventsTableViewCell {
-            if let eventName = self.createdEvents[indexPath.row]["eventName"],
-                let eventCode = self.createdEvents[indexPath.row]["eventCode"],
-                let eventType = self.createdEvents[indexPath.row]["eventType"] {
-                cell.configureCell(eventName: eventName, eventCode: eventCode, eventType: eventType)
+           
+                cell.configureCell(eventInfoDic: self.createdEvents[indexPath.row])
                 cell.eventShareButton.tag = indexPath.row
                 cell.eventShareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
                 return cell
-            }
+            
         }
         return UITableViewCell()
     }
@@ -370,15 +379,74 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
                     self.infoView(message: "Event deleted", color: Colors.lightGreen)
                     break
                 }
+                self.HideSpinner()
             })
-            self.HideSpinner()
         }
     }
     
+}
+
+extension CreateEventViewController : GADBannerViewDelegate {
     
+    func GADDelegateAndSetup() {
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        
+        bannerView.delegate = self
+        bannerView.rootViewController = self
+        
+        // In this case, we instantiate the banner with desired ad size.
+        bannerView.adUnitID = GADAppToken.sharedInstance.token
+        bannerView.load(GADRequest())
+        
+    }
     
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        bannerView.anchor(top: nil,
+                          leading: self.view.leadingAnchor,
+                          bottom: self.view.bottomAnchor,
+                          trailing: self.view.trailingAnchor,
+                          padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                          size: .init(width: 0, height: 50))
+        
+    }
+    /// Tells the delegate an ad request loaded an ad.
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        addBannerViewToView(bannerView)
+        print("adViewDidReceiveAd")
+    }
     
+    /// Tells the delegate an ad request failed.
+    func adView(_ bannerView: GADBannerView,
+                didFailToReceiveAdWithError error: GADRequestError) {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+    
+    /// Tells the delegate that a full-screen view will be presented in response
+    /// to the user clicking on an ad.
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("adViewWillPresentScreen")
+    }
+    
+    /// Tells the delegate that the full-screen view will be dismissed.
+    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewWillDismissScreen")
+    }
+    
+    /// Tells the delegate that the full-screen view has been dismissed.
+    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewDidDismissScreen")
+    }
+    
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        print("adViewWillLeaveApplication")
+    }
     
 }
+
+
 
 

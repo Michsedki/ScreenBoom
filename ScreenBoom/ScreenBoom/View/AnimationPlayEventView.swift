@@ -30,13 +30,18 @@ class AnimationPlayEventView : PlayEventView {
         }
         
         guard let animationEventDetail = viewModel.eventDetail as? AnimationEventDetail else { return }
-        
-        if let animationStringURL = animationEventDetail.animationStringURL {
-            photoEventImageView.loadGif(name: animationStringURL)
+
+        if let image = animationEventDetail.photo {
+            photoEventImageView.image = image
+        } else if let animationStringURL = animationEventDetail.animationStringURL,
+            let image = UIImage.gif(url: animationStringURL){
+            photoEventImageView.image = image
         } else {
             // Place Holder Emage
             photoEventImageView.image = UIImage(named: "placeHolder")
         }
+        
+       
         addSubview(photoEventImageView)
         photoEventImageView.anchor(top: self.topAnchor,
                                    leading: self.leadingAnchor,

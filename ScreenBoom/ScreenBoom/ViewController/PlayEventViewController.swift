@@ -44,7 +44,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         view.titleLabel?.numberOfLines = 0
         view.titleLabel?.textAlignment = .left
         view.backgroundColor = UIColor.clear
-//        view.titleLabel?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
         view.isEnabled = false
         return view
     }()
@@ -55,17 +54,21 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     }()
   
   // init
-  init (event:Event, eventDetail: EventDetail) {
+   init (event:Event, eventDetail: EventDetail) {
     self.event = event
 
     self.eventDetail = eventDetail
     
     super.init(nibName: nil, bundle: nil)
   }
-  
+    
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+    
+    
+    
+   
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -108,6 +111,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         print("Swiped right")
       case UISwipeGestureRecognizerDirection.down:
         self.navigationController?.isNavigationBarHidden = false
+        self.shareView.isHidden = false
         print("Swiped down")
       case UISwipeGestureRecognizerDirection.left:
         if !isShowEventNameAndCodeLabel {
@@ -117,6 +121,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         print("Swiped left")
       case UISwipeGestureRecognizerDirection.up:
         self.navigationController?.isNavigationBarHidden = true
+        self.shareView.isHidden = true
         print("Swiped up")
       default:
         break

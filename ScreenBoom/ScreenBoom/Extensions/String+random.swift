@@ -25,24 +25,34 @@ extension String {
   
   func stringToUIColor () -> UIColor? {
     switch self {
-    case "White":
-      return UIColor.white
-    case "Green":
-      return UIColor.green
-    case "Blue":
-      return UIColor.blue
-    case "Yellow":
-      return UIColor.yellow
     case "Black":
       return UIColor.black
-    case "Purple":
-      return UIColor.purple
-    case "Magenta":
+    case "Blue":
+      return UIColor.blue
+    case "Brown":
+      return UIColor.brown
+    case "Cyan":
+      return UIColor.cyan
+    case "Dark Gray":
+      return UIColor.darkGray
+    case "Gray":
+      return UIColor.gray
+    case "Green":
+      return UIColor.green
+    case "Light Gray":
+      return UIColor.lightGray
+    case "Magenta" :
       return UIColor.magenta
     case "Orange":
-      return UIColor.orange
-    case "Red" :
-      return UIColor.red
+        return UIColor.orange
+    case "Purple":
+        return UIColor.purple
+    case "Red":
+        return UIColor.red
+    case "White" :
+        return UIColor.white
+    case "Yellow" :
+        return UIColor.yellow
     default:
       print("Fail to cast string to color")
       return nil

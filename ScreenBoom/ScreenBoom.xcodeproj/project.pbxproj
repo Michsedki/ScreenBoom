@@ -12,6 +12,8 @@
 		1842376420BF5F2D001147BA /* EventDetailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376320BF5F2D001147BA /* EventDetailManager.swift */; };
 		1842376620BFB664001147BA /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376520BFB664001147BA /* DeepLinkManager.swift */; };
 		1842376820C0002C001147BA /* IntegrationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1842376720C0002B001147BA /* IntegrationInfo.swift */; };
+		18FCE68F20C86577002FFF88 /* GIFGiphyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FCE68E20C86577002FFF88 /* GIFGiphyManager.swift */; };
+		18FCE69120C86915002FFF88 /* AnimationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FCE69020C86915002FFF88 /* AnimationCollectionViewCell.swift */; };
 		3747C8A0203E840200171FCF /* PlayEventViewModelSourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */; };
 		3747C8A2203E842900171FCF /* PlayEventViewModelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */; };
 		3747C8A4203E84C400171FCF /* PlayEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */; };
@@ -78,6 +80,8 @@
 		1842376320BF5F2D001147BA /* EventDetailManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailManager.swift; sourceTree = "<group>"; };
 		1842376520BFB664001147BA /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		1842376720C0002B001147BA /* IntegrationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationInfo.swift; sourceTree = "<group>"; };
+		18FCE68E20C86577002FFF88 /* GIFGiphyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFGiphyManager.swift; sourceTree = "<group>"; };
+		18FCE69020C86915002FFF88 /* AnimationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCollectionViewCell.swift; sourceTree = "<group>"; };
 		3747C89F203E840200171FCF /* PlayEventViewModelSourceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSourceObserver.swift; sourceTree = "<group>"; };
 		3747C8A1203E842900171FCF /* PlayEventViewModelSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModelSource.swift; sourceTree = "<group>"; };
 		3747C8A3203E84C400171FCF /* PlayEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayEventViewModel.swift; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 				378AB0B22065B9AA0074E4B7 /* PhotoPlayEventView.swift */,
 				378AB0B42065B9BD0074E4B7 /* AnimationPlayEventView.swift */,
 				1842375D20BE6B04001147BA /* CreatedEventsTableViewCell.swift */,
+				18FCE69020C86915002FFF88 /* AnimationCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -265,6 +270,7 @@
 				377B6F03202FF57800AFD85C /* Colors.swift */,
 				1842375B20BE0F57001147BA /* FireBaseManager.swift */,
 				1842376520BFB664001147BA /* DeepLinkManager.swift */,
+				18FCE68E20C86577002FFF88 /* GIFGiphyManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -333,7 +339,6 @@
 				377B6E99202C026200AFD85C /* Frameworks */,
 				377B6E9A202C026200AFD85C /* Resources */,
 				DA78A8F090DFF8E02F2B7C49 /* [CP] Embed Pods Frameworks */,
-				BA083BF0B70F53958C9AEFF5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -421,28 +426,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ScreenBoom-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		BA083BF0B70F53958C9AEFF5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DA78A8F090DFF8E02F2B7C49 /* [CP] Embed Pods Frameworks */ = {
@@ -451,9 +444,26 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Canvas/Canvas.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GiphyCoreSDK/GiphyCoreSDK.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Canvas.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiphyCoreSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -481,6 +491,7 @@
 				1842376620BFB664001147BA /* DeepLinkManager.swift in Sources */,
 				37E8D3FD204F34FF008D83B1 /* ImageUploadManager.swift in Sources */,
 				3747C8A6203EA0E600171FCF /* PlayEventView.swift in Sources */,
+				18FCE68F20C86577002FFF88 /* GIFGiphyManager.swift in Sources */,
 				37776649204E0B27006699DD /* PlayPreviewEventViewController.swift in Sources */,
 				377B6F04202FF57800AFD85C /* Colors.swift in Sources */,
 				378AB09F2064B1FE0074E4B7 /* PhotoEventDetail.swift in Sources */,
@@ -507,6 +518,7 @@
 				377B6EB7202C19B800AFD85C /* CreateEventViewContoller.swift in Sources */,
 				377B6EBB202CEC6200AFD85C /* PlayEventViewController.swift in Sources */,
 				3747C8AF2045C1A800171FCF /* UIView.swift in Sources */,
+				18FCE69120C86915002FFF88 /* AnimationCollectionViewCell.swift in Sources */,
 				377B6EA0202C026200AFD85C /* AppDelegate.swift in Sources */,
 				377B6F00202FE5A500AFD85C /* BaseViewController.swift in Sources */,
 				37776645204DB260006699DD /* DropDownListButton.swift in Sources */,
