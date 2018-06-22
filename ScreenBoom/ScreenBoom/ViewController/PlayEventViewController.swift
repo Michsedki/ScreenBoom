@@ -194,6 +194,8 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         FireBaseManager.sharedInstance.removeFromViewList(event: self.event)
     }
     self.playEventViewModelSource?.removeObserver(observer: self)
+    
+    changeTransition(direction: "backword")
   }
   
   // Here we want to setup the correct play view based on the the event type that we have

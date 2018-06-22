@@ -11,13 +11,16 @@ import Foundation
 class AnimationEventDetail: EventDetail {
     
     var animationStringURL: String?
+    var animationPreviewURL: String?
     var photo: UIImage?
     
+//    animationPreviewURL: String?
     
     init(animationStringURL: String?, code: String?, photo:UIImage? = nil){
         
         super.init(code: code)
         self.animationStringURL = animationStringURL
+//        self.animationPreviewURL = animationPreviewURL
         self.photo = photo
     }
     

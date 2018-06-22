@@ -15,7 +15,12 @@ class EventDetailViewController: BaseViewController  {
   var oldEventDetail: EventDetail?
   let eventViewModel = EventManager()
   let eventDetailViewModel = EventDetailManager()
-  var playEventPreviewContainerView = UIView()
+    var playEventPreviewContainerView : UIView = {
+       let view = UIView()
+        view.layer.cornerRadius = 5
+        view.clipsToBounds = true
+        return view
+    }()
   
   var playPreviewEventViewController: PlayPreviewEventViewController?
   let constantNames = ConstantNames.sharedInstance
@@ -47,7 +52,8 @@ class EventDetailViewController: BaseViewController  {
   // Push PlayEventViewController
   func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
     let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail)
-    self.navigationController?.pushViewController(PlayViewController, animated: true)
+    changeTransition(direction: "forword")
+    self.navigationController?.pushViewController(PlayViewController, animated: false)
   }
     
     // here after we create the event successfully we can do all extra work

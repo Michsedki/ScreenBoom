@@ -77,19 +77,12 @@ class AnimationEventDetailViewController: EventDetailViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    let value = UIInterfaceOrientation.portrait.rawValue
-    UIDevice.current.setValue(value, forKey: "orientation")
-    
-    // disaple Rotation for this view controller
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    appDelegate.enableAllOrientation = false
-    
+    prepareForViewWillAppearWithForcedPortrait()
   }
     
     override func viewWillDisappear(_ animated: Bool) {
-        // allow rotation for other viewControllers
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.enableAllOrientation = true
+        
+        prepareForViewWillDisapear()
     }
   
   // show text, photo and animation views set up
@@ -250,6 +243,7 @@ extension AnimationEventDetailViewController: UICollectionViewDataSource, UIColl
                 DispatchQueue.main.async {
                 self.animationCollectionViewData = gifImagesDic
                 self.eventDetail.animationStringURL =  self.animationCollectionViewData[0]["originalURL"]
+//                self.eventDetail.animationPreviewURL = self.animationCollectionViewData[0]["previewURL"]
                 if let imageURL = self.animationCollectionViewData[0]["previewURL"],
                     let image = UIImage.gif(url: imageURL) {
                     self.eventDetail.configureWithPhoto(photo: image)
@@ -292,7 +286,7 @@ extension AnimationEventDetailViewController: UICollectionViewDataSource, UIColl
     // image and propogate it to our preview view
     
     self.eventDetail.animationStringURL = self.animationCollectionViewData[indexPath.row]["originalURL"]
-    
+//    self.eventDetail.animationPreviewURL = self.animationCollectionViewData[indexPath.row]["previewURL"]
     
     if let cell = animationCollectionView.cellForItem(at: indexPath) as? AnimationCollectionViewCell {
         self.eventDetail.configureWithPhoto(photo: cell.animationImageView.image!)

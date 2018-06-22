@@ -60,23 +60,16 @@ class CreateEventViewController: BaseViewController {
         // we need to show the navigation bar after it was hidden in the homeViewController
         self.navigationController?.isNavigationBarHidden = false
         
-        // disaple Rotation for this view controller
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.enableAllOrientation = false
-        
-        
-        
+       prepareForViewWillAppearWithForcedPortrait()
+    
         // we will check number of created events by current user if equal to 10 we will
         // disable the createEventButton untill the user delete some events
-
         getUserCreatedEvents()
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        // allow rotation for other viewControllers
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.enableAllOrientation = true
+        prepareForViewWillDisapear()
     }
     
     
@@ -90,9 +83,8 @@ class CreateEventViewController: BaseViewController {
                 self.createdEvents = createdEvents
                 self.createdEventsTableView.reloadData()
                 print(createdEvents)
-                self.HideSpinner()
-
             }
+            self.HideSpinner()
         }
 
     }
@@ -217,8 +209,10 @@ class CreateEventViewController: BaseViewController {
                 eventDetailItem = oldAnimationEventDetail
             } else {
                 eventDetailItem = AnimationEventDetail(
-                    animationStringURL: constantNames.gifAnimationNamesArray[0],
-                    code: "")
+                    animationStringURL: "",
+                    code: ""
+                    )
+//                animationPreviewURL: ""
             }
             guard let animationEventDetail = eventDetailItem as? AnimationEventDetail else { return }
             eventDetailVC = AnimationEventDetailViewController(event: event, eventDetail: animationEventDetail)
@@ -232,7 +226,8 @@ class CreateEventViewController: BaseViewController {
         }
         
         if let vc = eventDetailVC {
-            self.navigationController?.pushViewController(vc, animated: true)
+            changeTransition(direction: "forword")
+            self.navigationController?.pushViewController(vc, animated: false)
         }
     }
 }
@@ -318,7 +313,8 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
             let eventCode = self.createdEvents[indexPath.row]["eventCode"] {
             
             joinEventViewController.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
-            self.navigationController?.pushViewController(joinEventViewController, animated: true)
+            changeTransition(direction: "forword")
+            self.navigationController?.pushViewController(joinEventViewController, animated: false)
         }
     }
     

@@ -22,7 +22,6 @@
 		3747C8AF2045C1A800171FCF /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3747C8AE2045C1A800171FCF /* UIView.swift */; };
 		3758DE26205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */; };
 		3758DE2820609440004C55A2 /* EditEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758DE2720609440004C55A2 /* EditEventDetailViewController.swift */; };
-		3758E0532079393700192C28 /* CircularTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758E0522079393700192C28 /* CircularTransition.swift */; };
 		37776645204DB260006699DD /* DropDownListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776644204DB25F006699DD /* DropDownListButton.swift */; };
 		37776649204E0B27006699DD /* PlayPreviewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */; };
 		3777664B204E0D14006699DD /* DropDownSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */; };
@@ -57,19 +56,6 @@
 		37D011B720489F2700739B62 /* UserDefaultICloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D011B620489F2700739B62 /* UserDefaultICloudViewModel.swift */; };
 		37E8D3FD204F34FF008D83B1 /* ImageUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E8D3FC204F34FF008D83B1 /* ImageUploadManager.swift */; };
 		37E8D4072051BAF4008D83B1 /* Swift+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E8D4062051BAF3008D83B1 /* Swift+GIF.swift */; };
-		37E8D41D205456EB008D83B1 /* candle1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D410205456E9008D83B1 /* candle1.gif */; };
-		37E8D41E205456EB008D83B1 /* flag1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D411205456E9008D83B1 /* flag1.gif */; };
-		37E8D41F205456EB008D83B1 /* colors1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D412205456E9008D83B1 /* colors1.gif */; };
-		37E8D420205456EB008D83B1 /* firework1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D413205456E9008D83B1 /* firework1.gif */; };
-		37E8D421205456EB008D83B1 /* firework2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D414205456E9008D83B1 /* firework2.gif */; };
-		37E8D422205456EB008D83B1 /* heart3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D415205456E9008D83B1 /* heart3.gif */; };
-		37E8D423205456EB008D83B1 /* colors2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D416205456EA008D83B1 /* colors2.gif */; };
-		37E8D424205456EB008D83B1 /* birthday1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D417205456EA008D83B1 /* birthday1.gif */; };
-		37E8D425205456EB008D83B1 /* heart4.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D418205456EA008D83B1 /* heart4.gif */; };
-		37E8D426205456EB008D83B1 /* heart1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D419205456EA008D83B1 /* heart1.gif */; };
-		37E8D427205456EB008D83B1 /* heart2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D41A205456EA008D83B1 /* heart2.gif */; };
-		37E8D428205456EB008D83B1 /* heart5.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D41B205456EA008D83B1 /* heart5.gif */; };
-		37E8D429205456EB008D83B1 /* laser1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 37E8D41C205456EA008D83B1 /* laser1.gif */; };
 		37E8D42B2054A99F008D83B1 /* RightMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E8D42A2054A99D008D83B1 /* RightMenuView.swift */; };
 		96D4D7E981DC8AF308263B0E /* Pods_ScreenBoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE93307027B98A2F26B9E5C1 /* Pods_ScreenBoom.framework */; };
 /* End PBXBuildFile section */
@@ -90,7 +76,6 @@
 		3747C8AE2045C1A800171FCF /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		3758DE25205DC0D1004C55A2 /* SetPhotoEventDetailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPhotoEventDetailDelegate.swift; sourceTree = "<group>"; };
 		3758DE2720609440004C55A2 /* EditEventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventDetailViewController.swift; sourceTree = "<group>"; };
-		3758E0522079393700192C28 /* CircularTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularTransition.swift; sourceTree = "<group>"; };
 		37776644204DB25F006699DD /* DropDownListButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownListButton.swift; sourceTree = "<group>"; };
 		37776648204E0B27006699DD /* PlayPreviewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPreviewEventViewController.swift; sourceTree = "<group>"; };
 		3777664A204E0D14006699DD /* DropDownSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownSelectionDelegate.swift; sourceTree = "<group>"; };
@@ -129,19 +114,6 @@
 		37E8D3FC204F34FF008D83B1 /* ImageUploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUploadManager.swift; sourceTree = "<group>"; };
 		37E8D3FE204FC0EC008D83B1 /* ScreenBoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScreenBoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		37E8D4062051BAF3008D83B1 /* Swift+GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swift+GIF.swift"; sourceTree = "<group>"; };
-		37E8D410205456E9008D83B1 /* candle1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = candle1.gif; path = ../../../GIFImages/candle1.gif; sourceTree = "<group>"; };
-		37E8D411205456E9008D83B1 /* flag1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = flag1.gif; path = ../../../GIFImages/flag1.gif; sourceTree = "<group>"; };
-		37E8D412205456E9008D83B1 /* colors1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = colors1.gif; path = ../../../GIFImages/colors1.gif; sourceTree = "<group>"; };
-		37E8D413205456E9008D83B1 /* firework1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = firework1.gif; path = ../../../GIFImages/firework1.gif; sourceTree = "<group>"; };
-		37E8D414205456E9008D83B1 /* firework2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = firework2.gif; path = ../../../GIFImages/firework2.gif; sourceTree = "<group>"; };
-		37E8D415205456E9008D83B1 /* heart3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = heart3.gif; path = ../../../GIFImages/heart3.gif; sourceTree = "<group>"; };
-		37E8D416205456EA008D83B1 /* colors2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = colors2.gif; path = ../../../GIFImages/colors2.gif; sourceTree = "<group>"; };
-		37E8D417205456EA008D83B1 /* birthday1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = birthday1.gif; path = ../../../GIFImages/birthday1.gif; sourceTree = "<group>"; };
-		37E8D418205456EA008D83B1 /* heart4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = heart4.gif; path = ../../../GIFImages/heart4.gif; sourceTree = "<group>"; };
-		37E8D419205456EA008D83B1 /* heart1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = heart1.gif; path = ../../../GIFImages/heart1.gif; sourceTree = "<group>"; };
-		37E8D41A205456EA008D83B1 /* heart2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = heart2.gif; path = ../../../GIFImages/heart2.gif; sourceTree = "<group>"; };
-		37E8D41B205456EA008D83B1 /* heart5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = heart5.gif; path = ../../../GIFImages/heart5.gif; sourceTree = "<group>"; };
-		37E8D41C205456EA008D83B1 /* laser1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = laser1.gif; path = ../../../GIFImages/laser1.gif; sourceTree = "<group>"; };
 		37E8D42A2054A99D008D83B1 /* RightMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightMenuView.swift; sourceTree = "<group>"; };
 		3955F89CB9F7D991C1B4B357 /* Pods-ScreenBoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.debug.xcconfig"; sourceTree = "<group>"; };
 		51AE1B3C01A1E00685B958A3 /* Pods-ScreenBoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScreenBoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScreenBoom/Pods-ScreenBoom.release.xcconfig"; sourceTree = "<group>"; };
@@ -219,8 +191,6 @@
 		377B6E9E202C026200AFD85C /* ScreenBoom */ = {
 			isa = PBXGroup;
 			children = (
-				3758E0522079393700192C28 /* CircularTransition.swift */,
-				37E8D4032050D433008D83B1 /* AnimationImages */,
 				37D011B3204891B600739B62 /* ScreenBoom.entitlements */,
 				3747C8B02045F84F00171FCF /* View */,
 				3747C8AB2045C13100171FCF /* Extensions */,
@@ -286,26 +256,6 @@
 				378AB0A22064B3700074E4B7 /* TextEventDetail.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		37E8D4032050D433008D83B1 /* AnimationImages */ = {
-			isa = PBXGroup;
-			children = (
-				37E8D417205456EA008D83B1 /* birthday1.gif */,
-				37E8D410205456E9008D83B1 /* candle1.gif */,
-				37E8D412205456E9008D83B1 /* colors1.gif */,
-				37E8D416205456EA008D83B1 /* colors2.gif */,
-				37E8D413205456E9008D83B1 /* firework1.gif */,
-				37E8D414205456E9008D83B1 /* firework2.gif */,
-				37E8D411205456E9008D83B1 /* flag1.gif */,
-				37E8D419205456EA008D83B1 /* heart1.gif */,
-				37E8D41A205456EA008D83B1 /* heart2.gif */,
-				37E8D415205456E9008D83B1 /* heart3.gif */,
-				37E8D418205456EA008D83B1 /* heart4.gif */,
-				37E8D41B205456EA008D83B1 /* heart5.gif */,
-				37E8D41C205456EA008D83B1 /* laser1.gif */,
-			);
-			path = AnimationImages;
 			sourceTree = "<group>";
 		};
 		3D81BA7B1C7E52D1DE2C2259 /* Pods */ = {
@@ -397,22 +347,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37E8D41E205456EB008D83B1 /* flag1.gif in Resources */,
 				377B6EAA202C026200AFD85C /* LaunchScreen.storyboard in Resources */,
 				377B6EB2202C071600AFD85C /* GoogleService-Info.plist in Resources */,
-				37E8D427205456EB008D83B1 /* heart2.gif in Resources */,
-				37E8D426205456EB008D83B1 /* heart1.gif in Resources */,
-				37E8D422205456EB008D83B1 /* heart3.gif in Resources */,
-				37E8D429205456EB008D83B1 /* laser1.gif in Resources */,
-				37E8D420205456EB008D83B1 /* firework1.gif in Resources */,
-				37E8D428205456EB008D83B1 /* heart5.gif in Resources */,
 				377B6EA7202C026200AFD85C /* Assets.xcassets in Resources */,
-				37E8D421205456EB008D83B1 /* firework2.gif in Resources */,
-				37E8D41D205456EB008D83B1 /* candle1.gif in Resources */,
-				37E8D41F205456EB008D83B1 /* colors1.gif in Resources */,
-				37E8D424205456EB008D83B1 /* birthday1.gif in Resources */,
-				37E8D425205456EB008D83B1 /* heart4.gif in Resources */,
-				37E8D423205456EB008D83B1 /* colors2.gif in Resources */,
 				377B6EA5202C026200AFD85C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,7 +415,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				378AB0A72064B6730074E4B7 /* PhotoEventDetailViewController.swift in Sources */,
-				3758E0532079393700192C28 /* CircularTransition.swift in Sources */,
 				3758DE2820609440004C55A2 /* EditEventDetailViewController.swift in Sources */,
 				377B6EA2202C026200AFD85C /* HomeViewController.swift in Sources */,
 				1842375C20BE0F57001147BA /* FireBaseManager.swift in Sources */,

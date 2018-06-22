@@ -72,20 +72,13 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    let value = UIInterfaceOrientation.portrait.rawValue
-    UIDevice.current.setValue(value, forKey: "orientation")
-    
-    // disaple Rotation for this view controller
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    appDelegate.enableAllOrientation = false
-    
+    prepareForViewWillAppearWithForcedPortrait()
     
   }
     
     override func viewWillDisappear(_ animated: Bool) {
-        // allow rotation for other viewControllers
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.enableAllOrientation = true
+       
+        prepareForViewWillDisapear()
     }
   
   func setupViews() {

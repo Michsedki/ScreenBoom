@@ -14,7 +14,6 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     
     let userDefaultICloudViewModel = UserDefaultICloudViewModel()
     let eventViewModel = EventManager()
-    let transition = CircularTransition()
    
     
     let topImageContainerView : UIView = {
@@ -22,8 +21,15 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
         return view
     }()
     
+    let screenBoomImageView : UIImageView = {
+        let view = UIImageView(image: UIImage(named: "screenBoom"))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.sizeToFit()
+        return view
+    }()
+    
     let logoImageView : UIImageView = {
-        let view = UIImageView(image: #imageLiteral(resourceName: "Ironbg"))
+        let view = UIImageView(image: UIImage(named: "screenBoomLogo"))
         view.translatesAutoresizingMaskIntoConstraints = false
         view.sizeToFit()
         return view
@@ -32,6 +38,8 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     let countLabel : UILabel = {
        let view = UILabel()
         view.backgroundColor = Colors.lightBlue
+        view.textColor = .white
+        view.font = UIFont.boldSystemFont(ofSize: 17)
         view.numberOfLines = 0
         view.sizeToFit()
         view.textAlignment = .center
@@ -82,31 +90,14 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
         return view
     }()
     
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.transitionMode = .present
-        transition.startingPoint = createEventBottun.center
-        transition.circleColor = createEventBottun.backgroundColor!
-        return transition
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.transitionMode = .dismiss
-        transition.startingPoint = createEventBottun.center
-        transition.circleColor = createEventBottun.backgroundColor!
-        return transition
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+    
         setupViews()
         
         rigisterUser()
         //    if !isDeepLinking { rigisterUser() }
     }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
@@ -125,7 +116,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
                         print(error)
                         break
                     case .Success(let userCount):
-                        self.countLabel.text = "Now : Live Events \(eventCount)      Users \(userCount)  "
+                        self.countLabel.text = "\(eventCount) Live Events      \(userCount) Users   "
                         break
                     }
                 })
@@ -139,8 +130,10 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
         view.addSubview(topImageContainerView)
         view.addSubview(bottunStackView)
         view.addSubview(desceptionTextView)
+        view.addSubview(countLabel)
+
         topImageContainerView.addSubview(logoImageView)
-        topImageContainerView.addSubview(countLabel)
+        topImageContainerView.addSubview(screenBoomImageView)
         
         topImageContainerView.anchor(top: view.topAnchor,
                                      leading: view.leadingAnchor,
@@ -150,8 +143,8 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
         
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: topImageContainerView.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: topImageContainerView.centerYAnchor),
-            logoImageView.heightAnchor.constraint(equalTo: topImageContainerView.heightAnchor, multiplier: 0.5),
+            logoImageView.centerYAnchor.constraint(equalTo: topImageContainerView.centerYAnchor, constant: 30),
+            logoImageView.heightAnchor.constraint(equalTo: topImageContainerView.heightAnchor, multiplier: 0.6),
             logoImageView.widthAnchor.constraint(equalTo: logoImageView.heightAnchor, multiplier: 4/3)
             ])
         countLabel.anchor(top: nil,
@@ -160,6 +153,13 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
                           trailing: self.view.trailingAnchor,
                           padding: .init(top: 0, left: 0, bottom: 0, right: 0),
                           size: .init(width: 0, height: 30))
+        
+        screenBoomImageView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
+                                   leading: logoImageView.leadingAnchor,
+                                   bottom: logoImageView.topAnchor,
+                                   trailing: logoImageView.trailingAnchor,
+                                   padding: .init(top: 5, left: 0, bottom: 5, right: 0),
+                                   size: .init(width: 0, height: 0))
                           
         
         
@@ -169,7 +169,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
                                leading: view.safeAreaLayoutGuide.leadingAnchor,
                                bottom: nil,
                                trailing: view.safeAreaLayoutGuide.trailingAnchor,
-                               padding: .init(top: 10, left: 10, bottom: 0, right: 10),
+                               padding: .init(top: 10, left: 20, bottom: 0, right: 20),
                                size: .init(width: 0, height: 50))
         
         desceptionTextView.anchor(top: nil,
@@ -192,14 +192,15 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     @objc func createEventBottunPressed(_ sender: UIButton) {
         let createEventViewController = self.storyboard?.instantiateViewController(withIdentifier: "CreateEventViewController") as! CreateEventViewController
         
-        createEventViewController.transitioningDelegate = self
-
-        self.navigationController?.pushViewController(createEventViewController, animated: true)
+        changeTransition(direction: "forword")
+        self.navigationController?.pushViewController(createEventViewController, animated: false)
     }
     
     @objc func joinEventBottunPressed(_ sender: UIButton) {
         let joinEventViewController = self.storyboard?.instantiateViewController(withIdentifier: "JoinEventViewController") as! JoinEventViewController
-        self.navigationController?.pushViewController(joinEventViewController, animated: true)
+        
+        changeTransition(direction: "forword")
+        self.navigationController?.pushViewController(joinEventViewController, animated: false)
         
     }
     

@@ -76,22 +76,15 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    let value = UIInterfaceOrientation.portrait.rawValue
-    UIDevice.current.setValue(value, forKey: "orientation")
+    prepareForViewWillAppearWithForcedPortrait()
     
-    // disaple Rotation for this view controller
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    appDelegate.enableAllOrientation = false
-    
-   
     loadData()
 
   }
     
     override func viewWillDisappear(_ animated: Bool) {
-        // allow rotation for other viewControllers
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.enableAllOrientation = true
+        
+        prepareForViewWillDisapear()
     }
   
   @objc func textFieldDidChanged(_ textField : UITextField) {
@@ -203,6 +196,10 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     //Set the drop down menu's options
     textColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
     backgroundColorDropDownButton.dropView.dropDownOptions = constantNames.colorsNamesList
+    
+    // set dropDownButtonTitle in the dropDown
+    textColorDropDownButton.dropView.dropDownButtonTitle = constantNames.textColorButtonTitle
+    backgroundColorDropDownButton.dropView.dropDownButtonTitle = constantNames.backgroungButtonTitle
 
     let dropDownButtons = [textColorDropDownButton,
                            backgroundColorDropDownButton]

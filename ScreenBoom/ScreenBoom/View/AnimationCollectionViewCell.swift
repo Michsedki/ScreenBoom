@@ -17,6 +17,7 @@ class AnimationCollectionViewCell: UICollectionViewCell {
     let animationImageView : UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 5
+        view.clipsToBounds = true
         view.backgroundColor = UIColor.blue
         return view
     }()

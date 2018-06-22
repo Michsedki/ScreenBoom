@@ -98,6 +98,7 @@ class FireBaseManager {
     
     func getUserCreatedEvents(completion: (@escaping(Result<[[String:String]]>) -> Void)) {
         var createdEvents = [[String:String]]()
+
         REF_UUID_Events_Current_User_Created?.observeSingleEvent(of: .value, with: { (createdEventsSnapShot) in
             if let createdEventDic = createdEventsSnapShot.value as? [String:String] {
                 for item in createdEventDic {

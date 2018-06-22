@@ -43,7 +43,21 @@ class JoinEventViewController: BaseViewController {
         getUserJoinedEvents()
         
         self.navigationController?.isNavigationBarHidden = false
-        setupJoinLastEventView()
+        
+        prepareForViewWillAppearWithForcedPortrait()
+
+        loadData()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        prepareForViewWillDisapear()
+    }
+    
+    func loadData() {
+        if let event = self.event {
+            eventNameTextField.text = event.eventName
+            codeTextField.text = event.eventCode
+        }
     }
     
     func getUserJoinedEvents() {
@@ -90,10 +104,12 @@ class JoinEventViewController: BaseViewController {
         eventManager.checkIfEventExists(newEvent: event) { [unowned self] (isExist,eventObj)  in
             guard isExist else {
                 self.infoView(message: "event is not Exist", color: Colors.smoothRed)
+                self.HideSpinner()
                 return
             }
             guard let eventFound = eventObj else {
                 self.infoView(message: "Couldn't retrive event", color: Colors.smoothRed)
+                self.HideSpinner()
                 return
             }
             
@@ -109,21 +125,24 @@ class JoinEventViewController: BaseViewController {
             } else {
                 self.infoView(message: "Code is not valid", color: Colors.smoothRed)
             }
-             self.HideSpinner()
+            self.HideSpinner()
         }
     }
     
     func getEventDetail() {
         guard let event = self.event else { return }
+        self.HideSpinner()
         self.eventDetailManager.checkIfEventDetailExist(event: event, completion: { result in
             switch (result) {
             case .Failure(let errorString):
                 print(errorString)
             case .Success(let eventDetail):
-    if !self.eventManager.isEventOwner(eventUserID: event.userID!) && !self.joinedEventsContains(eventName: event.eventName)  {
+                if !self.eventManager.isEventOwner(eventUserID: event.userID!) && !self.joinedEventsContains(eventName: event.eventName)  {
                     FireBaseManager.sharedInstance.addEventToUserJoinedEvents(event: event, eventDetail: eventDetail)
                 }
+                self.event = event
                 self.showPlayEventViewController(event: event, eventDetail: eventDetail)
+                self.HideSpinner()
             }
         })
     }
@@ -138,25 +157,12 @@ class JoinEventViewController: BaseViewController {
         }
         return false
     }
-    func setupJoinLastEventView() {
-        guard let lastEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
-            let lastEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() else { return }
-        
-        
-    }
-    
-    //  @objc func joinLastEventButtonPressed (){
-    //    if let lastEventName = self.userDefaultICloudViewModel.checkIfOldEventNameIsExist() ,
-    //      let lastEventCode = self.userDefaultICloudViewModel.checkIfOldEventCodeIsExist() {
-    //      getEventAndCmpareCode(eventName: lastEventName, eventCode: lastEventCode)
-    //    }
-    //
-    //  }
     
     // Push PlayEventViewController
     func showPlayEventViewController(event: Event, eventDetail: EventDetail) {
         let PlayViewController = PlayEventViewController(event: event, eventDetail:eventDetail)
-        self.navigationController?.pushViewController(PlayViewController, animated: true)
+        changeTransition(direction: "forword")
+        self.navigationController?.pushViewController(PlayViewController, animated: false)
     }
 }
 
@@ -197,12 +203,12 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.joinedEventsTableView.dequeueReusableCell(withIdentifier: "CreatedEventsTableViewCell", for: indexPath) as? CreatedEventsTableViewCell {
             
-                cell.configureCell(eventInfoDic: self.joinedEvents[indexPath.row])
-                cell.eventShareButton.tag = indexPath.row
-                cell.eventShareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
-                
-                return cell
-        
+            cell.configureCell(eventInfoDic: self.joinedEvents[indexPath.row])
+            cell.eventShareButton.tag = indexPath.row
+            cell.eventShareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
+            
+            return cell
+            
         }
         return UITableViewCell()
     }
@@ -242,7 +248,7 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
                     self.joinedEvents.remove(at: indexPath.row)
                     self.joinedEventsTableView.reloadData()
                 }
-            self.HideSpinner()
+                self.HideSpinner()
             }
         }
     }
@@ -266,12 +272,12 @@ extension JoinEventViewController : GADBannerViewDelegate {
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bannerView)
         bannerView.anchor(top: nil,
-                           leading: self.view.leadingAnchor,
-                           bottom: self.view.bottomAnchor,
-                           trailing: self.view.trailingAnchor,
-                           padding: .init(top: 0, left: 0, bottom: 0, right: 0),
-                           size: .init(width: 0, height: 50))
-
+                          leading: self.view.leadingAnchor,
+                          bottom: self.view.bottomAnchor,
+                          trailing: self.view.trailingAnchor,
+                          padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                          size: .init(width: 0, height: 50))
+        
     }
     /// Tells the delegate an ad request loaded an ad.
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {

@@ -25,6 +25,8 @@ class RightMenuView: UIView {
     let view = UIButton()
     view.setTitle("Edit", for: .normal)
     view.titleLabel?.textColor = UIColor.blue
+    // ****** we need to implement this feature
+    view.isHidden = true
     view.titleLabel?.backgroundColor = UIColor.clear
     view.backgroundColor = UIColor.clear
     return view

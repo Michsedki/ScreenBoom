@@ -21,6 +21,10 @@ class PlayPreviewEventViewController: PlayEventViewController {
   override func viewDidDisappear(_ animated: Bool) {
     self.playEventViewModelSource?.removeObserver(observer: self)
   }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+    }
   
   override func viewWillAppear(_ animated: Bool) {
     

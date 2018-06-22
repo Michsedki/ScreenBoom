@@ -12,8 +12,9 @@ pod 'Firebase/Database'
 pod 'Firebase/Storage'
 pod 'Canvas'
 pod 'SDWebImage'
-pod 'Google-Mobile-Ads-SDK'
 pod 'GiphyCoreSDK'
 pod 'IQKeyboardManagerSwift'
+pod 'Google-Mobile-Ads-SDK'
+
 
 end

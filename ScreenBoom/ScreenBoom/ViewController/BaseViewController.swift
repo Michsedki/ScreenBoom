@@ -131,6 +131,70 @@ class BaseViewController: UIViewController, UITextFieldDelegate {
     spinner.stopAnimating()
     
   }
+    
+    // here we alow change of the orientation
+    // and set the transition of the view controller when it dismiss to flip
+    func prepareForViewWillDisapear() {
+        
+        // allow rotation for other viewControllers
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.enableAllOrientation = true
+        
+        if self.isMovingFromParentViewController {
+            changeTransition(direction: "backword")
+        }
+    }
+    
+    
+    // here we prevent any change of transition
+    // and force portrait orientation
+    func prepareForViewWillAppearWithForcedPortrait() {
+        
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        
+        // disaple Rotation for this view controller
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.enableAllOrientation = false
+        
+    }
+    
+    func prepareForViewWillAppear() {
+        // disaple Rotation for this view controller
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.enableAllOrientation = false
+        
+    }
+    
+    
+    
+    func changeTransition(direction:String)  {
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        //transition.type = kCATransitionPush
+        transition.type = "flip"
+        if direction == "forword" {
+            transition.subtype = kCATransitionFromLeft
+        } else {
+            transition.subtype = kCATransitionFromRight
+        }
+        navigationController?.view.layer.add(transition, forKey: kCATransition)
+        
+    }
+    
+    func goToMap()  {
+        // for pushing
+        changeTransition(direction: "forword")
+//        navigationController?.pushViewController(settingsVC, animated: false)
+    }
+    func backToList()  {
+        // for dismiss
+        changeTransition(direction: "forword")
+        navigationController?.popViewController(animated: false)
+        dismiss(animated: true, completion: nil)
+        
+    }
 
 }
 
