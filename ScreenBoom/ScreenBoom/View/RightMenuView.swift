@@ -44,6 +44,7 @@ class RightMenuView: UIView {
   let deleteButton : UIButton = {
     let view = UIButton()
     view.setImage(UIImage(named: "delete"), for: .normal)
+    view.imageView?.sizeToFit()
     return view
   }()
 
@@ -79,20 +80,20 @@ class RightMenuView: UIView {
                      leading: leadingAnchor,
                      bottom: nil,
                      trailing: trailingAnchor,
-                     padding: .init(top: 10, left: 20, bottom: 0, right: 20),
+                     padding: .init(top: 10, left: 10, bottom: 0, right: 30),
                      size: .init(width: 0, height: 40))
     pauseButton.anchor(top: playButton.bottomAnchor,
                       leading: leadingAnchor,
                       bottom: nil,
                       trailing: trailingAnchor,
-                      padding: .init(top: 10, left: 20, bottom: 0, right: 20),
+                      padding: .init(top: 10, left: 10, bottom: 0, right: 30),
                       size: .init(width: 0, height: 40))
     deleteButton.anchor(top: pauseButton.bottomAnchor,
                        leading: leadingAnchor,
                        bottom: nil,
                        trailing: trailingAnchor,
-                       padding: .init(top: 10, left: 20, bottom: 0, right: 20),
-                       size: .init(width: 0, height: 40))
+                       padding: .init(top: 20, left: 15, bottom: 0, right: 35),
+                       size: .init(width: 0, height: 30))
     addButtonsAction()
     
     

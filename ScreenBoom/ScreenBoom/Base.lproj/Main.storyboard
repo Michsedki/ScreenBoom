@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9Eo-P0-bpU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9Eo-P0-bpU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -39,7 +39,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6c-fa-ram">
-                                <rect key="frame" x="20" y="74" width="335" height="30"/>
+                                <rect key="frame" x="20" y="69" width="335" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="q5F-Su-L2u"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="sjB-a8-xEZ"/>
@@ -49,7 +49,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UQj-Vq-okx">
-                                <rect key="frame" x="20" y="109" width="335" height="30"/>
+                                <rect key="frame" x="20" y="104" width="335" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5zp-xd-7E0"/>
@@ -59,15 +59,15 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mG2-hf-JGq">
-                                <rect key="frame" x="20" y="184" width="335" height="100"/>
+                                <rect key="frame" x="20" y="174" width="335" height="120"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="YKh-bJ-t4j"/>
+                                    <constraint firstAttribute="height" constant="120" id="YKh-bJ-t4j"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="oyx-gq-5HV"/>
                                 </constraints>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2au-ad-vXX">
-                                <rect key="frame" x="20" y="149" width="335" height="30"/>
+                                <rect key="frame" x="20" y="139" width="335" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="tWn-Xm-g4x"/>
                                 </constraints>
@@ -76,7 +76,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max 10 Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJx-XE-tdj">
-                                <rect key="frame" x="20" y="292" width="335" height="40"/>
+                                <rect key="frame" x="20" y="302" width="335" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="J8E-Sw-SZL"/>
                                 </constraints>
@@ -100,8 +100,8 @@
                             <constraint firstItem="FxG-cC-rDH" firstAttribute="trailing" secondItem="2au-ad-vXX" secondAttribute="trailing" constant="20" id="etA-1U-C4D"/>
                             <constraint firstItem="mG2-hf-JGq" firstAttribute="leading" secondItem="FxG-cC-rDH" secondAttribute="leading" constant="20" id="h3w-uu-hoY"/>
                             <constraint firstItem="FxG-cC-rDH" firstAttribute="trailing" secondItem="UQj-Vq-okx" secondAttribute="trailing" constant="20" id="hqy-Bn-xji"/>
-                            <constraint firstItem="2au-ad-vXX" firstAttribute="top" secondItem="UQj-Vq-okx" secondAttribute="bottom" constant="10" id="lS6-cv-yW1"/>
-                            <constraint firstItem="G6c-fa-ram" firstAttribute="top" secondItem="FxG-cC-rDH" secondAttribute="top" constant="10" id="tbj-yS-AZH"/>
+                            <constraint firstItem="2au-ad-vXX" firstAttribute="top" secondItem="UQj-Vq-okx" secondAttribute="bottom" constant="5" id="lS6-cv-yW1"/>
+                            <constraint firstItem="G6c-fa-ram" firstAttribute="top" secondItem="FxG-cC-rDH" secondAttribute="top" constant="5" id="tbj-yS-AZH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FxG-cC-rDH"/>
                     </view>

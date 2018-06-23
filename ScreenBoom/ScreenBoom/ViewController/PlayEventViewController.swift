@@ -139,12 +139,19 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
                                 width: size.width,
                                 height: size.height)
     }
+    var bottonSafeAreaHieght: CGFloat = 0.0
     
+    if UIApplication.shared.keyWindow!.safeAreaInsets.bottom == 34 {
+        bottonSafeAreaHieght = 21.0
+    } else if UIApplication.shared.keyWindow!.safeAreaInsets.bottom == 21 {
+        bottonSafeAreaHieght = 34.0
+    }
+
     if let rightMenu = rightMenuView {
         rightMenu.frame = CGRect(x: size.width - 10,
                                  y: 0,
                                  width: 80,
-                                 height: size.height - 50)
+                                 height: size.height - bottonSafeAreaHieght - 50.0)
         self.view.bringSubview(toFront: rightMenu)
         rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
     }
@@ -288,11 +295,24 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
     self.view.addSubview(rightMenu)
     
-    rightMenu.frame = CGRect(x: self.view.frame.maxX - 10,
-                             y: self.view.safeAreaLayoutGuide.layoutFrame.minY,
-                             width: 80,
-                             height: self.view.safeAreaLayoutGuide.layoutFrame.size.height - 50)
+//    var topSafeArea = CGFloat()
+//    var bottomSafeArea = CGFloat()
     
+//    if #available(iOS 11.0, *) {
+//        topSafeArea = view.safeAreaInsets.top
+//        bottomSafeArea = view.safeAreaInsets.bottom
+//    } else {
+//        topSafeArea = topLayoutGuide.length
+//        bottomSafeArea = bottomLayoutGuide.length
+//    }
+
+    let bottonSafeAreaHieght = UIApplication.shared.keyWindow!.safeAreaInsets.bottom
+    
+    rightMenu.frame = CGRect(x: self.view.frame.maxX - 10,
+                             y: self.view.safeAreaInsets.top,
+                             width: 80,
+                             height: self.view.safeAreaLayoutGuide.layoutFrame.height - bottonSafeAreaHieght - 50)
+
     rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
    
     self.view.bringSubview(toFront: rightMenu)

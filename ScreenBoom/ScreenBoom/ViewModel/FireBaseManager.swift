@@ -56,7 +56,6 @@ class FireBaseManager {
         return nil
     }
     
-    
     // for created event
     func addEventToUserCreatedEvents(event: Event, eventDetail: EventDetail) {
         // we need to keep track of the type so we retrive the type when we build the created tableview
@@ -98,6 +97,7 @@ class FireBaseManager {
     
     func getUserCreatedEvents(completion: (@escaping(Result<[[String:String]]>) -> Void)) {
         var createdEvents = [[String:String]]()
+        var images = [UIImage?]()
 
         REF_UUID_Events_Current_User_Created?.observeSingleEvent(of: .value, with: { (createdEventsSnapShot) in
             if let createdEventDic = createdEventsSnapShot.value as? [String:String] {

@@ -22,6 +22,14 @@ class CreateEventViewController: BaseViewController {
         return view
     }()
     
+    let noEventToShowLabel : UILabel = {
+        let view = UILabel()
+        view.textAlignment = .center
+        view.text = "No Events"
+        view.textColor = Colors.lightBlue
+        return view
+    }()
+    
     /// Mark:- Constants
     let constantNames = ConstantNames.sharedInstance
     
@@ -78,9 +86,11 @@ class CreateEventViewController: BaseViewController {
         FireBaseManager.sharedInstance.getUserCreatedEvents { (result) in
             switch result {
             case .Failure(let error):
+                self.setupNoEventToShowLAbel()
                 print(error)
             case .Success(let createdEvents):
                 self.createdEvents = createdEvents
+                self.noEventToShowLabel.removeFromSuperview()
                 self.createdEventsTableView.reloadData()
                 print(createdEvents)
             }
@@ -89,6 +99,15 @@ class CreateEventViewController: BaseViewController {
 
     }
     
+    func setupNoEventToShowLAbel() {
+        view.addSubview(noEventToShowLabel)
+        noEventToShowLabel.anchor(top: max10EventsLabel.bottomAnchor,
+                                  leading: max10EventsLabel.leadingAnchor,
+                                  bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                  trailing: max10EventsLabel.trailingAnchor,
+                                  padding: .init(top: 0, left: 0, bottom: 50, right: 0))
+        
+    }
     
     @IBAction func addNewEventBarButtonPressed(_ sender: UIBarButtonItem) {
         // check if user has 10 events already, if yes show info message
@@ -254,9 +273,9 @@ extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSour
         return eventTypePickerviewDataSource.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return eventTypePickerviewDataSource[row]
-    }
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return eventTypePickerviewDataSource[row]
+//    }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         var eventType: EventType
@@ -273,11 +292,36 @@ extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSour
         self.currentEventType = eventType
     }
     
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: eventTypePickerviewDataSource[row], attributes: [NSAttributedStringKey.foregroundColor : Colors.lightBlue])
-        return attributedString
+//    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+//        let attributedString = NSAttributedString(string: eventTypePickerviewDataSource[row], attributes: [NSAttributedStringKey.foregroundColor : Colors.lightBlue])
+//
+//        return attributedString
+//    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 35
     }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+
+        let label = UILabel()
+        label.textAlignment = .center
+        label.frame = CGRect(x: 0, y: 0, width: pickerView.frame.width, height: 35)
+
+       
+
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.text = eventTypePickerviewDataSource[row]
+        label.textColor = Colors.lightBlue
+
+        return label
+    }
+    
+    
 }
+
+
 
 // Extension to handle the createdEvents TableView Protocol
 
@@ -373,6 +417,7 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
                     self.createdEvents.remove(at: indexPath.row)
                     self.createdEventsTableView.reloadData()
                     self.infoView(message: "Event deleted", color: Colors.lightGreen)
+                    self.setupNoEventToShowLAbel()
                     break
                 }
                 self.HideSpinner()

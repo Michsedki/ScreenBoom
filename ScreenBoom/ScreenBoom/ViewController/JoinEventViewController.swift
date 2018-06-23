@@ -25,6 +25,14 @@ class JoinEventViewController: BaseViewController {
         return view
     }()
     
+    let noEventToShowLabel : UILabel = {
+       let view = UILabel()
+        view.textAlignment = .center
+        view.text = "No Events"
+        view.textColor = Colors.lightBlue
+        return view
+    }()
+    
     // Outlets
     @IBOutlet weak var eventNameTextField: UITextField!
     @IBOutlet weak var codeTextField: UITextField!
@@ -66,15 +74,27 @@ class JoinEventViewController: BaseViewController {
             switch result {
             case .Failure(let error):
                 // we need to update user that there is no history of joined events
+                 self.setupNoEventToShowLAbel()
                 print(error)
                 break
             case .Success(let joinedEvents):
                 self.joinedEvents = joinedEvents
+                self.noEventToShowLabel.removeFromSuperview()
                 self.joinedEventsTableView.reloadData()
                 break
             }
             self.HideSpinner()
         }
+    }
+    
+    func setupNoEventToShowLAbel() {
+        view.addSubview(noEventToShowLabel)
+        noEventToShowLabel.anchor(top: codeTextField.bottomAnchor,
+                                 leading: codeTextField.leadingAnchor,
+                                 bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                 trailing: codeTextField.trailingAnchor,
+                                 padding: .init(top: 0, left: 0, bottom: 50, right: 0))
+        
     }
     
     
@@ -247,6 +267,10 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
                 if result {
                     self.joinedEvents.remove(at: indexPath.row)
                     self.joinedEventsTableView.reloadData()
+                }
+                
+                if self.joinedEvents.count == 0 {
+                    self.setupNoEventToShowLAbel()
                 }
                 self.HideSpinner()
             }
