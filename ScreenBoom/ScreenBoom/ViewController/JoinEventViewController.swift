@@ -179,7 +179,7 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
         self.view.addSubview(joinedEventsTableView)
         joinedEventsTableView.anchor(top: codeTextField.bottomAnchor,
                                      leading: codeTextField.leadingAnchor,
-                                     bottom: self.view.bottomAnchor,
+                                     bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                                      trailing: codeTextField.trailingAnchor,
                                      padding: .init(top: 0, left: 0, bottom: 50, right: 0))
         joinedEventsTableView.rowHeight = UITableViewAutomaticDimension
@@ -263,7 +263,7 @@ extension JoinEventViewController : GADBannerViewDelegate {
         bannerView.rootViewController = self
         
         // In this case, we instantiate the banner with desired ad size.
-        bannerView.adUnitID = GADAppToken.sharedInstance.token
+        bannerView.adUnitID = "ca-app-pub-2855997463993070/9202711024"
         bannerView.load(GADRequest())
         
     }
@@ -273,7 +273,7 @@ extension JoinEventViewController : GADBannerViewDelegate {
         view.addSubview(bannerView)
         bannerView.anchor(top: nil,
                           leading: self.view.leadingAnchor,
-                          bottom: self.view.bottomAnchor,
+                          bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                           trailing: self.view.trailingAnchor,
                           padding: .init(top: 0, left: 0, bottom: 0, right: 0),
                           size: .init(width: 0, height: 50))

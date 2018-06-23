@@ -15,7 +15,8 @@ class DeepLinkManager {
     
     func shareMyDeepLinkURL(eventName: String, eventCode: String) -> String {
         // useing Email or SMS
-        let deepLinkURL = "sbdl://screenBoomEvent/joinDL/\(eventName)/\(eventCode)"
+        let eventNameWithoutSpace = eventName.replacingOccurrences(of: " ", with: "::")
+        let deepLinkURL = "sbdl://screenBoomEvent/joinDL/\(eventNameWithoutSpace)/\(eventCode)"
         return deepLinkURL
     }
     

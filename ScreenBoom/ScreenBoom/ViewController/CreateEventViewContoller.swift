@@ -294,7 +294,7 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
         self.view.addSubview(createdEventsTableView)
         createdEventsTableView.anchor(top: max10EventsLabel.bottomAnchor,
                                      leading: max10EventsLabel.leadingAnchor,
-                                     bottom: self.view.bottomAnchor,
+                                     bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                                      trailing: max10EventsLabel.trailingAnchor,
                                      padding: .init(top: 0, left: 0, bottom: 50, right: 0))
         createdEventsTableView.rowHeight = UITableViewAutomaticDimension
@@ -391,7 +391,7 @@ extension CreateEventViewController : GADBannerViewDelegate {
         bannerView.rootViewController = self
         
         // In this case, we instantiate the banner with desired ad size.
-        bannerView.adUnitID = GADAppToken.sharedInstance.token
+        bannerView.adUnitID = "ca-app-pub-2855997463993070/3784246274"
         bannerView.load(GADRequest())
         
     }
@@ -401,7 +401,7 @@ extension CreateEventViewController : GADBannerViewDelegate {
         view.addSubview(bannerView)
         bannerView.anchor(top: nil,
                           leading: self.view.leadingAnchor,
-                          bottom: self.view.bottomAnchor,
+                          bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                           trailing: self.view.trailingAnchor,
                           padding: .init(top: 0, left: 0, bottom: 0, right: 0),
                           size: .init(width: 0, height: 50))

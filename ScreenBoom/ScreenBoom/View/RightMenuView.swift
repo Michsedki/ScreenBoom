@@ -73,13 +73,13 @@ class RightMenuView: UIView {
                       leading: leadingAnchor,
                       bottom: nil,
                       trailing: trailingAnchor,
-                      padding: .init(top: 84, left: 10, bottom: 0, right: 10),
+                      padding: .init(top: 50, left: 10, bottom: 0, right: 10),
                       size: .init(width: 0, height: 30))
     playButton.anchor(top: editButton.bottomAnchor,
                      leading: leadingAnchor,
                      bottom: nil,
                      trailing: trailingAnchor,
-                     padding: .init(top: 15, left: 20, bottom: 0, right: 20),
+                     padding: .init(top: 10, left: 20, bottom: 0, right: 20),
                      size: .init(width: 0, height: 40))
     pauseButton.anchor(top: playButton.bottomAnchor,
                       leading: leadingAnchor,

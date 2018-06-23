@@ -80,7 +80,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
     let desceptionTextView : UITextView = {
         let view = UITextView()
         let attributedText = NSMutableAttributedString(string: "WELCOME TO SCREENBOOM SHARING SCREEN APP.", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18)])
-        attributedText.append(NSMutableAttributedString(string: "\n\n SCREENBOOM allows you to create Event and share it with others, no need for big screens or projectors, so easy and simple", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13),
+        attributedText.append(NSMutableAttributedString(string: "\n SCREENBOOM allows you to create Event and share it with others, no need for big screens or projectors, so easy and simple", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13),
                                                                                                                                                                                                                  NSAttributedStringKey.foregroundColor: UIColor.gray]))
         view.attributedText = attributedText
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -149,7 +149,7 @@ class HomeViewController: BaseViewController, UIViewControllerTransitioningDeleg
             ])
         countLabel.anchor(top: nil,
                           leading: self.view.leadingAnchor,
-                          bottom: self.view.bottomAnchor,
+                          bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                           trailing: self.view.trailingAnchor,
                           padding: .init(top: 0, left: 0, bottom: 0, right: 0),
                           size: .init(width: 0, height: 30))

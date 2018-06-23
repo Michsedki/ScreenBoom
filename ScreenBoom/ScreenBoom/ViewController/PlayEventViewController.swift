@@ -13,6 +13,12 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   func update(viewModel: PlayEventViewModel) {
     self.playEventView?.configure(viewModel: viewModel)
+    
+    if let viewerCount = viewModel.eventDetail.viewerCount {
+       self.playEventView?.updateViewerLabel(viewerCount : viewerCount)
+    } else {
+        self.playEventView?.updateViewerLabel(viewerCount : 0)
+    }
   }
   
   // variables
@@ -66,10 +72,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     fatalError("init(coder:) has not been implemented")
   }
     
-    
-    
-   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -142,7 +144,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         rightMenu.frame = CGRect(x: size.width - 10,
                                  y: 0,
                                  width: 80,
-                                 height: size.height - 90)
+                                 height: size.height - 50)
         self.view.bringSubview(toFront: rightMenu)
         rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
     }
@@ -174,8 +176,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         // add this user to event viewers
         prepareForEventViewer()
     }
-    
-   
   }
     
     func prepareForEventOwner() {
@@ -220,16 +220,23 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     
     guard let finalPlayView = playView else { return }
     self.playEventView = finalPlayView
+   
+    self.playEventView?.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
   
   }
   
   func setupConstraints() {
     if let playView = playEventView {
       self.view.addSubview(playView)
-      playView.frame = CGRect(x: 0,
-                              y: 0,
-                              width: self.view.bounds.width,
-                              height: self.view.bounds.height)
+        playView.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
+                        leading: self.view.leadingAnchor,
+                        bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                        trailing: self.view.trailingAnchor)
+        
+//      playView.frame = CGRect(x: self.view.safeAreaLayoutGuide.layoutFrame.minX,
+//                              y: 0,
+//                              width: self.view.safeAreaLayoutGuide.layoutFrame.size.width,
+//                              height: self.view.safeAreaLayoutGuide.layoutFrame.size.height)
     }
     
   }
@@ -248,9 +255,9 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         
         shareView.anchor(top: nil,
                          leading: self.view.leadingAnchor,
-                         bottom: self.view.bottomAnchor,
+                         bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                          trailing: self.view.trailingAnchor,
-                         padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                         padding: .init(top: 0, left: 0, bottom: 0, right: 80),
                          size: .init(width: 0, height: 50))
       
         eventNameAndCodeButtonLabel.anchor(top: shareView.topAnchor,
@@ -264,7 +271,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
                            leading: eventNameAndCodeButtonLabel.trailingAnchor,
                            bottom: shareView.bottomAnchor,
                            trailing: shareView.trailingAnchor,
-                           padding: .init(top: 10, left: 5, bottom: 10, right: 80),
+                           padding: .init(top: 10, left: 5, bottom: 10, right: 5),
                            size: .init(width: 30, height: 0))
        
         
@@ -280,10 +287,11 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     let rightMenu = RightMenuView()
     
     self.view.addSubview(rightMenu)
+    
     rightMenu.frame = CGRect(x: self.view.frame.maxX - 10,
-                             y: 0,
+                             y: self.view.safeAreaLayoutGuide.layoutFrame.minY,
                              width: 80,
-                             height: self.view.frame.height - 90)
+                             height: self.view.safeAreaLayoutGuide.layoutFrame.size.height - 50)
     
     rightMenu.configureWith(event: self.event, eventCode: self.event.eventCode)
    

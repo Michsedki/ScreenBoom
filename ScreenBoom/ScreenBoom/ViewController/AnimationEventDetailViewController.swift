@@ -96,13 +96,13 @@ class AnimationEventDetailViewController: EventDetailViewController {
     self.view.addSubview(searchButton)
     searchTextField.anchor(top: nil,
                            leading: self.view.leadingAnchor,
-                           bottom: self.view.bottomAnchor,
+                           bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                            trailing: searchButton.leadingAnchor,
                            padding: .init(top: 0, left: 5, bottom: 5, right: 5),
                            size: .init(width: 0, height: 30))
     searchButton.anchor(top: nil,
                         leading: searchTextField.trailingAnchor,
-                        bottom: self.view.bottomAnchor,
+                        bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                         trailing: self.view.trailingAnchor,
                         padding: .init(top: 0, left: 5, bottom: 5, right: 5),
                         size: .init(width: 70, height: 30))
@@ -226,9 +226,9 @@ extension AnimationEventDetailViewController: UICollectionViewDataSource, UIColl
         // Anchor for animationCollectionView
         animationCollectionView.anchor(top: playEventPreviewContainerView.bottomAnchor,
                                        leading: self.view.leadingAnchor,
-                                       bottom: self.view.bottomAnchor,
+                                       bottom: searchTextField.topAnchor,
                                        trailing: self.view.trailingAnchor,
-                                       padding: .init(top: 5, left: 20, bottom: 50, right: 20))
+                                       padding: .init(top: 5, left: 20, bottom: 5, right: 20))
     }
     
     func loadCollectionViewDataSource() {

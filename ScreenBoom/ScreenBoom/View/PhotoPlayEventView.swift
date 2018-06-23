@@ -52,9 +52,11 @@ class PhotoPlayEventView : PlayEventView {
                                    bottom: self.bottomAnchor,
                                    trailing: self.trailingAnchor,
                                    padding: .zero)
-        if let viewerCount = photoEventDetail.viewerCount {
-            updateViewerLabel(viewerCount : viewerCount)
-        }
+//        if let viewerCount = photoEventDetail.viewerCount {
+//            updateViewerLabel(viewerCount : viewerCount)
+//        } else {
+//            updateViewerLabel(viewerCount : 0)
+//        }
         
     }
 }

@@ -41,16 +41,17 @@ class AnimationPlayEventView : PlayEventView {
             photoEventImageView.image = UIImage(named: "placeHolder")
         }
         
-       
         addSubview(photoEventImageView)
         photoEventImageView.anchor(top: self.topAnchor,
                                    leading: self.leadingAnchor,
                                    bottom: self.bottomAnchor,
                                    trailing: self.trailingAnchor,
                                    padding: .zero)
-        if let viewerCount = animationEventDetail.viewerCount {
-            updateViewerLabel(viewerCount : viewerCount)
-        }
+//        if let viewerCount = animationEventDetail.viewerCount {
+//            updateViewerLabel(viewerCount : viewerCount)
+//        } else {
+//            updateViewerLabel(viewerCount : 0)
+//        }
         
     }
     

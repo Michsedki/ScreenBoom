@@ -22,7 +22,7 @@ class PlayEventView: UIView {
     }()
     let blurEffectView : UIVisualEffectView = {
         let view = UIVisualEffectView()
-        view.effect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        view.effect = UIBlurEffect(style: UIBlurEffectStyle.light)
         return view
     }()
     let viewerCountLabel : UILabel = {
@@ -32,6 +32,7 @@ class PlayEventView: UIView {
         view.textColor = .white
         view.numberOfLines = 0
         view.sizeToFit()
+        view.text = "Views \n 0"
         return view
     }()
 
@@ -53,17 +54,21 @@ class PlayEventView: UIView {
     
 //    let event = viewModel.event
     
-    self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+//    self.frame = CGRect(x: 0,
+//                        y: 0,
+//                        width: self.frame.width,
+//                        height: self.frame.height)
     
     // take care that you remove all subviews here 
     for view in self.subviews {
         view.removeFromSuperview()
     }
+   
   }
     
   // Show Pending Event View
   func showPendingAndDefaultEventView(message: String) {
-    backgroundColor = UIColor.gray
+//    backgroundColor = UIColor.gray
     pendingLabel.text = message
     // Add Canvas Animation to the pendingLabelAnimationView
     pendingLabelAnimationView.type = "shake"
@@ -83,7 +88,9 @@ class PlayEventView: UIView {
                                      bottom: pendingLabelAnimationView.bottomAnchor,
                                      trailing: pendingLabelAnimationView.trailingAnchor,
                                      padding: .zero)
-    pendingLabelAnimationView.startCanvasAnimation()
+//    pendingLabelAnimationView.startCanvasAnimation()
+    
+    updateViewerLabel(viewerCount : 0)
   }
     
     func updateViewerLabel(viewerCount : Int) {
@@ -103,8 +110,8 @@ class PlayEventView: UIView {
                                 leading: nil,
                                 bottom: self.bottomAnchor,
                                 trailing: self.trailingAnchor,
-                                padding: .init(top: 0, left: 0, bottom: 55, right: 0),
-                                size: .init(width: 80, height: 30))
+                                padding: .init(top: 0, left: 0, bottom: 0, right: 0),
+                                size: .init(width: 80, height: 50))
         viewerCountLabel.anchor(top: viewerCountView.topAnchor,
                               leading: viewerCountView.leadingAnchor,
                               bottom: viewerCountView.bottomAnchor,
@@ -112,7 +119,7 @@ class PlayEventView: UIView {
                               padding: .init(top: 0, left: 0, bottom: 0, right: 0),
                               size: .init(width: 0, height: 0))
         
-        viewerCountLabel.text = "Views \(viewerCount)"
+        viewerCountLabel.text = "Views \n \(viewerCount)"
 
         print(viewerCount)
     }

@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Initialize the Google Mobile Ads SDK.
     // Sample AdMob app ID: ca-app-pub-3940256099942544/2934735716
     // real app ID : ca-app-pub-2855997463993070~3927290506
-    GADMobileAds.configure(withApplicationID: GADAppToken.sharedInstance.token)
+    GADMobileAds.configure(withApplicationID: "ca-app-pub-2855997463993070~3927290506")
     
     // Configure your API Key
     GiphyCore.configure(apiKey: "u1BwQbztqFvcdN6WKvLPDDJ6gbmrbMBX")
@@ -81,6 +81,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let urlPathRoot = pathStringArray[0]
     let eventName = pathStringArray[1]
     let eventCode = pathStringArray[2]
+    
+    let eventNameWithSpace = eventName.replacingOccurrences(of: "::", with: " ")
+    
     let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
     if(urlHost != "screenBoomEvent")
@@ -94,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       if let joinEventViewController = mainStoryboard.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController {
         let navigationController = UINavigationController(rootViewController: joinEventViewController)
           self.window?.rootViewController = navigationController
-        joinEventViewController.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
+        joinEventViewController.getEventAndCmpareCode(eventName: eventNameWithSpace, eventCode: eventCode)
         
       } else {
         return false
