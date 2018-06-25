@@ -18,8 +18,6 @@ let DB_BASE = Database.database().reference()
 class FireBaseManager {
     static let sharedInstance = FireBaseManager()
     
-    let  userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String
-    
     // General firebase ref
     private (set) var REF_BASE = DB_BASE
     private (set) var REF_Event = DB_BASE.child("Event")
@@ -28,28 +26,28 @@ class FireBaseManager {
 
     // Current user ref as computed values
     var REF_Event_Current_User: DatabaseReference? {
-        if let userID = userID {
+        if let  userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
             let ref = REF_Event.child(userID)
             return ref
         }
         return nil
     }
     var REF_EventDetails_Current_User: DatabaseReference? {
-        if let userID = userID {
+        if let  userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
         let ref = REF_EventDetails.child(userID)
         return ref
         }
         return nil
     }
     var REF_UUID_Events_Current_User_Created : DatabaseReference? {
-        if let userID = userID {
+        if let  userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
         let ref = REF_UUID_Events.child(userID).child("Created")
         return ref
         }
         return nil
     }
     var REF_UUID_Events_Current_User_Joined : DatabaseReference? {
-        if let userID = userID {
+        if let  userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
             let ref = REF_UUID_Events.child(userID).child("Joined")
             return ref
         }
@@ -96,6 +94,7 @@ class FireBaseManager {
     }
     
     func getUserCreatedEvents(completion: (@escaping(Result<[[String:String]]>) -> Void)) {
+        
         var createdEvents = [[String:String]]()
         var images = [UIImage?]()
 

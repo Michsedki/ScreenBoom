@@ -174,8 +174,11 @@ class AnimationEventDetailViewController: EventDetailViewController {
   }
   
   func saveEvent() {
-    guard !(eventDetail.animationStringURL?.isEmpty)! else {print("Photo not Empty")
-      return}
+    guard !(eventDetail.animationStringURL?.isEmpty)! else {
+        print("Photo is Empty")
+        return
+        
+    }
   
     self.ShowSpinner()
     

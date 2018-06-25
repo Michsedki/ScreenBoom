@@ -417,7 +417,9 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
                     self.createdEvents.remove(at: indexPath.row)
                     self.createdEventsTableView.reloadData()
                     self.infoView(message: "Event deleted", color: Colors.lightGreen)
+                    if self.createdEvents.count == 0 {
                     self.setupNoEventToShowLAbel()
+                    }
                     break
                 }
                 self.HideSpinner()

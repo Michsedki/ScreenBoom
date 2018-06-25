@@ -51,8 +51,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ScreenBoom would like to use your photos</string>
+	<string>ScreenBoom would like to use your photos to allow you to select one of your photos to create your photo event, this photo will be attached to your Event.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>ScreenBoom would like to use your Camera</string>
+	<string>ScreenBoom would like to use your Camera to create your Photo Event, this photo will be attached to your event.</string>
 </dict>
 </plist>
