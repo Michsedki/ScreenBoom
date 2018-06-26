@@ -57,47 +57,49 @@ class CreatedEventsTableViewCell: UITableViewCell {
         return view
     }()
     
-    let imageCache = NSCache<NSString, UIImage>()
+//    let imageCache = NSCache<NSString, UIImage>()
 
    
     
-    func configureCell (eventInfoDic: [String:String]) {
+    func configureCell (eventInfoDic: [String:String], image: UIImage) {
         eventImageView.image = nil
         
         eventNameLabel.text = eventInfoDic["eventName"]
         eventCodeLabel.text = eventInfoDic["eventCode"]
-        if eventInfoDic["eventType"] == "photo" || eventInfoDic["eventType"] == "animation" {
-            
-            if let url = eventInfoDic["eventPhotoURL"] {
-                
-                if let imageFromCache = imageCache.object(forKey: url as
-                    NSString) {
-                    eventImageView.image = imageFromCache
-                } else if let image = UIImage.gif(url: url) {
-                    eventImageView.image = image
-                    imageCache.setObject(image, forKey: url as NSString)
-                } else {
-                    eventImageView.image = UIImage(named: "placeHolder")
-                }
-                
-            } else {
-                eventImageView.image = UIImage(named: "placeHolder")
-            }
-            placeHolderView.addSubview(eventImageView)
-            eventImageView.anchor(top: placeHolderView.topAnchor,
-                                  leading: placeHolderView.leadingAnchor,
-                                  bottom: placeHolderView.bottomAnchor,
-                                  trailing: placeHolderView.trailingAnchor,
-                                  padding: .zero)
-        } else {
-            eventTypeLabel.text = String((eventInfoDic["eventType"]?.uppercased().first!)!)
-            placeHolderView.addSubview(eventTypeLabel)
-            eventTypeLabel.anchor(top: placeHolderView.topAnchor,
-                                  leading: placeHolderView.leadingAnchor,
-                                  bottom: placeHolderView.bottomAnchor,
-                                  trailing: placeHolderView.trailingAnchor,
-                                  padding: .zero)
-        }
+        eventImageView.image = image
+        
+//        if eventInfoDic["eventType"] == "photo" || eventInfoDic["eventType"] == "animation" {
+//
+//            if let url = eventInfoDic["eventPhotoURL"] {
+//
+//                if let imageFromCache = imageCache.object(forKey: url as
+//                    NSString) {
+//                    eventImageView.image = imageFromCache
+//                } else if let image = UIImage.gif(url: url) {
+//                    eventImageView.image = image
+//                    imageCache.setObject(image, forKey: url as NSString)
+//                } else {
+//                    eventImageView.image = UIImage(named: "placeHolder")
+//                }
+//
+//            } else {
+//                eventImageView.image = UIImage(named: "placeHolder")
+//            }
+//            placeHolderView.addSubview(eventImageView)
+//            eventImageView.anchor(top: placeHolderView.topAnchor,
+//                                  leading: placeHolderView.leadingAnchor,
+//                                  bottom: placeHolderView.bottomAnchor,
+//                                  trailing: placeHolderView.trailingAnchor,
+//                                  padding: .zero)
+//        } else {
+//            eventTypeLabel.text = String((eventInfoDic["eventType"]?.uppercased().first!)!)
+//            placeHolderView.addSubview(eventTypeLabel)
+//            eventTypeLabel.anchor(top: placeHolderView.topAnchor,
+//                                  leading: placeHolderView.leadingAnchor,
+//                                  bottom: placeHolderView.bottomAnchor,
+//                                  trailing: placeHolderView.trailingAnchor,
+//                                  padding: .zero)
+//        }
         
         selectionStyle = .none
         contentView.backgroundColor = UIColor.white
@@ -106,6 +108,14 @@ class CreatedEventsTableViewCell: UITableViewCell {
         contentView.addSubview(eventNameLabel)
         contentView.addSubview(eventCodeLabel)
         contentView.addSubview(eventShareButton)
+        
+        placeHolderView.addSubview(eventImageView)
+        
+        eventImageView.anchor(top: placeHolderView.topAnchor,
+                              leading: placeHolderView.leadingAnchor,
+                              bottom: placeHolderView.bottomAnchor,
+                              trailing: placeHolderView.trailingAnchor,
+                              padding: .zero)
         
         
         placeHolderView.anchor(top: contentView.topAnchor,

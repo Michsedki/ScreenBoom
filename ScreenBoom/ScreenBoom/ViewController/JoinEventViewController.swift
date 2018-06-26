@@ -18,6 +18,7 @@ class JoinEventViewController: BaseViewController {
     var eventManager = EventManager()
     var eventDetailManager = EventDetailManager()
     var joinedEvents = [[String:String]]()
+    var images = [UIImage]()
     var bannerView: GADBannerView!
     
     var joinedEventsTableView : UITableView = {
@@ -70,7 +71,7 @@ class JoinEventViewController: BaseViewController {
     
     func getUserJoinedEvents() {
         self.ShowSpinner()
-        FireBaseManager.sharedInstance.getUserJoinedEvents { (result) in
+        FireBaseManager.sharedInstance.getUserJoinedEvents { (result, images) in
             switch result {
             case .Failure(let error):
                 // we need to update user that there is no history of joined events
@@ -79,6 +80,7 @@ class JoinEventViewController: BaseViewController {
                 break
             case .Success(let joinedEvents):
                 self.joinedEvents = joinedEvents
+                self.images = images
                 self.noEventToShowLabel.removeFromSuperview()
                 self.joinedEventsTableView.reloadData()
                 break
@@ -116,6 +118,7 @@ class JoinEventViewController: BaseViewController {
     }
     
     func getEventAndCmpareCode(eventName: String, eventCode: String) {
+        
         
         self.event = Event(eventName: eventName, eventIsLive: "no", eventType: .Unknown, eventCode: eventCode)
         // start spinner
@@ -184,7 +187,36 @@ class JoinEventViewController: BaseViewController {
         changeTransition(direction: "forword")
         self.navigationController?.pushViewController(PlayViewController, animated: false)
     }
+    
+    func rigisterUser(eventName: String, eventCode: String) {
+        if let _ = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) {
+            self.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
+        } else {
+            userDefaultICloudViewModel.getICloudUserID { (userID, error) in
+                if error == nil , let userID = userID {
+                    UserDefaults.standard.set(userID, forKey: self.userDefaultKeyNames.userIDKey)
+                    self.getEventAndCmpareCode(eventName: eventName, eventCode: eventCode)
+                } else {
+                    // show alert
+                    self.showNotSignedInICloud(eventName: eventName, eventCode: eventCode)
+                }
+            }
+        }
+    }
+    
+    // show alert that user not sign in ICloud
+    func showNotSignedInICloud(eventName: String, eventCode: String) {
+        
+        let alert = UIAlertController(title: "ICloud account not found", message: "Would you sign in your ICloud Account ", preferredStyle: UIAlertControllerStyle.alert)
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {action in self.rigisterUser(eventName: eventName, eventCode: eventCode)}))
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+    }
 }
+
+
 
 extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
     
@@ -223,7 +255,7 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.joinedEventsTableView.dequeueReusableCell(withIdentifier: "CreatedEventsTableViewCell", for: indexPath) as? CreatedEventsTableViewCell {
             
-            cell.configureCell(eventInfoDic: self.joinedEvents[indexPath.row])
+            cell.configureCell(eventInfoDic: self.joinedEvents[indexPath.row], image: self.images[indexPath.row])
             cell.eventShareButton.tag = indexPath.row
             cell.eventShareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
             

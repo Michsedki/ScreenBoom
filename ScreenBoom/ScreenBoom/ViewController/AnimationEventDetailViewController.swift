@@ -174,10 +174,10 @@ class AnimationEventDetailViewController: EventDetailViewController {
   }
   
   func saveEvent() {
-    guard !(eventDetail.animationStringURL?.isEmpty)! else {
-        print("Photo is Empty")
-        return
-        
+    guard eventDetail.animationStringURL != "",
+        eventDetail.animationPreviewURL != "" else {
+            print("Animation is Empty")
+            return
     }
   
     self.ShowSpinner()
@@ -245,13 +245,9 @@ extension AnimationEventDetailViewController: UICollectionViewDataSource, UIColl
             case .Success(let gifImagesDic):
                 DispatchQueue.main.async {
                 self.animationCollectionViewData = gifImagesDic
-                self.eventDetail.animationStringURL =  self.animationCollectionViewData[0]["originalURL"]
-//                self.eventDetail.animationPreviewURL = self.animationCollectionViewData[0]["previewURL"]
-                if let imageURL = self.animationCollectionViewData[0]["previewURL"],
-                    let image = UIImage.gif(url: imageURL) {
-                    self.eventDetail.configureWithPhoto(photo: image)
-                    self.updatePreviewEventViewController()
-                }
+                    
+                    self.loadData()
+               
                     self.animationCollectionView.reloadData()
                 }
                 break
@@ -259,6 +255,26 @@ extension AnimationEventDetailViewController: UICollectionViewDataSource, UIColl
             DispatchQueue.main.async {
                 self.HideSpinner()
             }
+        }
+    }
+    
+    func loadData() {
+        if self.eventDetail.animationStringURL == "" {
+            self.eventDetail.animationStringURL =  self.animationCollectionViewData[0]["originalURL"]
+            self.eventDetail.animationPreviewURL = self.animationCollectionViewData[0]["previewURL"]
+            if let imageURL = self.animationCollectionViewData[0]["previewURL"],
+                let image = UIImage.gif(url: imageURL) {
+                self.eventDetail.configureWithPhoto(photo: image)
+                self.updatePreviewEventViewController()
+            }
+            
+        } else {
+            if let imageURL = self.eventDetail.animationStringURL,
+                let image = UIImage.gif(url: imageURL) {
+                self.eventDetail.configureWithPhoto(photo: image)
+                self.updatePreviewEventViewController()
+            }
+            
         }
     }
     
@@ -289,7 +305,7 @@ extension AnimationEventDetailViewController: UICollectionViewDataSource, UIColl
     // image and propogate it to our preview view
     
     self.eventDetail.animationStringURL = self.animationCollectionViewData[indexPath.row]["originalURL"]
-//    self.eventDetail.animationPreviewURL = self.animationCollectionViewData[indexPath.row]["previewURL"]
+    self.eventDetail.animationPreviewURL = self.animationCollectionViewData[indexPath.row]["previewURL"]
     
     if let cell = animationCollectionView.cellForItem(at: indexPath) as? AnimationCollectionViewCell {
         self.eventDetail.configureWithPhoto(photo: cell.animationImageView.image!)

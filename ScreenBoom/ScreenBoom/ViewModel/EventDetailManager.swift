@@ -62,24 +62,20 @@ class EventDetailManager: NSObject {
                 
             case .Animation:
                 guard let animationStringURL = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventDetailAnimationStringURLChild).value as? String,
-                    let code = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventNodeCodeChild).value as? String else {
+                    let code = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventNodeCodeChild).value as? String,
+                    let animationPreviewURL = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventDetailAnimatioPreviewURLChild).value as? String else {
                         completion(Result.Failure("Event Not Found"))
                         return
                 }
                 
-                eventDetail = AnimationEventDetail(animationStringURL: animationStringURL, code: code)
+                eventDetail = AnimationEventDetail(animationStringURL: animationStringURL, code: code, animationPreviewURL: animationPreviewURL)
                 break
             case .Unknown:
                 completion(Result.Failure("Unknown event type "))
                 break
             }
             
-            if let eventViewer = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventViewerCount).value as? [String:String] {
-                eventDetail?.viewerCount = eventViewer.count
-                print(eventDetail?.viewerCount!)
-            }
-            
-            
+
             if let eventDetailFinal = eventDetail {
                 completion(Result.Success(eventDetailFinal))
             } else {
@@ -141,13 +137,15 @@ class EventDetailManager: NSObject {
             guard let animationEventDetail = eventdetail as? AnimationEventDetail else { return }
             // make sure that all values are exist
             guard let animationStringURL = animationEventDetail.animationStringURL,
-                let code = animationEventDetail.code else {
+                  let code = animationEventDetail.code,
+                  let animationPreviewURL = animationEventDetail.animationPreviewURL else {
                     completion(Result.Failure("Couldn't build animation eventDetail"))
                     return
             }
             // set the eventDetail dectionary with keys and values
             eventDetails = [firebaseNodeNames.eventDetailAnimationStringURLChild : animationStringURL,
-                            firebaseNodeNames.eventDetailCodeChild : code]
+                            firebaseNodeNames.eventDetailCodeChild : code,
+                            firebaseNodeNames.eventDetailAnimatioPreviewURLChild : animationPreviewURL]
             break
         case.Unknown:
             completion(Result.Failure("Unknown event type"))
@@ -160,7 +158,7 @@ class EventDetailManager: NSObject {
                     completion(Result.Failure((error?.localizedDescription)!))
                     return
                 }
-                
+                // ****** remove this guard , no need for it
                 guard let eventCode = eventdetail.code else {
                     completion(Result.Failure("Couldn't Retrive the event Code"))
                     return}

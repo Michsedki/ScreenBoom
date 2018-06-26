@@ -39,6 +39,7 @@ class CreateEventViewController: BaseViewController {
     let eventTypePickerviewDataSource = ["Text", "Photo", "Animation"]
     var currentEventType:EventType = .Text
     var createdEvents = [[String:String]]()
+    var images = [UIImage]()
     var bannerView: GADBannerView!
 
     
@@ -83,13 +84,14 @@ class CreateEventViewController: BaseViewController {
     
     func getUserCreatedEvents() {
         self.ShowSpinner()
-        FireBaseManager.sharedInstance.getUserCreatedEvents { (result) in
+        FireBaseManager.sharedInstance.getUserCreatedEvents { (result, images)  in
             switch result {
             case .Failure(let error):
-                self.setupNoEventToShowLAbel()
+                self.setupNoEventToShowLabel()
                 print(error)
             case .Success(let createdEvents):
                 self.createdEvents = createdEvents
+                self.images = images
                 self.noEventToShowLabel.removeFromSuperview()
                 self.createdEventsTableView.reloadData()
                 print(createdEvents)
@@ -99,7 +101,7 @@ class CreateEventViewController: BaseViewController {
 
     }
     
-    func setupNoEventToShowLAbel() {
+    func setupNoEventToShowLabel() {
         view.addSubview(noEventToShowLabel)
         noEventToShowLabel.anchor(top: max10EventsLabel.bottomAnchor,
                                   leading: max10EventsLabel.leadingAnchor,
@@ -227,11 +229,9 @@ class CreateEventViewController: BaseViewController {
             if let oldAnimationEventDetail = eventDetail {
                 eventDetailItem = oldAnimationEventDetail
             } else {
-                eventDetailItem = AnimationEventDetail(
-                    animationStringURL: "",
-                    code: ""
-                    )
-//                animationPreviewURL: ""
+                eventDetailItem = AnimationEventDetail(animationStringURL: "",
+                                                       code: "",
+                                                       animationPreviewURL: "")
             }
             guard let animationEventDetail = eventDetailItem as? AnimationEventDetail else { return }
             eventDetailVC = AnimationEventDetailViewController(event: event, eventDetail: animationEventDetail)
@@ -365,7 +365,7 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = self.createdEventsTableView.dequeueReusableCell(withIdentifier: "CreatedEventsTableViewCell", for: indexPath) as? CreatedEventsTableViewCell {
            
-                cell.configureCell(eventInfoDic: self.createdEvents[indexPath.row])
+            cell.configureCell(eventInfoDic: self.createdEvents[indexPath.row], image: self.images[indexPath.row])
                 cell.eventShareButton.tag = indexPath.row
                 cell.eventShareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
                 return cell
@@ -418,7 +418,7 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
                     self.createdEventsTableView.reloadData()
                     self.infoView(message: "Event deleted", color: Colors.lightGreen)
                     if self.createdEvents.count == 0 {
-                    self.setupNoEventToShowLAbel()
+                    self.setupNoEventToShowLabel()
                     }
                     break
                 }

@@ -97,7 +97,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       if let joinEventViewController = mainStoryboard.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController {
         let navigationController = UINavigationController(rootViewController: joinEventViewController)
           self.window?.rootViewController = navigationController
-        joinEventViewController.getEventAndCmpareCode(eventName: eventNameWithSpace, eventCode: eventCode)
+        joinEventViewController.rigisterUser(eventName: eventNameWithSpace, eventCode: eventCode)
+//        joinEventViewController.getEventAndCmpareCode(eventName: eventNameWithSpace, eventCode: eventCode)
         
       } else {
         return false
@@ -107,11 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       return false
     }
     
-    
-    
-    
     return true
   }
+    
   // dlt://swiftdeveloperblog.com/inner
 
 

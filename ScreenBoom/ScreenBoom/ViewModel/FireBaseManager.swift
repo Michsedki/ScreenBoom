@@ -22,6 +22,7 @@ class FireBaseManager {
     private (set) var REF_BASE = DB_BASE
     private (set) var REF_Event = DB_BASE.child("Event")
     private (set) var REF_EventDetails = DB_BASE.child("EventDetails")
+    private (set) var REF_EventViews = DB_BASE.child("EventViews")
     private (set) var REF_UUID_Events = DB_BASE.child("uuid-events")
 
     // Current user ref as computed values
@@ -68,8 +69,8 @@ class FireBaseManager {
                 let photoURL = photoEventDetail.photoname {
                 eventCode_Type_url = eventCode_Type_url + "**\(photoURL))"
             } else if let animationEventDetail = eventDetail as? AnimationEventDetail,
-                let animationURL = animationEventDetail.animationStringURL {
-                eventCode_Type_url = eventCode_Type_url + "**\(animationURL)"
+                let animationPreviewURL = animationEventDetail.animationPreviewURL {
+                eventCode_Type_url = eventCode_Type_url + "**\(animationPreviewURL)"
             }
             break
         }
@@ -93,10 +94,10 @@ class FireBaseManager {
         })
     }
     
-    func getUserCreatedEvents(completion: (@escaping(Result<[[String:String]]>) -> Void)) {
+    func getUserCreatedEvents(completion: (@escaping(Result<[[String:String]]>, [UIImage]) -> Void)) {
         
         var createdEvents = [[String:String]]()
-        var images = [UIImage?]()
+        var images = [UIImage]()
 
         REF_UUID_Events_Current_User_Created?.observeSingleEvent(of: .value, with: { (createdEventsSnapShot) in
             if let createdEventDic = createdEventsSnapShot.value as? [String:String] {
@@ -113,10 +114,22 @@ class FireBaseManager {
                 }
                 let sortedcreatedEvents : [[String:String]] =
                     createdEvents.sorted(by: { $0["eventName"]! < $1["eventName"]! })
+                
+                // get images
+                for createdEvent in sortedcreatedEvents {
+                    if let imageurl = createdEvent["eventPhotoURL"],
+                        let image = UIImage.gif(url: imageurl) {
+                        images.append(image)
+                        
+                    } else {
+                        images.append(UIImage(named: "text")!)
+                    }
+                }
+                
                 print(sortedcreatedEvents)
-                completion(Result.Success(sortedcreatedEvents))
+                completion(Result.Success(sortedcreatedEvents), images)
             } else {
-           completion(Result.Failure("No Created Events"))
+           completion(Result.Failure("No Created Events"), images)
             }
         })
     }
@@ -138,8 +151,8 @@ class FireBaseManager {
                 let photoURL = photoEventDetail.photoname {
                 eventCode_Type_url = eventCode_Type_url + "**\(photoURL))"
             } else if let animationEventDetail = eventDetail as? AnimationEventDetail,
-                let animationURL = animationEventDetail.animationStringURL {
-                eventCode_Type_url = eventCode_Type_url + "**\(animationURL)"
+                let animationPreviewURL = animationEventDetail.animationPreviewURL {
+                eventCode_Type_url = eventCode_Type_url + "**\(animationPreviewURL)"
             }
             break
         }
@@ -165,9 +178,11 @@ class FireBaseManager {
     // here we need to get all history of joined events for that user
     // then sort them by date and limit them to 10 events, and remove the rest
     // so we use autChild when we add the events and the use it again to order them
-    func getUserJoinedEvents(completion: (@escaping(Result<[[String:String]]>) -> Void)) {
+    func getUserJoinedEvents(completion: (@escaping(Result<[[String:String]]>, [UIImage]) -> Void)) {
         var finalJoinedEvents = [[String:String]]()
         var joinedEvents = [[String:String]]()
+        var images = [UIImage]()
+        
         REF_UUID_Events_Current_User_Joined?.observeSingleEvent(of: .value, with: { (joinedEventsSnapShot) in
             
             if let joinedEventsSnapShotValue = joinedEventsSnapShot.value as? [String:[String:String]] {
@@ -202,11 +217,21 @@ class FireBaseManager {
                     }
                     count = count + 1
                 }
-//                print(finalJoinedEvents)
-                completion(Result.Success(finalJoinedEvents))
+                
+                for joinedEvent in finalJoinedEvents {
+                    if let imageurl = joinedEvent["eventPhotoURL"],
+                        let image = UIImage.gif(url: imageurl) {
+                        images.append(image)
+                    } else {
+                        images.append(UIImage(named: "text")!)
+                    }
+                }
+                
+                
+                completion(Result.Success(finalJoinedEvents), images)
                 
             } else {
-                completion(Result.Failure("No Joined Events"))
+                completion(Result.Failure("No Joined Events"), images)
             }
         })
     }
@@ -217,7 +242,7 @@ class FireBaseManager {
     // add user to list of viewer
     func addToViewList(event: Event) {
         if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String {
-        REF_EventDetails.child(event.eventName).child("views").child(userID).setValue("", withCompletionBlock: { (error, _) in
+        REF_EventViews.child(event.eventName).child(userID).setValue("", withCompletionBlock: { (error, _) in
                 if error != nil {
                     print("Couldn't add user to views, Error: \(String(describing: error?.localizedDescription))")
                 }
@@ -228,7 +253,7 @@ class FireBaseManager {
     func removeFromViewList(event: Event) {
         if let userID = UserDefaults.standard.object(forKey: userDefaultKeyNames.userIDKey) as? String
              {
-            REF_EventDetails.child(event.eventName).child("views").child(userID).removeValue(completionBlock: { (error, _) in
+            REF_EventViews.child(event.eventName).child(userID).removeValue(completionBlock: { (error, _) in
                 if error != nil {
                     print("Couldn't remove user from views, Error: \(String(describing: error?.localizedDescription))")
                 }

@@ -14,13 +14,11 @@ class AnimationEventDetail: EventDetail {
     var animationPreviewURL: String?
     var photo: UIImage?
     
-//    animationPreviewURL: String?
-    
-    init(animationStringURL: String?, code: String?, photo:UIImage? = nil){
+    init(animationStringURL: String?, code: String?, photo:UIImage? = nil, animationPreviewURL: String?){
         
         super.init(code: code)
         self.animationStringURL = animationStringURL
-//        self.animationPreviewURL = animationPreviewURL
+        self.animationPreviewURL = animationPreviewURL
         self.photo = photo
     }
     

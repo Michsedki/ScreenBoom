@@ -13,12 +13,6 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
   
   func update(viewModel: PlayEventViewModel) {
     self.playEventView?.configure(viewModel: viewModel)
-    
-    if let viewerCount = viewModel.eventDetail.viewerCount {
-       self.playEventView?.updateViewerLabel(viewerCount : viewerCount)
-    } else {
-        self.playEventView?.updateViewerLabel(viewerCount : 0)
-    }
   }
   
   // variables
@@ -56,6 +50,17 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
     let shareButton : UIButton = {
         let view = UIButton()
         view.setImage(UIImage(named: "share"), for: .normal)
+        return view
+    }()
+    
+    let viewsLabel : UILabel = {
+       let view = UILabel()
+        view.textAlignment = .center
+        view.backgroundColor = .clear
+        view.textColor = .white
+        view.text = "Views"
+        view.sizeToFit()
+        view.numberOfLines = 0
         return view
     }()
   
@@ -253,6 +258,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         shareView.addSubview(blurEffectView)
         shareView.addSubview(eventNameAndCodeButtonLabel)
         shareView.addSubview(shareButton)
+        shareView.addSubview(viewsLabel)
         
         blurEffectView.anchor(top: shareView.topAnchor,
                               leading: shareView.leadingAnchor,
@@ -264,7 +270,7 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
                          leading: self.view.leadingAnchor,
                          bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
                          trailing: self.view.trailingAnchor,
-                         padding: .init(top: 0, left: 0, bottom: 0, right: 80),
+                         padding: .init(top: 0, left: 0, bottom: 0, right: 0),
                          size: .init(width: 0, height: 50))
       
         eventNameAndCodeButtonLabel.anchor(top: shareView.topAnchor,
@@ -277,16 +283,34 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         shareButton.anchor(top: shareView.topAnchor,
                            leading: eventNameAndCodeButtonLabel.trailingAnchor,
                            bottom: shareView.bottomAnchor,
-                           trailing: shareView.trailingAnchor,
+                           trailing: viewsLabel.leadingAnchor,
                            padding: .init(top: 10, left: 5, bottom: 10, right: 5),
                            size: .init(width: 30, height: 0))
+        viewsLabel.anchor(top: shareView.topAnchor,
+                         leading: shareButton.trailingAnchor,
+                         bottom: shareView.bottomAnchor,
+                         trailing: shareView.trailingAnchor,
+                         padding: .init(top: 0, left: 5, bottom: 0, right: 0),
+                         size: .init(width: 80, height: 0))
        
+        updateViewsLabel()
         
         eventNameAndCodeButtonLabel.setTitle("Title: \(self.event.eventName) \n Code: \(self.event.eventCode)", for: .normal)
         shareButton.addTarget(self, action: #selector(shareButtonPressed(_:)), for: .touchUpInside)
         
         
         self.view.bringSubview(toFront: shareView)
+    }
+    
+    
+    func updateViewsLabel() {
+        FireBaseManager.sharedInstance.REF_EventViews.child(self.event.eventName).observe(.value) { (viewsSnapShot) in
+              if let viewsSnapShotValue = viewsSnapShot.value as? [String:String] {
+                    self.viewsLabel.text = "Views \n \(viewsSnapShotValue.count)"
+              } else {
+                self.viewsLabel.text = "Views"
+            }
+        }
     }
   
   func setupSideMenu() {
