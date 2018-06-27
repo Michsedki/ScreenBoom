@@ -274,6 +274,10 @@ extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
         
         let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
         
+        if let wPPC = activityController.popoverPresentationController {
+            wPPC.sourceView = sender
+        }
+        
         present(activityController, animated: true, completion: nil)
         print("\(sender.tag) : \(deepLinkURL)")
     }

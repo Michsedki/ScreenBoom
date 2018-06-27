@@ -354,6 +354,10 @@ class PlayEventViewController: BaseViewController, PlayEventViewModelSourceObser
         let deepLinkURL =  DeepLinkManager.sharedInstance.shareMyDeepLinkURL(eventName: self.event.eventName, eventCode: self.event.eventCode)
         let activityController = UIActivityViewController(activityItems: [deepLinkURL], applicationActivities: nil)
         
+        if let wPPC = activityController.popoverPresentationController {
+            wPPC.sourceView = sender
+        }
+        
         present(activityController, animated: true, completion: nil)
       }
 
