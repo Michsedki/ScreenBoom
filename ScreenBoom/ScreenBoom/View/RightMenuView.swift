@@ -24,9 +24,9 @@ class RightMenuView: UIView {
   let editButton : UIButton = {
     let view = UIButton()
     view.setTitle("Edit", for: .normal)
-    view.titleLabel?.textColor = UIColor.blue
-    // ****** we need to implement this feature
+    view.titleLabel?.textAlignment = .left
     view.isHidden = true
+    // ****** we need to implement this feature
     view.titleLabel?.backgroundColor = UIColor.clear
     view.backgroundColor = UIColor.clear
     return view
@@ -74,7 +74,7 @@ class RightMenuView: UIView {
                       leading: leadingAnchor,
                       bottom: nil,
                       trailing: trailingAnchor,
-                      padding: .init(top: 50, left: 10, bottom: 0, right: 10),
+                      padding: .init(top: 80, left: 10, bottom: 0, right: 30),
                       size: .init(width: 0, height: 30))
     playButton.anchor(top: editButton.bottomAnchor,
                      leading: leadingAnchor,
@@ -111,7 +111,7 @@ class RightMenuView: UIView {
   }
   
   @objc func editButtonPressed(_ sender: UIButton) {
-    
+    self.sideMenuDelegate?.sideMenuEditButtonPressed()
   }
   
   @objc func deleteButtonPressed(_ sender: UIButton) {

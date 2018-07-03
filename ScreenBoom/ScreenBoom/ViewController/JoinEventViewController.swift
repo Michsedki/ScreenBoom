@@ -27,7 +27,7 @@ class JoinEventViewController: BaseViewController {
     }()
     
     let noEventToShowLabel : UILabel = {
-       let view = UILabel()
+        let view = UILabel()
         view.textAlignment = .center
         view.text = "No Events"
         view.textColor = Colors.lightBlue
@@ -54,7 +54,7 @@ class JoinEventViewController: BaseViewController {
         self.navigationController?.isNavigationBarHidden = false
         
         prepareForViewWillAppearWithForcedPortrait()
-
+        
         loadData()
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,7 +75,7 @@ class JoinEventViewController: BaseViewController {
             switch result {
             case .Failure(let error):
                 // we need to update user that there is no history of joined events
-                 self.setupNoEventToShowLAbel()
+                self.setupNoEventToShowLAbel()
                 print(error)
                 break
             case .Success(let joinedEvents):
@@ -92,10 +92,10 @@ class JoinEventViewController: BaseViewController {
     func setupNoEventToShowLAbel() {
         view.addSubview(noEventToShowLabel)
         noEventToShowLabel.anchor(top: codeTextField.bottomAnchor,
-                                 leading: codeTextField.leadingAnchor,
-                                 bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
-                                 trailing: codeTextField.trailingAnchor,
-                                 padding: .init(top: 0, left: 0, bottom: 50, right: 0))
+                                  leading: codeTextField.leadingAnchor,
+                                  bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                  trailing: codeTextField.trailingAnchor,
+                                  padding: .init(top: 0, left: 0, bottom: 50, right: 0))
         
     }
     
@@ -160,8 +160,21 @@ class JoinEventViewController: BaseViewController {
             case .Failure(let errorString):
                 print(errorString)
             case .Success(let eventDetail):
-                if !self.eventManager.isEventOwner(eventUserID: event.userID!) && !self.joinedEventsContains(eventName: event.eventName)  {
-                    FireBaseManager.sharedInstance.addEventToUserJoinedEvents(event: event, eventDetail: eventDetail)
+                if !self.eventManager.isEventOwner(eventUserID: event.userID!) {
+                    
+                    let (existJoinedEvent, index) = self.joinedEventsContains(eventName: event.eventName)
+                    
+                    if existJoinedEvent,
+                        let index = index,
+                        let childRef = self.joinedEvents[index]["key"] {
+                        FireBaseManager.sharedInstance.addEventToUserJoinedEvents(event: event, eventDetail: eventDetail, childRef: childRef)
+                        
+                    } else {
+                        FireBaseManager.sharedInstance.addEventToUserJoinedEvents(event: event, eventDetail: eventDetail, childRef: nil)
+                        
+                        
+                    }
+                    
                 }
                 self.event = event
                 self.showPlayEventViewController(event: event, eventDetail: eventDetail)
@@ -172,13 +185,13 @@ class JoinEventViewController: BaseViewController {
     
     // this condition to prevent adding exists event to joined event list
     // we do that by checking if we have the event in the table view Datasource or not
-    func joinedEventsContains(eventName: String) -> Bool {
-        for jointEventItem in self.joinedEvents {
+    func joinedEventsContains(eventName: String) ->  (Bool,Int?) {
+        for (index,jointEventItem) in self.joinedEvents.enumerated() {
             if jointEventItem["eventName"] == eventName {
-                return true
+                return (true, index)
             }
         }
-        return false
+        return (false, nil)
     }
     
     // Push PlayEventViewController
@@ -215,8 +228,6 @@ class JoinEventViewController: BaseViewController {
         
     }
 }
-
-
 
 extension JoinEventViewController : UITableViewDelegate, UITableViewDataSource {
     

@@ -94,13 +94,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     if(urlPathRoot == "joinDL"){
       
-      if let joinEventViewController = mainStoryboard.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController {
-        let navigationController = UINavigationController(rootViewController: joinEventViewController)
-          self.window?.rootViewController = navigationController
-        joinEventViewController.rigisterUser(eventName: eventNameWithSpace, eventCode: eventCode)
-//        joinEventViewController.getEventAndCmpareCode(eventName: eventNameWithSpace, eventCode: eventCode)
+              if let joinEventViewController = mainStoryboard.instantiateViewController(withIdentifier: "JoinEventViewController") as? JoinEventViewController {
+                let navigationController = UINavigationController(rootViewController: joinEventViewController)
+                  self.window?.rootViewController = navigationController
+                joinEventViewController.rigisterUser(eventName: eventNameWithSpace, eventCode: eventCode)
         
-      } else {
+              }
+        else {
         return false
       }
       

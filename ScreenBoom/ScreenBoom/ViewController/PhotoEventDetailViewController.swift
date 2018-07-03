@@ -10,6 +10,8 @@ import Foundation
 
 class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var rightBarButton = UIBarButtonItem()
+    
     let selectImageFromGallaryButton : UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -72,6 +74,8 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    self.rightBarButton.isEnabled = true
+    
     prepareForViewWillAppearWithForcedPortrait()
     
   }
@@ -82,9 +86,10 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
     }
   
   func setupViews() {
-    // create Navigation bar right buttom (Send)
-    let sendRightBarButton = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(PhotoEventDetailViewController.rightBarButtonPressed(_:)))
-    navigationItem.rightBarButtonItem = sendRightBarButton
+    
+     rightBarButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(PhotoEventDetailViewController.rightBarButtonPressed(_:)))
+    
+    navigationItem.rightBarButtonItem = rightBarButton
     
     // create container view to hold the play event preview
     self.view.addSubview(playEventPreviewContainerView)
@@ -126,15 +131,22 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   }
   
   @objc func SelectImage(_ sender: UIButton) {
-    imagePicker.allowsEditing = true
     
     if sender.currentTitle == "Photos" {
-      
+        imagePicker.allowsEditing = true
+
       // if the photo button was pressed, we want to present the user
       // with their photo library
       self.imagePicker.sourceType = .photoLibrary
+        
+        imagePicker.modalPresentationStyle = .popover
+        let popper = imagePicker.popoverPresentationController
+        // returns a UIPopoverPresentationController
+        popper?.sourceView = sender 
+
     } else if sender.currentTitle == "Camera" {
-      
+        imagePicker.allowsEditing = true
+
       // if the camera button was pressed, we need to ensure we have the
       // camera as an available source and then we present the user with
       // the camera
@@ -145,6 +157,8 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
       }
       
       self.imagePicker.sourceType = .camera
+        imagePicker.modalPresentationStyle = .fullScreen
+
     } else {
       
       // if we have an unrecognized selector, we escape scope
@@ -152,6 +166,8 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
     }
     
     present(imagePicker, animated: true, completion: nil)
+    
+    
   }
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -186,7 +202,10 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
   
   @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
     
+    rightBarButton.isEnabled = false
+    
     guard let uploadImage = eventDetail.photo else {
+        rightBarButton.isEnabled = true
       self.infoView(message: "No image selected", color: Colors.smoothRed)
       return
     }
@@ -203,6 +222,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
       
       guard error == nil, let url = URL
         else {
+            strongSelf.rightBarButton.isEnabled = true
           strongSelf.infoView(message: "Failed to save the event", color: Colors.smoothRed)
           return
         }
@@ -225,6 +245,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
         
       case .Failure(let error):
         print(error)
+        self.rightBarButton.isEnabled = true
         self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
         
       case .Success(let code):
@@ -237,6 +258,7 @@ class PhotoEventDetailViewController: EventDetailViewController, UIImagePickerCo
             
           case .Failure(let error):
             print(error)
+            self.rightBarButton.isEnabled = true
             self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
             
           case .Success():

@@ -13,6 +13,8 @@ class AnimationEventDetailViewController: EventDetailViewController {
     var animationCollectionViewData = [[String:String]]()
     var animationImages = [UIImage]()
     
+    var rightBarButton = UIBarButtonItem()
+    
     let searchTextField : UITextField = {
        let view = UITextField()
         view.frame = CGRect(x: 0, y: 0, width: 0, height: 30)
@@ -77,6 +79,8 @@ class AnimationEventDetailViewController: EventDetailViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    rightBarButton.isEnabled = true
+    
     prepareForViewWillAppearWithForcedPortrait()
   }
     
@@ -88,9 +92,9 @@ class AnimationEventDetailViewController: EventDetailViewController {
   // show text, photo and animation views set up
   //Animation
   func setupViews() {
-    // create Navigation bar right buttom (Send)
-    let sendRightBarButton = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(AnimationEventDetailViewController.rightBarButtonPressed(_:)))
-    navigationItem.rightBarButtonItem = sendRightBarButton
+    
+     rightBarButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(AnimationEventDetailViewController.rightBarButtonPressed(_:)))
+    navigationItem.rightBarButtonItem = rightBarButton
     
     self.view.addSubview(searchTextField)
     self.view.addSubview(searchButton)
@@ -170,6 +174,9 @@ class AnimationEventDetailViewController: EventDetailViewController {
     
     
   @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
+    
+    rightBarButton.isEnabled = false
+    
     saveEvent()
   }
   
@@ -177,6 +184,7 @@ class AnimationEventDetailViewController: EventDetailViewController {
     guard eventDetail.animationStringURL != "",
         eventDetail.animationPreviewURL != "" else {
             print("Animation is Empty")
+            rightBarButton.isEnabled = true
             return
     }
   
@@ -187,6 +195,7 @@ class AnimationEventDetailViewController: EventDetailViewController {
         
       case .Failure(let error):
         print(error)
+        self.rightBarButton.isEnabled = true
         self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
         
       case .Success(let code):
@@ -199,6 +208,7 @@ class AnimationEventDetailViewController: EventDetailViewController {
             
           case .Failure(let error):
             print(error)
+            self.rightBarButton.isEnabled = true
             self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
             
           case .Success():

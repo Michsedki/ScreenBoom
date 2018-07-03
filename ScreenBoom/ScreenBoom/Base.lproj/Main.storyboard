@@ -113,6 +113,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addNewEventNAvigationBarButton" destination="RjM-31-xsD" id="zSq-cn-mTZ"/>
                         <outlet property="eventNameTextfield" destination="UQj-Vq-okx" id="Te4-ug-i5s"/>
                         <outlet property="eventTypePickerview" destination="mG2-hf-JGq" id="enW-aI-Mwd"/>
                         <outlet property="max10EventsLabel" destination="gJx-XE-tdj" id="acy-qs-zMl"/>

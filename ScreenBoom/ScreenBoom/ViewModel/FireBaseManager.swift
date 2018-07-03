@@ -141,7 +141,7 @@ class FireBaseManager {
     }
     
     // for join event
-    func addEventToUserJoinedEvents(event: Event, eventDetail: EventDetail) {
+    func addEventToUserJoinedEvents(event: Event, eventDetail: EventDetail, childRef: String?) {
         var eventCode_Type_url = "\(event.eventCode)**\(event.eventType.rawValue)"
         switch event.eventType {
         case .Text, .Unknown:
@@ -157,11 +157,20 @@ class FireBaseManager {
             break
         }
         
-        REF_UUID_Events_Current_User_Joined?.childByAutoId().updateChildValues([event.eventName: eventCode_Type_url], withCompletionBlock: { (error, _) in
-            if error != nil {
-                print("Couldn't Add Event to User Joined Events, Error: \(String(describing: error?.localizedDescription))")
-            }
-        })
+        var ref : DatabaseReference?
+        if let childRef = childRef {
+            ref =  REF_UUID_Events_Current_User_Joined?.child(childRef)
+        } else {
+            ref =  REF_UUID_Events_Current_User_Joined?.childByAutoId()
+        }
+        if let ref = ref {
+            ref.updateChildValues([event.eventName: eventCode_Type_url], withCompletionBlock: { (error, _) in
+                if error != nil {
+                    print("Couldn't Add Event to User Joined Events, Error: \(String(describing: error?.localizedDescription))")
+                }
+            })
+        }
+        
     }
     
     func removeFromUserJoinedEvents(joinedEventID: String, completion: @escaping (Bool) -> Void) {

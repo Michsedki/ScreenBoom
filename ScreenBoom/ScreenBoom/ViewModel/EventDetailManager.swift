@@ -52,12 +52,14 @@ class EventDetailManager: NSObject {
                 
             case .Photo:
                 guard let photoname = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventDetailPhotoNameChild).value as? String,
-                    let code = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventNodeCodeChild).value as? String else {
+                    let code = eventDetailSnapshot.childSnapshot(forPath: self.firebaseNodeNames.eventNodeCodeChild).value as? String,
+                let image = UIImage.gif(url: photoname) else {
                         completion(Result.Failure("Event Not Found"))
                         return
                 }
                 
-                eventDetail = PhotoEventDetail(photoname: photoname, code: code)
+                eventDetail = PhotoEventDetail(photoname: photoname, code: code, photo: image)
+                
                 break
                 
             case .Animation:
@@ -245,6 +247,9 @@ class EventDetailManager: NSObject {
                     } else {
                         FireBaseManager.sharedInstance.removeFromUserCreatedEvents(event: event, completion: { (result) in
                             if result {
+                                
+                                FireBaseManager.sharedInstance.REF_EventViews.child(event.eventName).removeValue()
+                                
                                 completion(Result.Success(()))
                             } else {
                                 completion(Result.Failure("Couldn't remove event from user created events"))

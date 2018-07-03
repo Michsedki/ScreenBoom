@@ -12,6 +12,8 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   
     var eventDetail: TextEventDetail
     
+    var rightBarButton = UIBarButtonItem()
+    
     let eventTextField: UITextField = {
        let view = UITextField()
         view.backgroundColor = .lightGray
@@ -76,6 +78,8 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    rightBarButton.isEnabled = true
+    
     prepareForViewWillAppearWithForcedPortrait()
     
     loadData()
@@ -119,9 +123,8 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     
     self.view.backgroundColor = .white
     
-    // create Navigation bar right buttom "Create"
-    let createRightBarButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(TextEventDetailViewController.rightBarButtonPressed(_:)))
-    navigationItem.rightBarButtonItem = createRightBarButton
+    rightBarButton = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(TextEventDetailViewController.rightBarButtonPressed(_:)))
+    navigationItem.rightBarButtonItem = rightBarButton
     
     // create container view to hold the play event preview
     self.view.addSubview(playEventPreviewContainerView)
@@ -226,6 +229,9 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
   }
   
   @objc func rightBarButtonPressed (_ sender: UIBarButtonItem!) {
+    sender.isEnabled = false
+    
+    
     checkAllFields()
   }
   
@@ -233,14 +239,17 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
     func checkAllFields() {
         guard let eventText = eventTextField.text,
             !eventText.trimmingCharacters(in: .whitespaces).isEmpty else {
+                rightBarButton.isEnabled = true
                 self.infoView(message: "No event text!", color: Colors.smoothRed)
                 return
         }
         guard let _ = textColorDropDownButton.currentTitle?.stringToUIColor() else {
+            rightBarButton.isEnabled = true
             self.infoView(message: "No event text Color!", color: Colors.smoothRed)
             return
         }
         guard let _ = backgroundColorDropDownButton.currentTitle?.stringToUIColor() else {
+            rightBarButton.isEnabled = true
             self.infoView(message: "No event background Color!", color: Colors.smoothRed)
             return
         }
@@ -258,6 +267,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
         
       case .Failure(let error):
         print(error)
+        self.rightBarButton.isEnabled = true
         self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
         
       case .Success(let code):
@@ -270,6 +280,7 @@ class TextEventDetailViewController: EventDetailViewController, DropDownSelectio
             
           case .Failure(let error):
             print(error)
+            self.rightBarButton.isEnabled = true
             self.infoView(message: "Failed to save the event", color: Colors.smoothRed)
             // ***** we should go back and remove the event if we can
             

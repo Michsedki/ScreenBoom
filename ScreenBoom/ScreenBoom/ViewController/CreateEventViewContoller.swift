@@ -16,6 +16,7 @@ class CreateEventViewController: BaseViewController {
     @IBOutlet weak var eventNameTextfield: UITextField!
     @IBOutlet weak var eventTypePickerview: UIPickerView!
     @IBOutlet weak var max10EventsLabel: UILabel!
+    @IBOutlet weak var addNewEventNAvigationBarButton: UIBarButtonItem!
     
     var createdEventsTableView : UITableView = {
         let view = UITableView()
@@ -309,19 +310,13 @@ extension CreateEventViewController : UIPickerViewDelegate, UIPickerViewDataSour
         label.textAlignment = .center
         label.frame = CGRect(x: 0, y: 0, width: pickerView.frame.width, height: 35)
 
-       
-
         label.font = UIFont.boldSystemFont(ofSize: 25)
         label.text = eventTypePickerviewDataSource[row]
         label.textColor = Colors.lightBlue
 
         return label
     }
-    
-    
 }
-
-
 
 // Extension to handle the createdEvents TableView Protocol
 
@@ -401,6 +396,53 @@ extension CreateEventViewController: UITableViewDelegate, UITableViewDataSource 
         
         additionalSeparator.backgroundColor = UIColor.lightGray
         cell.addSubview(additionalSeparator)
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteButton = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexpath) in
+            let deleteEvent = Event(eventName: self.createdEvents[indexPath.row]["eventName"]!,
+                                    eventIsLive: "no",
+                                    eventType: EventType(rawValue: self.createdEvents[indexPath.row]["eventType"]!)!,
+                                    eventCode: self.createdEvents[indexPath.row]["eventCode"]!)
+            self.ShowSpinner()
+            self.eventDetailManager.removeEventAndEventDetail(event: deleteEvent, eventDetail: nil, completion: { (result) in
+                switch result {
+                case .Failure( _):
+                    self.infoView(message: "Event not deleted", color: Colors.smoothRed)
+                    break
+                case .Success(()):
+                    self.createdEvents.remove(at: indexPath.row)
+                    self.createdEventsTableView.reloadData()
+                    self.infoView(message: "Event deleted", color: Colors.lightGreen)
+                    if self.createdEvents.count == 0 {
+                        self.setupNoEventToShowLabel()
+                    }
+                    break
+                }
+                self.HideSpinner()
+            })
+        }
+        
+        let editButton = UITableViewRowAction(style: .normal, title: "Edit") { (editAction, indexpath) in
+            self.eventNameTextfield.text = self.createdEvents[indexPath.row]["eventName"]
+            if let eventTypeString = self.createdEvents[indexPath.row]["eventType"],
+                let index = self.eventTypePickerviewDataSource.index(of: eventTypeString.capitalized),
+                let eventType = EventType(rawValue: eventTypeString) {
+                self.eventTypePickerview.selectRow(index, inComponent: 0, animated: true)
+                self.currentEventType = eventType
+                self.addNewEventBarButtonPressed(self.addNewEventNAvigationBarButton)
+            }
+        }
+        editButton.backgroundColor = Colors.lightBlue
+        
+        return [deleteButton, editButton]
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
