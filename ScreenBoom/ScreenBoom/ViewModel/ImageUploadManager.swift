@@ -11,8 +11,6 @@ import FirebaseStorage
 import Firebase
 
 
-
-
 class ImageUploadManager: NSObject {
 
   let firebaseNodeNames = FirebaseNodeNames()
@@ -27,10 +25,26 @@ class ImageUploadManager: NSObject {
             metadata.contentType = "image/jpeg"
 
             let uploadTask = imagesReference.putData(imageData, metadata: metadata, completion: { (metadata, error) in
-                if let metadata = metadata {
-                    completionBlock(metadata.downloadURL(), nil)
+                
+                // first we check if the error is nil
+                if let error = error {
+                    completionBlock(nil, error.localizedDescription)
+                    return
+                }
+                
+                if let metadata = metadata,
+                    let path = metadata.path {
+                    
+                    self.storageReference.child(path).downloadURL(completion: { (url, err) in
+                        guard err == nil,
+                            let url = url else {
+                            completionBlock(nil, err?.localizedDescription ?? "couldn't get the image download url")
+                            return
+                        }
+                        completionBlock(url, nil)
+                    })
                 } else {
-                    completionBlock(nil, error?.localizedDescription)
+                    completionBlock(nil, "Image upload failed")
                 }
             })
             uploadTask.observe(.progress, handler: { (snapshot) in
