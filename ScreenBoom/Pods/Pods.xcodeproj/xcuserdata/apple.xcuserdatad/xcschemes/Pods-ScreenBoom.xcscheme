@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E03667C6F76AC4DB2214011AFF22AFD1"
+               BlueprintIdentifier = "F9729ACC8D22D3D049AE596622F7DA13"
                BuildableName = "Pods_ScreenBoom.framework"
                BlueprintName = "Pods-ScreenBoom"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E03667C6F76AC4DB2214011AFF22AFD1"
+            BlueprintIdentifier = "F9729ACC8D22D3D049AE596622F7DA13"
             BuildableName = "Pods_ScreenBoom.framework"
             BlueprintName = "Pods-ScreenBoom"
             ReferencedContainer = "container:Pods.xcodeproj">

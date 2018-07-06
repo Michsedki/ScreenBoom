@@ -15,6 +15,10 @@ pod 'SDWebImage'
 pod 'GiphyCoreSDK'
 pod 'IQKeyboardManagerSwift'
 pod 'Google-Mobile-Ads-SDK'
+#pod 'FBAudienceNetwork'
+pod 'GoogleMobileAdsMediationFacebook'
+pod 'GoogleMobileAdsMediationInMobi'
+pod 'mopub-ios-sdk'
 
 
 end
